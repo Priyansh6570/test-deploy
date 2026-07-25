@@ -23,15 +23,26 @@
   @keyframes v5-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes v5-spin-rev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
   @keyframes v5-drift { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-40px,-30px,0); } }
+  @keyframes v5-ring {
+    0%, 74%, 100% { box-shadow: 0 8px 22px rgba(20,32,62,.09); border-color: #E5D9C2; transform: translateY(0); }
+    12%, 28% { box-shadow: 0 12px 32px rgba(232,193,115,.62); border-color: #E8C173; transform: translateY(-4px); }
+  }
+  @keyframes v5-travel { 0% { left: 9%; opacity: 0; } 8% { opacity: 1; } 90% { opacity: 1; } 100% { left: 91%; opacity: 0; } }
+  [data-e~="step"] [data-e~="ring"] { animation: v5-ring 5.6s cubic-bezier(.4,0,.2,1) infinite; }
+  [data-e~="step"]:nth-child(2) [data-e~="ring"] { animation-delay: 1.05s; }
+  [data-e~="step"]:nth-child(3) [data-e~="ring"] { animation-delay: 2.1s; }
+  [data-e~="step"]:nth-child(4) [data-e~="ring"] { animation-delay: 3.15s; }
+  [data-e~="rail"] { scrollbar-width: none; -ms-overflow-style: none; }
+  [data-e~="rail"]::-webkit-scrollbar { display: none; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
   @media (max-width: 980px) {
-    [data-g="explore"] { grid-template-columns: minmax(0,1fr) !important; }
     [data-g="foot"] { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
     [data-e~="nav"], [data-e~="signin-top"] { display: none !important; }
     [data-e~="menu-btn"] { display: inline-flex !important; }
-    [data-e~="track-line"] { display: none !important; }
+    [data-e~="track-line"], [data-e~="travel"] { display: none !important; }
     [data-e~="steps"] { flex-direction: column !important; gap: 16px !important; align-items: stretch !important; }
     [data-e~="step"] { flex-direction: row !important; align-items: center !important; gap: 18px !important; text-align: left !important; }
+    [data-e~="datesgrid"] { grid-template-columns: minmax(0,1fr) !important; }
   }
   @media (max-width: 640px) {
     [data-e~="pad"] { padding-left: 18px !important; padding-right: 18px !important; }
@@ -41,15 +52,13 @@
     [data-e~="fact"] { border-left: 0 !important; border-top: 1px solid rgba(255,247,225,.14) !important; align-items: center !important; text-align: center !important; }
     [data-e~="cta"] { width: 100% !important; }
     [data-e~="ctarow"] { flex-direction: column !important; align-items: stretch !important; }
-    [data-e~="feature"] { min-height: 330px !important; padding: 26px 22px !important; }
-    [data-e~="daterow"] { flex-direction: column !important; align-items: flex-start !important; gap: 3px !important; }
-    [data-e~="datenote"] { margin-left: 0 !important; }
+    [data-e~="grid"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
   }
 </style>
 <script src="assets/site.js"></script>
 </helmet>
 
-<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
+<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:clip">
 
   <dc-import name="SiteHeader" lang="{{ lang }}" active="home" signed-in="{{ signedIn }}" has-certificates="{{ hasCerts }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
 
@@ -91,7 +100,7 @@
         <dl data-e="facts" style="margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))">
           <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
             <div data-e="fact" data-reveal style="padding:26px 24px 30px;border-left:1px solid rgba(255,247,225,.14);display:flex;flex-direction:column;gap:5px">
-              <dt style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(23px,2.7vw,31px);line-height:1.3;color:#E8C173">{{ f.value }}</dt>
+              <dt style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3vw,34px);line-height:1.25;color:#E8C173">{{ f.value }}</dt>
               <dd style="margin:0;font-size:15.5px;line-height:1.7;color:#D8DEEC">{{ f.label }}</dd>
             </div>
           </sc-for>
@@ -100,41 +109,81 @@
     </div>
   </section>
 
-  <section data-e="pad section" style="position:relative;max-width:1220px;margin:0 auto;padding:92px 30px">
-    <div data-reveal style="max-width:64ch;margin:0 0 40px">
-      <h2 style="margin:0 0 14px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.6vw,40px);line-height:1.34;color:#14203E;text-wrap:pretty">{{ t.sylTitle }}</h2>
-      <p style="margin:0;font-size:18px;line-height:1.85;color:#434C60">{{ t.sylLede }}</p>
+  <section style="position:relative;overflow:hidden;background:#070B1E">
+    <img src="assets/cosmic-spiral.png" alt="" width="924" height="540" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%;opacity:.5" />
+    <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 22%, rgba(7,11,30,.62) 0%, rgba(7,11,30,.9) 58%, rgba(4,7,18,.98) 100%)"></div>
+    <div aria-hidden="true" style="position:absolute;left:50%;top:-18%;width:720px;height:720px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.16) 0%,rgba(232,193,115,0) 66%);animation:v5-glow 11s ease-in-out infinite"></div>
+
+    <div data-e="pad section" style="position:relative;max-width:1220px;margin:0 auto;padding:92px 30px 96px">
+      <div data-reveal style="max-width:64ch;margin:0 0 34px">
+        <p style="margin:0 0 12px;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:#E8C173;line-height:1.9">{{ t.sylKicker }}</p>
+        <h2 style="margin:0 0 14px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(27px,3.6vw,42px);line-height:1.3;color:#FFF9EC;text-wrap:pretty">{{ t.sylTitle }}</h2>
+        <p style="margin:0;font-size:17.5px;line-height:1.9;color:#B9C1D6">{{ t.sylLede }}</p>
+      </div>
+
+      <div data-reveal role="tablist" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px">
+        <button type="button" role="tab" aria-selected="{{ vidyaSelected }}" onClick="{{ showVidyas }}" style="min-height:50px;padding:13px 26px;border:1px solid {{ vidyaBorder }};border-radius:999px;background:{{ vidyaBg }};color:{{ vidyaFg }};cursor:pointer;font-family:'Noto Serif Devanagari',serif;font-size:18px;line-height:1.5;transition:background .2s ease,color .2s ease,border-color .2s ease">{{ t.tabVidyas }}</button>
+        <button type="button" role="tab" aria-selected="{{ kalaSelected }}" onClick="{{ showKalas }}" style="min-height:50px;padding:13px 26px;border:1px solid {{ kalaBorder }};border-radius:999px;background:{{ kalaBg }};color:{{ kalaFg }};cursor:pointer;font-family:'Noto Serif Devanagari',serif;font-size:18px;line-height:1.5;transition:background .2s ease,color .2s ease,border-color .2s ease">{{ t.tabKalas }}</button>
+      </div>
+
+      <div data-reveal style="position:relative;overflow:hidden;border-radius:24px;border:1px solid rgba(232,193,115,.28);background:linear-gradient(140deg, rgba(24,34,70,.78) 0%, rgba(8,12,28,.86) 100%);padding:30px 32px;margin-bottom:22px;min-height:150px;display:flex;flex-direction:column;gap:10px;animation:{{ featureAnim }} .45s cubic-bezier(.22,.61,.36,1)">
+        <div aria-hidden="true" style="position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.22) 0%,rgba(232,193,115,0) 70%)"></div>
+        <span style="position:relative;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#E8C173;line-height:1.9">{{ feature.group }}</span>
+        <span style="position:relative;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.22;color:#FFF9EC">{{ feature.name }}</span>
+        <span style="position:relative;font-size:18px;line-height:1.8;color:#C6CCDD;max-width:52ch">{{ feature.meaning }}</span>
+      </div>
+
+      <div data-e="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px">
+        <sc-for list="{{ items }}" as="it" hint-placeholder-count="14">
+          <button type="button" onClick="{{ it.select }}" onMouseEnter="{{ it.select }}" onFocus="{{ it.select }}" style="position:relative;min-height:64px;padding:12px 14px 12px 42px;text-align:left;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;font-size:15.5px;line-height:1.55;border:1px solid {{ it.border }};border-radius:14px;background:{{ it.bg }};color:{{ it.fg }};transition:border-color .18s ease,background .18s ease,transform .18s ease" style-hover="transform:translateY(-2px)">
+            <span aria-hidden="true" style="position:absolute;left:12px;top:12px;font-size:11.5px;line-height:1.6;color:{{ it.numFg }};font-variant-numeric:tabular-nums">{{ it.n }}</span>
+            {{ it.name }}
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-e="pad section" style="position:relative;max-width:1320px;margin:0 auto;padding:92px 0 96px">
+    <div data-e="pad" style="max-width:1220px;margin:0 auto;padding:0 30px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;margin-bottom:34px">
+      <div data-reveal style="max-width:52ch">
+        <p style="margin:0 0 12px;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:#8A6015;line-height:1.9">{{ t.leadKicker }}</p>
+        <h2 style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(27px,3.6vw,42px);line-height:1.3;color:#14203E">{{ t.leadTitle }}</h2>
+        <p style="margin:0;font-size:17.5px;line-height:1.9;color:#434C60">{{ t.leadLede }}</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button type="button" onClick="{{ railPrev }}" aria-label="{{ t.prevLabel }}" style="width:54px;height:54px;border:1px solid #DCD1BC;border-radius:50%;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(20,32,62,.08);transition:background .18s ease" style-hover="background:#F4EBD8">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14203E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:block"><path d="M14.5 5.5 8 12l6.5 6.5"></path></svg>
+        </button>
+        <button type="button" onClick="{{ railNext }}" aria-label="{{ t.nextLabel }}" style="width:54px;height:54px;border:1px solid #DCD1BC;border-radius:50%;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(20,32,62,.08);transition:background .18s ease" style-hover="background:#F4EBD8">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14203E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:block"><path d="M9.5 5.5 16 12l-6.5 6.5"></path></svg>
+        </button>
+      </div>
     </div>
 
-    <div data-g="explore" data-reveal style="display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:30px;align-items:stretch">
-      <div data-e="feature" style="position:relative;overflow:hidden;border-radius:26px;min-height:470px;padding:40px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 22px 54px rgba(20,32,62,.24)">
-        <img src="assets/cosmic-spiral.png" alt="{{ t.illoAlt }}" width="924" height="540" decoding="async" fetchpriority="low" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%" />
-        <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(7,11,30,.3) 0%, rgba(7,11,30,.8) 56%, rgba(5,8,22,.96) 100%)"></div>
-        <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(46% 34% at 50% 30%, rgba(232,193,115,.2) 0%, rgba(232,193,115,0) 70%);animation:v5-glow 10s ease-in-out infinite"></div>
-        <span style="position:absolute;right:18px;top:18px;font-size:12.5px;line-height:1.6;color:rgba(255,249,236,.7)">{{ t.illoCredit }}</span>
-        <div style="position:relative;display:flex;flex-direction:column;gap:10px;animation:{{ featureAnim }} .5s cubic-bezier(.22,.61,.36,1)">
-          <span style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#E8C173;line-height:1.8">{{ feature.group }}</span>
-          <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(34px,4.6vw,50px);line-height:1.22;color:#FFF9EC">{{ feature.name }}</span>
-          <span style="font-size:18.5px;line-height:1.75;color:#D2D8E8;max-width:34ch">{{ feature.meaning }}</span>
-        </div>
-      </div>
+    <div data-e="rail" ref="{{ railRef }}" onScroll="{{ onRailScroll }}" style="display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px max(20px, calc(50% - 172px)) 30px;overscroll-behavior-x:contain">
+      <sc-for list="{{ leaders }}" as="l" hint-placeholder-count="5">
+        <article style="flex:0 0 320px;scroll-snap-align:center;border-radius:26px;overflow:hidden;background:#FFFFFF;border:1.5px solid {{ l.ring }};box-shadow:{{ l.shadow }};transform:{{ l.transform }};transition:transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease,border-color .4s ease">
+          <div style="position:relative;aspect-ratio:4/5;background:linear-gradient(160deg,#182246 0%,#080C1E 100%)">
+            <img src="{{ l.img }}" alt="{{ l.name }}" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover;object-position:50% 14%" />
+            <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(7,11,30,0) 38%, rgba(7,11,30,.72) 78%, rgba(5,8,22,.94) 100%)"></div>
+            <div style="position:absolute;left:22px;right:22px;bottom:20px;display:flex;flex-direction:column;gap:8px">
+              <span style="align-self:flex-start;padding:5px 13px;border-radius:999px;background:rgba(232,193,115,.92);color:#1E1503;font-size:12px;letter-spacing:.1em;text-transform:uppercase;line-height:1.7;font-weight:600">{{ l.role }}</span>
+              <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:24px;line-height:1.32;color:#FFF9EC;text-wrap:balance">{{ l.name }}</span>
+            </div>
+          </div>
+          <div style="padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:16px;line-height:1.75;color:#2E3646">{{ l.office }}</span>
+            <span style="font-size:15px;line-height:1.7;color:#8A6015">{{ l.body }}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
 
-      <div style="display:flex;flex-direction:column;gap:20px">
-        <div role="tablist" style="display:flex;gap:26px;border-bottom:1px solid #E8DFCE">
-          <button type="button" role="tab" aria-selected="{{ vidyaSelected }}" onClick="{{ showVidyas }}" style="padding:10px 2px 14px;min-height:48px;background:none;border:0;border-bottom:2px solid {{ vidyaTabLine }};cursor:pointer;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.5;color:{{ vidyaTabFg }};transition:color .18s ease">{{ t.tabVidyas }}</button>
-          <button type="button" role="tab" aria-selected="{{ kalaSelected }}" onClick="{{ showKalas }}" style="padding:10px 2px 14px;min-height:48px;background:none;border:0;border-bottom:2px solid {{ kalaTabLine }};cursor:pointer;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.5;color:{{ kalaTabFg }};transition:color .18s ease">{{ t.tabKalas }}</button>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px">
-          <sc-for list="{{ items }}" as="it" hint-placeholder-count="14">
-            <button type="button" onClick="{{ it.select }}" onMouseEnter="{{ it.select }}" style="min-height:48px;padding:11px 14px;text-align:left;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;font-size:16px;line-height:1.6;border:1px solid {{ it.border }};border-radius:14px;background:{{ it.bg }};color:{{ it.fg }};transition:border-color .16s ease,background .16s ease,transform .16s ease" style-hover="transform:translateY(-1px)">{{ it.name }}</button>
-          </sc-for>
-        </div>
-
-        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
-          <a href="Pratiyogita.dc.html" style="font-size:17px;line-height:1.6">{{ t.kalaLink }} <span aria-hidden="true">→</span></a>
-        </div>
-      </div>
+    <div aria-hidden="true" style="display:flex;gap:7px;justify-content:center;margin-top:4px">
+      <sc-for list="{{ railDots }}" as="d" hint-placeholder-count="5">
+        <span style="width:{{ d.w }};height:5px;border-radius:3px;background:{{ d.bg }};transition:width .3s ease,background .3s ease"></span>
+      </sc-for>
     </div>
   </section>
 
@@ -143,10 +192,11 @@
       <h2 data-reveal style="margin:0 0 48px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.4vw,36px);line-height:1.35;color:#14203E">{{ t.howTitle }}</h2>
       <div data-reveal style="position:relative">
         <div data-e="track-line" aria-hidden="true" style="position:absolute;left:10%;right:10%;top:38px;height:1px;background:linear-gradient(90deg, rgba(138,96,21,0) 0%, rgba(138,96,21,.34) 12%, rgba(138,96,21,.34) 88%, rgba(138,96,21,0) 100%)"></div>
+        <span data-e="travel" aria-hidden="true" style="position:absolute;top:33px;width:11px;height:11px;border-radius:50%;background:#E8C173;box-shadow:0 0 0 5px rgba(232,193,115,.28),0 0 18px rgba(232,193,115,.9);animation:v5-travel 5.6s cubic-bezier(.4,0,.2,1) infinite"></span>
         <ol data-e="steps" style="position:relative;margin:0;padding:0;list-style:none;display:flex;justify-content:space-between;gap:24px">
           <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
             <li data-e="step" style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
-              <span style="width:76px;height:76px;flex:0 0 auto;border-radius:50%;background:#FFFFFF;border:1px solid #E5D9C2;box-shadow:0 8px 22px rgba(20,32,62,.09);display:flex;align-items:center;justify-content:center">
+              <span data-e="ring" style="width:76px;height:76px;flex:0 0 auto;border-radius:50%;background:#FFFFFF;border:1px solid #E5D9C2;box-shadow:0 8px 22px rgba(20,32,62,.09);display:flex;align-items:center;justify-content:center">
                 <svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="#8A6015" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:block">
                   <sc-if value="{{ s.isUser }}" hint-placeholder-val="{{ true }}">
                     <g><circle cx="16" cy="11" r="5"></circle><path d="M6 27c1.6-5.4 5.3-8 10-8s8.4 2.6 10 8"></path></g>
@@ -170,24 +220,28 @@
     </div>
   </section>
 
-
-
-  <section data-e="pad section" style="max-width:1220px;margin:0 auto;padding:84px 30px">
-    <h2 data-reveal style="margin:0 0 22px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.4vw,36px);line-height:1.35;color:#14203E">{{ t.datesTitle }}</h2>
-    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+  <section data-e="pad section" style="max-width:1220px;margin:0 auto;padding:88px 30px">
+    <h2 data-reveal style="margin:0 0 34px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.4vw,36px);line-height:1.35;color:#14203E">{{ t.datesTitle }}</h2>
+    <ol data-e="datesgrid" style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
       <sc-for list="{{ dates }}" as="d" hint-placeholder-count="3">
-        <li data-e="daterow" data-reveal style="display:flex;align-items:baseline;gap:24px;padding:22px 2px;border-top:1px solid #E8DFCE">
-          <span style="min-width:172px;font-size:17.5px;line-height:1.6;color:#8A6015;font-variant-numeric:tabular-nums">{{ d.when }}</span>
-          <span style="font-family:'Noto Serif Devanagari',serif;font-weight:500;font-size:19.5px;line-height:1.5;color:#161C2E">{{ d.what }}</span>
-          <span data-e="datenote" style="margin-left:auto;font-size:16px;line-height:1.7;color:#565F72">{{ d.note }}</span>
+        <li data-reveal style="position:relative;overflow:hidden;padding:30px 30px 32px;border-radius:24px;background:{{ d.bg }};border:1px solid {{ d.border }};box-shadow:0 2px 4px rgba(20,32,62,.04),0 16px 38px rgba(20,32,62,.07);display:flex;flex-direction:column;gap:14px">
+          <span aria-hidden="true" style="position:absolute;right:-46px;top:-46px;width:170px;height:170px;border-radius:50%;background:{{ d.blob }}"></span>
+          <span style="position:relative;display:flex;align-items:center;gap:12px">
+            <span aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;border-radius:50%;background:{{ d.dotBg }};box-shadow:0 0 0 4px {{ d.dotHalo }}"></span>
+            <span aria-hidden="true" style="flex:1 1 auto;height:1px;background:linear-gradient(90deg, {{ d.rule }} 0%, rgba(138,96,21,0) 100%)"></span>
+            <span style="font-family:'Noto Serif Devanagari',serif;font-size:13px;font-weight:600;letter-spacing:.14em;color:{{ d.stepFg }}">{{ d.step }}</span>
+          </span>
+          <span style="position:relative;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(25px,3vw,32px);line-height:1.24;color:#14203E;font-variant-numeric:tabular-nums;text-wrap:balance">{{ d.when }}</span>
+          <span style="position:relative;font-size:18px;line-height:1.6;color:#2E3646">{{ d.what }}</span>
+          <span style="position:relative;margin-top:2px;align-self:flex-start;padding:8px 16px;border-radius:999px;background:{{ d.pillBg }};border:1px solid {{ d.pillBorder }};font-size:15px;line-height:1.7;color:{{ d.pillFg }}">{{ d.note }}</span>
         </li>
       </sc-for>
-    </ul>
+    </ol>
   </section>
 
   <section data-e="pad" style="max-width:1220px;margin:0 auto;padding:0 30px 88px">
     <div data-reveal style="position:relative;overflow:hidden;border-radius:28px;min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center">
-      <img src="assets/cosmic-light.png" alt="" width="924" height="540" decoding="async" fetchpriority="low" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 46%" />
+      <img src="assets/cosmic-light.png" alt="" width="924" height="540" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 46%" />
       <div style="position:absolute;inset:0;background:radial-gradient(64% 56% at 50% 44%, rgba(7,11,30,.52) 0%, rgba(7,11,30,.88) 62%, rgba(5,8,22,.96) 100%)"></div>
       <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(38% 30% at 50% 40%, rgba(232,193,115,.22) 0%, rgba(232,193,115,0) 72%);animation:v5-glow 9s ease-in-out infinite"></div>
       <div style="position:relative;padding:74px 30px;display:flex;flex-direction:column;align-items:center;gap:22px">
@@ -200,37 +254,142 @@
 
   <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
 </div>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400}}">
+const VIDYAS = [
+  ["ऋग्वेद", "चार वेदों में प्रथम, ऋचाओं का संग्रह", "Rigveda", "The first of the four Vedas"],
+  ["यजुर्वेद", "यज्ञ की विधि एवं मंत्र", "Yajurveda", "Mantras and method of yajna"],
+  ["सामवेद", "संगीत एवं गान की परंपरा", "Samaveda", "The tradition of chant and music"],
+  ["अथर्ववेद", "लोकजीवन, औषधि एवं विज्ञान", "Atharvaveda", "Everyday life, medicine and science"],
+  ["शिक्षा", "उच्चारण एवं स्वर विज्ञान", "Shiksha", "Phonetics and articulation"],
+  ["कल्प", "कर्मकांड एवं विधि", "Kalpa", "Ritual and procedure"],
+  ["व्याकरण", "भाषा का शास्त्र", "Vyakarana", "Grammar"],
+  ["निरुक्त", "शब्दों की व्युत्पत्ति", "Nirukta", "Etymology"],
+  ["छंद", "छंदशास्त्र एवं लय", "Chhanda", "Prosody and metre"],
+  ["ज्योतिष", "काल गणना एवं खगोल", "Jyotisha", "Astronomy and time-reckoning"],
+  ["मीमांसा", "वेदवाक्य की व्याख्या का दर्शन", "Mimamsa", "Philosophy of interpretation"],
+  ["न्याय", "तर्क एवं प्रमाण", "Nyaya", "Logic and reasoning"],
+  ["धर्मशास्त्र", "विधि, नीति एवं आचार", "Dharmashastra", "Law, ethics and conduct"],
+  ["पुराण", "इतिहास एवं आख्यान परंपरा", "Purana", "History and narrative tradition"]
+];
+
+const KALAS = [
+  ["गीत", "गायन", "Geet", "Singing"],
+  ["वाद्य", "वाद्ययंत्र वादन", "Vadya", "Playing instruments"],
+  ["नृत्य", "नृत्य", "Nritya", "Dance"],
+  ["नाट्य", "नाट्य एवं अभिनय", "Natya", "Drama and acting"],
+  ["आलेख्य", "चित्रकला", "Alekhya", "Painting"],
+  ["विशेषकच्छेद्य", "तिलक एवं पत्रलेखन", "Visheshakachchhedya", "Making forehead marks"],
+  ["तण्डुलकुसुमबलिविकार", "चावल एवं पुष्पों से रंगोली", "Tandula-kusuma", "Rangoli with rice and flowers"],
+  ["पुष्पास्तरण", "पुष्प शय्या सजाना", "Pushpastarana", "Arranging flower beds"],
+  ["दशनवसनांगराग", "दाँत, वस्त्र एवं अंगों का रंजन", "Dashana-vasana-raga", "Colouring teeth, cloth and limbs"],
+  ["मणिभूमिकाकर्म", "मणियों से भूमि सज्जा", "Manibhumika-karma", "Inlaying floors with gems"],
+  ["शयनरचन", "शयन कक्ष की सज्जा", "Shayana-rachana", "Preparing a bed chamber"],
+  ["उदकवाद्य", "जल तरंग वादन", "Udaka-vadya", "Music on water"],
+  ["उदकघात", "जलक्रीड़ा", "Udaka-ghata", "Water sport"],
+  ["चित्रयोग", "औषधि एवं रसायन योग", "Chitra-yoga", "Medicinal and chemical mixtures"],
+  ["माल्यग्रथनविकल्प", "माला एवं गजरा बनाना", "Malya-grathana", "Weaving garlands"],
+  ["शेखरकापीडयोजन", "मुकुट एवं शिरोभूषण सज्जा", "Shekharaka-yojana", "Crowns and head ornaments"],
+  ["नेपथ्ययोग", "वेशभूषा एवं रंगमंच सज्जा", "Nepathya-yoga", "Costume and stagecraft"],
+  ["कर्णपत्रभंग", "कर्णाभूषण बनाना", "Karnapatra-bhanga", "Making ear ornaments"],
+  ["गंधयुक्ति", "सुगंध एवं इत्र बनाना", "Gandha-yukti", "Making perfume"],
+  ["भूषणयोजन", "आभूषण धारण की कला", "Bhushana-yojana", "The art of adornment"],
+  ["ऐंद्रजाल", "जादू", "Aindrajala", "Conjuring"],
+  ["कौचुमारयोग", "सौंदर्य वर्धन", "Kauchumara-yoga", "Enhancing beauty"],
+  ["हस्तलाघव", "हस्त कौशल एवं फुर्ती", "Hasta-laghava", "Manual dexterity"],
+  ["विचित्रशाकयूषभक्ष्यविकार", "विविध व्यंजन बनाना", "Vichitra-bhakshya", "Cooking varied dishes"],
+  ["पानकरसरागासवयोजन", "पेय एवं रस बनाना", "Panaka-rasa-yojana", "Preparing drinks and syrups"],
+  ["सूचीवानकर्म", "सिलाई एवं बुनाई", "Suchi-vana-karma", "Sewing and weaving"],
+  ["सूत्रक्रीड़ा", "सूत्र एवं कठपुतली क्रीड़ा", "Sutra-krida", "Puppetry with strings"],
+  ["वीणाडमरुकवाद्य", "वीणा एवं डमरू वादन", "Vina-damaruka", "Playing vina and damaru"],
+  ["प्रहेलिका", "पहेली रचना", "Prahelika", "Composing riddles"],
+  ["प्रतिमाला", "अंत्याक्षरी", "Pratimala", "Verse-capping games"],
+  ["दुर्वाचकयोग", "कठिन पाठ का उच्चारण", "Durvachaka-yoga", "Reciting difficult passages"],
+  ["पुस्तकवाचन", "सस्वर पुस्तक वाचन", "Pustaka-vachana", "Reading aloud"],
+  ["नाटिकाख्यायिकादर्शन", "नाटक एवं कथा का ज्ञान", "Natika-akhyayika", "Knowledge of plays and tales"],
+  ["काव्यसमस्यापूरण", "समस्या पूर्ति", "Kavya-samasya-purana", "Completing verses"],
+  ["पट्टिकावेत्रवाणविकल्प", "बेंत एवं बाण निर्माण", "Pattika-vetra-vana", "Making cane and arrows"],
+  ["तर्ककर्म", "तर्कशास्त्र", "Tarka-karma", "Reasoning"],
+  ["तक्षण", "बढ़ईगिरी एवं काष्ठकला", "Takshana", "Carpentry"],
+  ["वास्तुविद्या", "भवन निर्माण एवं वास्तुकला", "Vastu-vidya", "Architecture"],
+  ["रूप्यरत्नपरीक्षा", "रत्न एवं धातु परीक्षण", "Rupya-ratna-pariksha", "Assaying gems and metals"],
+  ["धातुवाद", "धातु विज्ञान", "Dhatu-vada", "Metallurgy"],
+  ["मणिरागज्ञान", "मणियों का रंजन", "Mani-raga-jnana", "Colouring gems"],
+  ["आकरज्ञान", "खनिज एवं खान का ज्ञान", "Akara-jnana", "Knowledge of mines"],
+  ["वृक्षायुर्वेदयोग", "वृक्ष चिकित्सा", "Vrikshayurveda", "Medicine for trees"],
+  ["मेषकुक्कुटलावकयुद्धविधि", "पशु-पक्षी प्रतियोगिता का ज्ञान", "Mesha-kukkuta-vidhi", "Training animals to contest"],
+  ["शुकसारिकाप्रलापन", "पक्षियों को बोलना सिखाना", "Shuka-sarika-pralapana", "Teaching birds to speak"],
+  ["उत्सादन", "उबटन एवं मालिश", "Utsadana", "Massage and body care"],
+  ["केशमार्जनकौशल", "केश सज्जा", "Kesha-marjana", "Hairdressing"],
+  ["अक्षरमुष्टिकाकथन", "संकेत भाषा", "Akshara-mushtika", "Sign language"],
+  ["म्लेच्छितकलाविकल्प", "गूढ़ भाषा", "Mlechchhita-kala", "Coded speech"],
+  ["देशभाषाज्ञान", "देशी भाषाओं का ज्ञान", "Desha-bhasha-jnana", "Knowledge of regional languages"],
+  ["पुष्पशकटिकानिर्मिति", "पुष्प रथ बनाना", "Pushpa-shakatika", "Making flower chariots"],
+  ["यंत्रमातृका", "यंत्र निर्माण एवं संचालन", "Yantra-matrika", "Building and running machines"],
+  ["धारणमातृका", "स्मरण शक्ति", "Dharana-matrika", "Strengthening memory"],
+  ["सम्पाठ्य", "एक साथ पाठ करना", "Sampathya", "Reciting in unison"],
+  ["मानसीकाव्यक्रिया", "आशुकाव्य रचना", "Manasi-kavya-kriya", "Extempore poetry"],
+  ["क्रियाविकल्प", "कार्य में विकल्प खोजना", "Kriya-vikalpa", "Finding alternatives in action"],
+  ["छलितकयोग", "वेश परिवर्तन", "Chhalitaka-yoga", "Disguise"],
+  ["अभिधानकोषछंदोज्ञान", "कोश एवं छंद ज्ञान", "Abhidhana-kosha", "Lexicon and metre"],
+  ["वस्त्रगोपन", "वस्त्र सज्जा एवं गोपन", "Vastra-gopana", "Dressing and concealment"],
+  ["द्यूतविशेष", "द्यूत एवं शतरंज", "Dyuta-vishesha", "Games of strategy"],
+  ["आकर्षक्रीड़ा", "पासा क्रीड़ा", "Akarsha-krida", "Dice play"],
+  ["बालक्रीडनक", "बाल क्रीड़ा", "Balakridanaka", "Games for children"],
+  ["वैनयिकीविद्या", "शिष्टाचार एवं अनुशासन", "Vainayiki-vidya", "Discipline and etiquette"],
+  ["वैजयिकीविद्या", "विजय एवं युद्ध विद्या", "Vaijayiki-vidya", "The art of victory"]
+];
+
+const LEADERS = [
+  { img: "uploads/dr%20mohan%20yadav.jpg",
+    hi: ["अध्यक्ष", "डॉ. मोहन यादव", "माननीय मुख्यमंत्री, मध्यप्रदेश", "श्रीकृष्ण पाथेय न्यास"],
+    en: ["Chairperson", "Dr. Mohan Yadav", "Hon'ble Chief Minister, Madhya Pradesh", "Shri Krishna Pathey Nyas"] },
+  { img: "uploads/shiv%20shekhar%20shukla.jpg",
+    hi: ["न्यासी सचिव", "श्री शिवशेखर शुक्ला", "अपर मुख्य सचिव, संस्कृति एवं गृह विभाग", "श्रीकृष्ण पाथेय न्यास"],
+    en: ["Trustee Secretary", "Shri Shiv Shekhar Shukla", "Additional Chief Secretary, Culture and Home", "Shri Krishna Pathey Nyas"] },
+  { img: "uploads/np%20namdev.jpg",
+    hi: ["न्यासी", "श्री एन.पी. नामदेव", "संचालक, संस्कृति संचालनालय", "मध्यप्रदेश शासन"],
+    en: ["Trustee", "Shri N.P. Namdev", "Director, Directorate of Culture", "Government of Madhya Pradesh"] },
+  { img: "uploads/dhermend%20singh%20lodhi.jpg",
+    hi: ["उपाध्यक्ष", "श्री धर्मेंद्र भाव सिंह लोधी", "माननीय संस्कृति मंत्री, मध्यप्रदेश", "श्रीकृष्ण पाथेय न्यास"],
+    en: ["Vice-Chairperson", "Shri Dharmendra Bhav Singh Lodhi", "Hon'ble Minister of Culture, Madhya Pradesh", "Shri Krishna Pathey Nyas"] },
+  { img: "uploads/shriram%20tiwari.png",
+    hi: ["मुख्य कार्यपालन अधिकारी", "श्री श्रीराम तिवारी", "मुख्य कार्यपालन अधिकारी", "श्रीकृष्ण पाथेय न्यास, भोपाल"],
+    en: ["Chief Executive Officer", "Shri Shriram Tiwari", "Chief Executive Officer", "Shri Krishna Pathey Nyas, Bhopal"] }
+];
+
+const DATE_STYLE = [
+  { bg: "linear-gradient(150deg,#FFFFFF 0%,#FDF4E2 100%)", border: "#EFDFBE", blob: "radial-gradient(circle,rgba(232,193,115,.3) 0%,rgba(232,193,115,0) 70%)", dotBg: "#E8C173", dotHalo: "rgba(232,193,115,.28)", rule: "rgba(138,96,21,.45)", stepFg: "#8A6015", pillBg: "#F7EEDA", pillBorder: "#E7D6B2", pillFg: "#6B4A10" },
+  { bg: "linear-gradient(150deg,#FFFFFF 0%,#F1F4FC 100%)", border: "#DDE3F2", blob: "radial-gradient(circle,rgba(39,64,139,.16) 0%,rgba(39,64,139,0) 70%)", dotBg: "#27408B", dotHalo: "rgba(39,64,139,.18)", rule: "rgba(39,64,139,.4)", stepFg: "#27408B", pillBg: "#E9EEF9", pillBorder: "#D6DEF2", pillFg: "#22366F" },
+  { bg: "linear-gradient(150deg,#FFFFFF 0%,#EDF4F0 100%)", border: "#D9E7DF", blob: "radial-gradient(circle,rgba(63,107,88,.16) 0%,rgba(63,107,88,0) 70%)", dotBg: "#3F6B58", dotHalo: "rgba(63,107,88,.18)", rule: "rgba(63,107,88,.4)", stepFg: "#2E5142", pillBg: "#E7F1EC", pillBorder: "#D3E4DA", pillFg: "#2E5142" }
+];
+
 const S = {
   hi: {
-    orgShort: "श्रीकृष्ण पाथेय न्यास",
-    deptShort: "संस्कृति विभाग, मध्यप्रदेश शासन",
     org: "श्रीकृष्ण पाथेय न्यास, भोपाल",
-    signIn: "साइन इन",
-    menuLabel: "मेनू खोलें या बंद करें",
-    nav: ["मुख्य पृष्ठ", "हमारे बारे में", "प्रतियोगिता", "संपर्क करें"],
     heroTitle: "भगवान श्रीकृष्ण मेधावी छात्रवृत्ति प्रतियोगिता",
     heroDate: "गुरु पूर्णिमा, 29 जुलाई 2026 से प्रारंभ",
     heroLede: "64 कलाएँ, 14 विद्याएँ और भारतीय ज्ञान परंपरा पर आधारित निःशुल्क प्रतियोगिता।",
     ctaPrimaryOut: "पंजीकरण करें",
     ctaTake: "भाग लें",
-    ctaAgain: "पुनः भाग लें",
+    ctaCert: "प्रमाण पत्र देखें",
     ctaSecondary: "नियम पढ़ें",
     facts: [
-      { value: "₹1,00,000", label: "एकमुश्त छात्रवृत्ति" },
-      { value: "102", label: "विद्यार्थी, 51 विद्यालय एवं 51 महाविद्यालय" },
-      { value: "30 प्रश्न", label: "10 मिनट, ऋणात्मक अंकन नहीं" },
-      { value: "निःशुल्क", label: "कक्षा 9 से महाविद्यालय तक" }
+      { value: "₹1,00,000", label: "छात्रवृत्ति" },
+      { value: "102", label: "विजेताओं को प्रायोजन" },
+      { value: "30", label: "प्रश्न" },
+      { value: "10", label: "मिनट" }
     ],
-    illoAlt: "गुरु द्वारा शिष्य को उपदेश का प्रतीकात्मक चित्र",
-    illoCredit: "प्रतीकात्मक चित्र",
+    sylKicker: "पाठ्यक्रम",
     sylTitle: "जो श्रीकृष्ण ने सांदीपनि आश्रम में सीखा",
-    sylLede: "परंपरा के अनुसार भगवान श्रीकृष्ण ने उज्जैन में महर्षि सांदीपनि के आश्रम में चौदह विद्याएँ और चौंसठ कलाएँ अर्जित कीं। प्रतियोगिता का पाठ्यक्रम यही है। किसी नाम पर जाइए और अर्थ देखिए।",
+    sylLede: "परंपरा के अनुसार भगवान श्रीकृष्ण ने उज्जैन में महर्षि सांदीपनि के आश्रम में चौदह विद्याएँ और चौंसठ कलाएँ अर्जित कीं। यही प्रतियोगिता का पाठ्यक्रम है। किसी भी नाम पर जाइए और उसका अर्थ देखिए।",
     tabVidyas: "14 विद्याएँ",
     tabKalas: "64 कलाएँ",
-    kalaLink: "संपूर्ण सूची देखें",
+    leadKicker: "शासी व्यवस्था",
+    leadTitle: "न्यास का नेतृत्व",
+    leadLede: "प्रतियोगिता श्रीकृष्ण पाथेय न्यास द्वारा संस्कृति विभाग, मध्यप्रदेश शासन के अंतर्गत संचालित की जाती है।",
+    prevLabel: "पिछला कार्ड",
+    nextLabel: "अगला कार्ड",
     howTitle: "प्रक्रिया",
     steps: [
       { title: "पंजीकरण", icon: "user" },
@@ -239,78 +398,40 @@ const S = {
       { title: "प्रमाण पत्र", icon: "cert" }
     ],
     datesTitle: "तिथियाँ",
+    dateSteps: ["चरण 01", "चरण 02", "चरण 03"],
     dates: [
-      { when: "29 जुलाई 2026", what: "प्रतियोगिता प्रारंभ", note: "गुरु पूर्णिमा, महर्षि सांदीपनि गुरु पर्व" },
-      { when: "घोषित होना शेष", what: "अंतिम तिथि", note: "निर्धारित होने पर इसी पृष्ठ पर प्रकाशित" },
-      { when: "1 नवंबर 2026", what: "छात्रवृत्ति वितरण", note: "कृषि लोकोत्सव, भोपाल" }
+      { when: "29 जुलाई 2026", what: "प्रतियोगिता प्रारंभ", note: "महर्षि सांदीपनि गुरु पर्व आरंभ" },
+      { when: "4 सितम्बर 2026", what: "प्रविष्टियों की अंतिम तिथि", note: "श्रीकृष्ण जन्माष्टमी" },
+      { when: "1 नवंबर 2026", what: "छात्रवृत्ति वितरण", note: "मध्यप्रदेश स्थापना दिवस" }
     ],
     closeTitle: "प्रतियोगिता में सम्मिलित हों",
-    closeBody: "पंजीकरण निःशुल्क है और कुछ मिनटों में पूर्ण हो जाता है।",
-    footDept: "संस्कृति विभाग, मध्यप्रदेश शासन",
-    footLinksTitle: "लिंक",
-    footLinks: ["हमारे बारे में", "प्रतियोगिता", "नियम", "संपर्क करें", "गोपनीयता", "उपयोग की शर्तें"],
-    vidyas: [
-      { name: "ऋग्वेद", group: "चार वेद", meaning: "चार वेदों में सम्मिलित" },
-      { name: "यजुर्वेद", group: "चार वेद", meaning: "चार वेदों में सम्मिलित" },
-      { name: "सामवेद", group: "चार वेद", meaning: "चार वेदों में सम्मिलित" },
-      { name: "अथर्ववेद", group: "चार वेद", meaning: "चार वेदों में सम्मिलित" },
-      { name: "शिक्षा", group: "छह वेदांग", meaning: "उच्चारण विज्ञान" },
-      { name: "कल्प", group: "छह वेदांग", meaning: "कर्मकांड" },
-      { name: "व्याकरण", group: "छह वेदांग", meaning: "भाषा का व्याकरण" },
-      { name: "निरुक्त", group: "छह वेदांग", meaning: "शब्द व्युत्पत्ति" },
-      { name: "छंद", group: "छह वेदांग", meaning: "छंदशास्त्र" },
-      { name: "ज्योतिष", group: "छह वेदांग", meaning: "ज्योतिष एवं खगोल" },
-      { name: "मीमांसा", group: "अन्य चार", meaning: "दर्शन" },
-      { name: "न्याय", group: "अन्य चार", meaning: "तर्कशास्त्र" },
-      { name: "धर्मशास्त्र", group: "अन्य चार", meaning: "कानून एवं नीति" },
-      { name: "पुराण", group: "अन्य चार", meaning: "पुराण" }
-    ],
-    kalas: [
-      { name: "गीत", group: "कला 01", meaning: "गायन" },
-      { name: "वाद्य", group: "कला 02", meaning: "वाद्ययंत्र बजाना" },
-      { name: "नृत्यनाट्य", group: "कला 03", meaning: "अभिनय" },
-      { name: "आलेख्य", group: "कला 04", meaning: "चित्रकला" },
-      { name: "पुष्पास्तरण", group: "कला 07", meaning: "फूलों की सेज सजाना" },
-      { name: "गंध-युक्ति", group: "कला 18", meaning: "इत्र एवं सुगंधित पदार्थ बनाना" },
-      { name: "ऐंद्रजाल", group: "कला 20", meaning: "जादूगरी" },
-      { name: "सूची-वाण-कर्म", group: "कला 25", meaning: "सिलाई और बुनाई" },
-      { name: "तक्षण-कर्म", group: "कला 36", meaning: "बढ़ईगिरी, लकड़ी का काम" },
-      { name: "वास्तु-विद्या", group: "कला 37", meaning: "भवन निर्माण एवं वास्तुकला" },
-      { name: "धातु-वाद", group: "कला 39", meaning: "धातुओं को पिघलाना, धातु विज्ञान" },
-      { name: "वृक्ष-आयुर्वेद-योग", group: "कला 42", meaning: "पेड़-पौधों की चिकित्सा" },
-      { name: "यंत्र-मातृका", group: "कला 51", meaning: "मशीनों का संचालन" },
-      { name: "धारण-मातृका", group: "कला 52", meaning: "स्मरण शक्ति बढ़ाना" },
-      { name: "द्यूत-विशेष", group: "कला 59", meaning: "शतरंज का ज्ञान" },
-      { name: "बालक्रीडा", group: "कला 61", meaning: "बच्चों के खेल" }
-    ]
+    closeBody: "पंजीकरण कुछ मिनटों में पूर्ण हो जाता है।"
   },
   en: {
-    orgShort: "Shri Krishna Pathey Nyas",
-    deptShort: "Department of Culture, Government of MP",
     org: "Shri Krishna Pathey Nyas, Bhopal",
-    signIn: "Sign in",
-    menuLabel: "Open or close menu",
-    nav: ["Home", "About Us", "Pratiyogita", "Contact Us"],
     heroTitle: "Bhagwan Shri Krishna Medhavi Chhatravritti Pratiyogita",
     heroDate: "Opens on Guru Purnima, 29 July 2026",
     heroLede: "A free competition on the 64 Kalas, the 14 Vidyas and the Indian knowledge tradition.",
     ctaPrimaryOut: "Register now",
     ctaTake: "Take part",
-    ctaAgain: "Take part again",
+    ctaCert: "View certificate",
     ctaSecondary: "Read the rules",
     facts: [
-      { value: "₹1,00,000", label: "One-time scholarship" },
-      { value: "102", label: "Students, 51 school and 51 college" },
-      { value: "30 questions", label: "10 minutes, no negative marking" },
-      { value: "Free", label: "Class 9 to college level" }
+      { value: "₹1,00,000", label: "Scholarship" },
+      { value: "102", label: "Winners sponsored" },
+      { value: "30", label: "Questions" },
+      { value: "10", label: "Minutes" }
     ],
-    illoAlt: "Symbolic illustration of a teacher instructing a student",
-    illoCredit: "Symbolic illustration",
+    sylKicker: "Syllabus",
     sylTitle: "What Shri Krishna learned at the Sandipani ashram",
     sylLede: "Tradition holds that Bhagwan Shri Krishna mastered fourteen Vidyas and sixty-four Kalas at Maharishi Sandipani's ashram in Ujjain. That is the syllabus. Move across any name to read what it means.",
     tabVidyas: "14 Vidyas",
     tabKalas: "64 Kalas",
-    kalaLink: "See the full list",
+    leadKicker: "Governance",
+    leadTitle: "Leadership of the Nyas",
+    leadLede: "The competition is conducted by Shri Krishna Pathey Nyas under the Department of Culture, Government of Madhya Pradesh.",
+    prevLabel: "Previous card",
+    nextLabel: "Next card",
     howTitle: "How it works",
     steps: [
       { title: "Register", icon: "user" },
@@ -319,56 +440,22 @@ const S = {
       { title: "Certificate", icon: "cert" }
     ],
     datesTitle: "Dates",
+    dateSteps: ["Step 01", "Step 02", "Step 03"],
     dates: [
-      { when: "29 July 2026", what: "Competition opens", note: "Guru Purnima, Maharishi Sandipani Guru Parv" },
-      { when: "To be announced", what: "Last date for entries", note: "Published on this page once fixed" },
-      { when: "1 November 2026", what: "Scholarship distribution", note: "Krishi Lokotsav, Bhopal" }
+      { when: "29 July 2026", what: "Competition opens", note: "Maharishi Sandipani Guru Parv begins" },
+      { when: "4 September 2026", what: "Last date for entries", note: "Shri Krishna Janmashtami" },
+      { when: "1 November 2026", what: "Scholarship distribution", note: "Madhya Pradesh Sthapana Diwas" }
     ],
     closeTitle: "Enter the competition",
-    closeBody: "Registration is free and takes a few minutes.",
-    footDept: "Department of Culture, Government of Madhya Pradesh",
-    footLinksTitle: "Links",
-    footLinks: ["About Us", "Pratiyogita", "Rules", "Contact Us", "Privacy", "Terms of Use"],
-    vidyas: [
-      { name: "Rigveda", group: "Four Vedas", meaning: "One of the four Vedas" },
-      { name: "Yajurveda", group: "Four Vedas", meaning: "One of the four Vedas" },
-      { name: "Samaveda", group: "Four Vedas", meaning: "One of the four Vedas" },
-      { name: "Atharvaveda", group: "Four Vedas", meaning: "One of the four Vedas" },
-      { name: "Shiksha", group: "Six Vedangas", meaning: "Phonetics" },
-      { name: "Kalpa", group: "Six Vedangas", meaning: "Ritual" },
-      { name: "Vyakarana", group: "Six Vedangas", meaning: "Grammar" },
-      { name: "Nirukta", group: "Six Vedangas", meaning: "Etymology" },
-      { name: "Chhanda", group: "Six Vedangas", meaning: "Prosody" },
-      { name: "Jyotisha", group: "Six Vedangas", meaning: "Astronomy" },
-      { name: "Mimamsa", group: "The other four", meaning: "Philosophy" },
-      { name: "Nyaya", group: "The other four", meaning: "Logic" },
-      { name: "Dharmashastra", group: "The other four", meaning: "Law and ethics" },
-      { name: "Purana", group: "The other four", meaning: "Purana" }
-    ],
-    kalas: [
-      { name: "Geet", group: "Kala 01", meaning: "Singing" },
-      { name: "Vadya", group: "Kala 02", meaning: "Playing instruments" },
-      { name: "Nrityanatya", group: "Kala 03", meaning: "Acting and dance drama" },
-      { name: "Alekhya", group: "Kala 04", meaning: "Painting" },
-      { name: "Pushpastarana", group: "Kala 07", meaning: "Arranging flowers" },
-      { name: "Gandha-yukti", group: "Kala 18", meaning: "Making perfume and fragrance" },
-      { name: "Aindrajala", group: "Kala 20", meaning: "Conjuring" },
-      { name: "Suchi-vana-karma", group: "Kala 25", meaning: "Sewing and weaving" },
-      { name: "Takshana-karma", group: "Kala 36", meaning: "Carpentry and woodwork" },
-      { name: "Vastu-vidya", group: "Kala 37", meaning: "Building and architecture" },
-      { name: "Dhatu-vada", group: "Kala 39", meaning: "Metallurgy" },
-      { name: "Vriksha-ayurveda", group: "Kala 42", meaning: "Medicine for trees and plants" },
-      { name: "Yantra-matrika", group: "Kala 51", meaning: "Operating machines" },
-      { name: "Dharana-matrika", group: "Kala 52", meaning: "Strengthening memory" },
-      { name: "Dyuta-vishesha", group: "Kala 59", meaning: "Games of strategy" },
-      { name: "Balakrida", group: "Kala 61", meaning: "Games for children" }
-    ]
+    closeBody: "Registration takes a few minutes."
   }
 };
 
+const CARD_STEP = 344;
+
 class Component extends DCLogic {
-  state = { lang: null, menuOpen: false, tab: "vidyas", index: 0, tick: 0, paused: false, signedIn: null, attempts: 0 };
-  videoEl = null;
+  state = { lang: null, tab: "vidyas", index: 0, tick: 0, paused: false, signedIn: null, attempts: 0, active: 0 };
+  _rail = React.createRef();
 
   componentDidMount() {
     try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
@@ -418,7 +505,7 @@ class Component extends DCLogic {
     this._timer = setInterval(() => {
       if (this.state.paused) return;
       this.setState(s => {
-        const list = S[this.lang][s.tab === "vidyas" ? "vidyas" : "kalas"];
+        const list = s.tab === "vidyas" ? VIDYAS : KALAS;
         return { index: (s.index + 1) % list.length, tick: s.tick + 1 };
       });
     }, 3800);
@@ -442,20 +529,39 @@ class Component extends DCLogic {
 
   pick(i) { this.setState(s => ({ index: i, paused: true, tick: s.tick + 1 })); }
 
+  nudgeRail(dir) {
+    const el = this._rail.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * CARD_STEP, behavior: "smooth" });
+  }
+
+  onRailScroll() {
+    const el = this._rail.current;
+    if (!el || this._railQueued) return;
+    this._railQueued = true;
+    requestAnimationFrame(() => {
+      this._railQueued = false;
+      const i = Math.max(0, Math.min(LEADERS.length - 1, Math.round(el.scrollLeft / CARD_STEP)));
+      if (i !== this.state.active) this.setState({ active: i });
+    });
+  }
+
   renderVals() {
-    const lang = this.lang, t = S[lang];
+    const lang = this.lang, t = S[lang], hi = lang === "hi";
     const signedIn = this.state.signedIn ?? (this.props.signedIn ?? false);
     const attempts = this.state.attempts || 0;
     const isVidyas = this.state.tab === "vidyas";
-    const list = isVidyas ? t.vidyas : t.kalas;
+    const list = isVidyas ? VIDYAS : KALAS;
     const index = this.state.index % list.length;
+    const cur = list[index];
+    const groupOf = i => isVidyas
+      ? (hi ? "विद्या " + String(i + 1).padStart(2, "0") : "Vidya " + String(i + 1).padStart(2, "0"))
+      : (hi ? "कला " + String(i + 1).padStart(2, "0") : "Kala " + String(i + 1).padStart(2, "0"));
+    const active = this.state.active;
 
     return {
-      t: Object.assign({}, t, { ctaPrimary: signedIn ? (attempts > 0 ? t.ctaAgain : t.ctaTake) : t.ctaPrimaryOut }),
-      nav: t.nav.map(label => ({ label })),
+      t: Object.assign({}, t, { ctaPrimary: signedIn ? (attempts > 0 ? t.ctaCert : t.ctaTake) : t.ctaPrimaryOut }),
       facts: t.facts,
-      dates: t.dates,
-      footLinks: t.footLinks,
       steps: t.steps.map(s => ({
         title: s.title,
         isUser: s.icon === "user",
@@ -463,36 +569,54 @@ class Component extends DCLogic {
         isClock: s.icon === "clock",
         isCert: s.icon === "cert"
       })),
-      feature: list[index],
+      dates: t.dates.map((d, i) => Object.assign({}, d, DATE_STYLE[i % 3], { step: t.dateSteps[i] })),
+
+      feature: { group: groupOf(index), name: hi ? cur[0] : cur[2], meaning: hi ? cur[1] : cur[3] },
       featureAnim: this.state.tick % 2 === 0 ? "v5-inA" : "v5-inB",
       items: list.map((it, i) => ({
-        name: it.name,
+        name: hi ? it[0] : it[2],
+        n: String(i + 1).padStart(2, "0"),
         select: () => this.pick(i),
-        bg: i === index ? "#14203E" : "#FFFFFF",
-        fg: i === index ? "#FFF9EC" : "#242D42",
-        border: i === index ? "#14203E" : "#E3D9C6"
+        bg: i === index ? "rgba(232,193,115,.16)" : "rgba(255,255,255,.045)",
+        fg: i === index ? "#FFF9EC" : "#D2D8E8",
+        border: i === index ? "#E8C173" : "rgba(232,193,115,.22)",
+        numFg: i === index ? "#E8C173" : "rgba(232,193,115,.55)"
       })),
       vidyaSelected: isVidyas,
       kalaSelected: !isVidyas,
-      vidyaTabFg: isVidyas ? "#14203E" : "#565F72",
-      kalaTabFg: isVidyas ? "#565F72" : "#14203E",
-      vidyaTabLine: isVidyas ? "#8A6015" : "transparent",
-      kalaTabLine: isVidyas ? "transparent" : "#8A6015",
+      vidyaBg: isVidyas ? "#E8C173" : "transparent",
+      vidyaFg: isVidyas ? "#1E1503" : "#E8DFCE",
+      vidyaBorder: isVidyas ? "#E8C173" : "rgba(232,193,115,.4)",
+      kalaBg: isVidyas ? "transparent" : "#E8C173",
+      kalaFg: isVidyas ? "#E8DFCE" : "#1E1503",
+      kalaBorder: isVidyas ? "rgba(232,193,115,.4)" : "#E8C173",
       showVidyas: () => this.setState(s => ({ tab: "vidyas", index: 0, paused: true, tick: s.tick + 1 })),
       showKalas: () => this.setState(s => ({ tab: "kalas", index: 0, paused: true, tick: s.tick + 1 })),
-      hiPillBg: lang === "hi" ? "#14203E" : "transparent",
-      hiPillFg: lang === "hi" ? "#FDF3DF" : "#434C60",
-      enPillBg: lang === "en" ? "#14203E" : "transparent",
-      enPillFg: lang === "en" ? "#FDF3DF" : "#434C60",
+
+      railRef: this._rail,
+      onRailScroll: () => this.onRailScroll(),
+      railPrev: () => this.nudgeRail(-1),
+      railNext: () => this.nudgeRail(1),
+      railDots: LEADERS.map((_, i) => ({ w: i === active ? "26px" : "8px", bg: i === active ? "#8A6015" : "#DCD1BC" })),
+      leaders: LEADERS.map((l, i) => ({
+        img: l.img,
+        role: l[lang][0],
+        name: l[lang][1],
+        office: l[lang][2],
+        body: l[lang][3],
+        ring: i === active ? "#E8C173" : "#EFE5D3",
+        transform: i === active ? "scale(1)" : "scale(.94)",
+        shadow: i === active ? "0 10px 20px rgba(20,32,62,.1),0 32px 64px rgba(20,32,62,.18)" : "0 2px 6px rgba(20,32,62,.06),0 16px 34px rgba(20,32,62,.09)"
+      })),
+
       lang: lang,
       signedIn: signedIn,
       hasCerts: attempts > 0 || (this.props.hasCertificates ?? false),
-      primaryHref: signedIn ? "Quiz.dc.html" : "Register.dc.html",
+      primaryHref: signedIn ? (attempts > 0 ? "Certificates.dc.html" : "Quiz.dc.html") : "Register.dc.html",
       toggleLang: () => this.setLang(this.lang === "hi" ? "en" : "hi")
     };
   }
 }
-
 </script>
 </body>
 </html>

@@ -30,7 +30,7 @@
 <script src="assets/site.js"></script>
 </helmet>
 
-<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
+<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:clip">
   <dc-import name="SiteHeader" lang="{{ lang }}" active="home" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
 
   <section data-e="pad" style="max-width:880px;margin:0 auto;padding:48px 30px 78px">
@@ -43,7 +43,7 @@
     <p style="margin:0 0 32px;max-width:60ch;font-size:17.5px;line-height:1.85;color:#434C60">{{ doc.lede }}</p>
 
     <div style="display:flex;flex-direction:column;gap:22px">
-      <sc-for list="{{ doc.sections }}" as="s" hint-placeholder-count="6">
+      <sc-for list="{{ doc.sections }}" as="s" hint-placeholder-count="4">
         <section data-e="card" style="padding:26px 30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 12px 28px rgba(20,32,62,.05)">
           <h2 style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:20px;line-height:1.45;color:#14203E">{{ s.title }}</h2>
           <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px">
@@ -58,13 +58,11 @@
       </sc-for>
     </div>
 
-    <p style="margin:26px 0 0;padding:20px 24px;border-left:3px solid #8A6015;border-radius:0 16px 16px 0;background:#F4EBD8;font-size:16.5px;line-height:1.85;color:#3D3524">{{ doc.pending }}</p>
-    <p style="margin:20px 0 0;font-size:16.5px;line-height:1.8;color:#434C60">{{ t.questions }} <a href="About.dc.html#sampark">{{ t.contactLink }}</a></p>
+    <p style="margin:24px 0 0;font-size:16.5px;line-height:1.8;color:#434C60">{{ t.questions }} <a href="About.dc.html#sampark">{{ t.contactLink }}</a></p>
   </section>
 
   <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
 </div>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000}}">
 const S = {
@@ -75,70 +73,52 @@ const S = {
     contactLink: "संपर्क करें",
     privacy: {
       title: "गोपनीयता सूचना",
-      lede: "यह सूचना सरल भाषा में बताती है कि हम कौन सी जानकारी लेते हैं, क्यों लेते हैं, और उसका क्या होता है।",
+      lede: "हम कौन सी जानकारी लेते हैं, क्यों लेते हैं और कौन देख सकता है।",
       sections: [
-        { title: "हम क्या जानकारी लेते हैं", points: [
-          "नाम, ईमेल, मोबाइल नंबर, जन्म तिथि, लिंग।",
-          "पता, शहर या गाँव, जिला, पिन कोड।",
-          "श्रेणी, पढ़ाई का स्तर, संस्था का नाम।",
-          "प्रतियोगिता के प्रयास, उत्तर, अंक तथा समय।"
+        { title: "हम क्या लेते हैं", points: [
+          "मोबाइल नंबर, जो आपकी पहचान है।",
+          "नाम, ईमेल, जन्म तिथि, लिंग तथा पता।",
+          "श्रेणी, पढ़ाई का स्तर तथा संस्था का नाम।",
+          "प्रतियोगिता के उत्तर, अंक तथा लिया गया समय।"
         ] },
-        { title: "हम इसका उपयोग किसलिए करते हैं", points: [
+        { title: "उपयोग किसलिए", points: [
           "प्रतियोगिता संचालित करने, मेरिट सूची बनाने तथा परिणाम प्रकाशित करने के लिए।",
-          "छात्रवृत्ति संबंधी कार्यवाही के लिए।",
-          "आपसे संपर्क करने के लिए, यदि आपका चयन होता है।",
-          "किसी अन्य कार्य के लिए नहीं। हम आपकी जानकारी बेचते नहीं हैं और विज्ञापन नहीं दिखाते।"
+          "छात्रवृत्ति संबंधी कार्यवाही तथा चयन होने पर आपसे संपर्क करने के लिए।",
+          "किसी अन्य कार्य के लिए नहीं। जानकारी बेची नहीं जाती और विज्ञापन नहीं दिखाए जाते।"
         ] },
         { title: "कौन देख सकता है", points: [
-          "श्रीकृष्ण पाथेय न्यास तथा संस्कृति विभाग के अधिकृत कर्मचारी।",
-          "चयन समिति, केवल मेरिट सूची तथा चयन के प्रयोजन से।",
+          "न्यास तथा संस्कृति विभाग के अधिकृत कर्मचारी एवं चयन समिति।",
           "चयनित विद्यार्थियों के नाम, जिला तथा संस्था परिणाम में प्रकाशित हो सकते हैं।"
-        ] },
-        { title: "कोई दस्तावेज़ अपलोड नहीं", points: [
-          "इस वेबसाइट पर कहीं भी दस्तावेज़ अपलोड नहीं करना है।",
-          "अंकसूची, आधार, बैंक विवरण तथा दिव्यांगता प्रमाण पत्र चयन के उपरांत कार्यालय में प्रस्तुत किए जाते हैं।"
-        ] },
-        { title: "Google से साइन इन", points: [
-          "यदि आप Google से साइन इन करते हैं, तो Google को यह अनुरोध जाता है कि आप इस वेबसाइट पर साइन इन कर रहे हैं।",
-          "हम Google से केवल आपका नाम और ईमेल पढ़ते हैं। कोई अन्य अनुमति नहीं ली जाती।",
-          "यदि आप यह नहीं चाहते, तो ईमेल कोड से साइन इन करें। दोनों तरीके समान हैं।"
         ] },
         { title: "आपके अधिकार", points: [
           "आप जान सकते हैं कि आपकी कौन सी जानकारी हमारे पास है।",
-          "पंजीकरण के बाद जानकारी परिवर्तित नहीं होती, क्योंकि चयन के समय यह दस्तावेज़ों से मिलाई जाती है। वास्तविक त्रुटि के सुधार हेतु न्यास को ईमेल करें।",
-          "शिकायत की स्थिति में shrikrishnapatheynyas@gmail.com पर लिखें।"
+          "वास्तविक त्रुटि के सुधार अथवा शिकायत हेतु shrikrishnapatheynyas@gmail.com पर लिखें।"
         ] }
-      ],
-      pending: "18 वर्ष से कम आयु के विद्यार्थियों की जानकारी के संबंध में डिजिटल पर्सनल डेटा प्रोटेक्शन अधिनियम, 2023 के अंतर्गत अभिभावक सहमति की प्रक्रिया विभाग द्वारा निर्धारित की जा रही है। यह अनुच्छेद अंतिम रूप लेने पर अद्यतन किया जाएगा।"
+      ]
     },
     terms: {
       title: "उपयोग की शर्तें",
       lede: "इस वेबसाइट का उपयोग करने पर ये शर्तें लागू होती हैं।",
       sections: [
-        { title: "वेबसाइट का प्रयोजन", points: [
+        { title: "प्रयोजन", points: [
           "यह वेबसाइट श्रीकृष्ण पाथेय न्यास, भोपाल द्वारा संचालित है।",
           "इसका प्रयोजन न्यास की जानकारी देना तथा भगवान श्रीकृष्ण मेधावी छात्रवृत्ति प्रतियोगिता संचालित करना है।"
         ] },
         { title: "आपकी ज़िम्मेदारी", points: [
           "पंजीकरण में सही जानकारी दें। गलत जानकारी पर प्रविष्टि निरस्त मानी जाएगी।",
-          "किसी अन्य व्यक्ति के नाम अथवा दस्तावेज़ से पंजीकरण न करें।",
-          "प्रतियोगिता के दौरान किसी अन्य व्यक्ति की सहायता, सॉफ़्टवेयर अथवा अनुचित साधन का प्रयोग न करें।"
+          "एक विद्यार्थी एक ही पंजीकरण करे और प्रतियोगिता केवल एक बार दे।",
+          "प्रतियोगिता के दौरान किसी अन्य व्यक्ति की सहायता अथवा अनुचित साधन का प्रयोग न करें।"
         ] },
-        { title: "सामग्री का उपयोग", points: [
+        { title: "सामग्री", points: [
           "इस वेबसाइट की सामग्री, चिह्न तथा चित्र न्यास अथवा संबंधित अधिकारियों के हैं।",
           "अनुमति के बिना व्यावसायिक उपयोग न करें।"
         ] },
         { title: "परिवर्तन एवं निर्णय", points: [
-          "नियम, तिथियाँ तथा शर्तें परिवर्तित हो सकती हैं। परिवर्तन इसी वेबसाइट पर प्रकाशित किए जाएँगे।",
-          "प्रतियोगिता एवं चयन संबंधी सभी विषयों में श्रीकृष्ण पाथेय न्यास का निर्णय अंतिम होगा।",
-          "न्यायक्षेत्र भोपाल।"
-        ] },
-        { title: "भाषा", points: [
-          "हिन्दी संस्करण प्रमाणिक है। अंग्रेज़ी अनुवाद सुविधा हेतु है।",
-          "किसी विसंगति की स्थिति में हिन्दी संस्करण मान्य होगा।"
+          "नियम एवं तिथियाँ परिवर्तित हो सकती हैं। परिवर्तन इसी वेबसाइट पर प्रकाशित किए जाएँगे।",
+          "प्रतियोगिता एवं चयन संबंधी सभी विषयों में न्यास का निर्णय अंतिम होगा। न्यायक्षेत्र भोपाल।",
+          "हिन्दी संस्करण प्रमाणिक है, अंग्रेज़ी अनुवाद सुविधा हेतु है।"
         ] }
-      ],
-      pending: "प्रमाण पत्र की शब्दावली, हस्ताक्षर तथा राज्य प्रतीक के उपयोग की अनुमति विभागीय अनुमोदन के अधीन है।"
+      ]
     }
   },
   en: {
@@ -148,70 +128,52 @@ const S = {
     contactLink: "contact us",
     privacy: {
       title: "Privacy notice",
-      lede: "This notice explains in plain words what information we collect, why we collect it, and what happens to it.",
+      lede: "What we collect, why we collect it and who can see it.",
       sections: [
         { title: "What we collect", points: [
-          "Name, email, mobile number, date of birth, gender.",
-          "Address, city or village, district, PIN code.",
-          "Category, level of education, name of institution.",
-          "Your attempts, answers, scores and time taken."
+          "Your mobile number, which is your identity here.",
+          "Name, email, date of birth, gender and address.",
+          "Category, level of education and name of institution.",
+          "Your answers, score and time taken in the competition."
         ] },
         { title: "Why we use it", points: [
           "To run the competition, prepare merit lists and publish results.",
-          "To carry out the scholarship process.",
-          "To contact you if you are selected.",
+          "To carry out the scholarship process and contact you if you are selected.",
           "For nothing else. We do not sell your information and we do not show advertising."
         ] },
         { title: "Who can see it", points: [
-          "Authorised staff of Shri Krishna Pathey Nyas and the Department of Culture.",
-          "The selection committee, only for merit lists and selection.",
-          "The names, districts and institutions of selected students may appear in published results."
-        ] },
-        { title: "No document upload", points: [
-          "Nothing is uploaded anywhere on this website.",
-          "Marksheet, Aadhaar, bank details and any disability certificate are produced at the office after selection."
-        ] },
-        { title: "Signing in with Google", points: [
-          "If you sign in with Google, a request goes to Google saying you are signing in on this website.",
-          "We read only your name and email from Google. No other permission is requested.",
-          "If you would rather not, sign in with an email code instead. Both methods are equal."
+          "Authorised staff of the Nyas and the Department of Culture, and the selection committee.",
+          "Names, districts and institutions of selected students may appear in published results."
         ] },
         { title: "Your rights", points: [
           "You may ask what information about you we hold.",
-          "Details cannot be changed after registration, because they are checked against documents at selection. For a genuine correction, email the Nyas.",
-          "To raise a grievance, write to shrikrishnapatheynyas@gmail.com."
+          "For a genuine correction or a grievance, write to shrikrishnapatheynyas@gmail.com."
         ] }
-      ],
-      pending: "For students under 18, the guardian consent process under the Digital Personal Data Protection Act, 2023 is being settled by the department. This section will be updated once it is final."
+      ]
     },
     terms: {
       title: "Terms of use",
       lede: "These terms apply when you use this website.",
       sections: [
-        { title: "Purpose of the website", points: [
+        { title: "Purpose", points: [
           "This website is operated by Shri Krishna Pathey Nyas, Bhopal.",
           "Its purpose is to publish information about the Nyas and to run the Bhagwan Shri Krishna Medhavi Chhatravritti Pratiyogita."
         ] },
         { title: "Your responsibility", points: [
           "Give correct information at registration. False information cancels the entry.",
-          "Do not register using another person's name or documents.",
-          "Do not take help from another person, use software or use any unfair method during the quiz."
+          "Register once and take the competition only once.",
+          "Do not take help from another person or use any unfair method during the quiz."
         ] },
-        { title: "Use of content", points: [
+        { title: "Content", points: [
           "The content, marks and images on this website belong to the Nyas or the relevant authorities.",
           "Do not use them commercially without permission."
         ] },
         { title: "Changes and decisions", points: [
-          "Rules, dates and terms may change, and changes will be published on this website.",
-          "In all matters concerning the competition and selection, the decision of Shri Krishna Pathey Nyas is final.",
-          "Jurisdiction is Bhopal."
-        ] },
-        { title: "Language", points: [
-          "The Hindi version is authoritative. The English translation is a courtesy.",
-          "In case of any discrepancy, the Hindi version shall prevail."
+          "Rules and dates may change, and changes will be published on this website.",
+          "In all matters concerning the competition and selection, the decision of the Nyas is final. Jurisdiction is Bhopal.",
+          "The Hindi version is authoritative; the English translation is a courtesy."
         ] }
-      ],
-      pending: "The certificate wording, the signature block and any use of the state emblem remain subject to departmental approval."
+      ]
     }
   }
 };
@@ -252,7 +214,6 @@ class Component extends DCLogic {
     };
   }
 }
-
 </script>
 </body>
 </html>

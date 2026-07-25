@@ -97,7 +97,6 @@
     </div>
 
     <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px">
-      <a href="Quiz.dc.html" style="min-height:56px;padding:16px 30px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.startQuiz }}</a>
       <a href="Home v5.dc.html" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:16.5px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.signOut }}</a>
     </div>
   </section>
@@ -123,22 +122,20 @@ const STUDENT = {
   level: { hi: "कक्षा 10", en: "Class 10" },
   institution: { hi: "शासकीय उच्चतर माध्यमिक विद्यालय, सीहोर", en: "Government Higher Secondary School, Sehore" },
   divyang: false,
-  provider: "google"
+  provider: "mobile"
 };
 
 const ATTEMPTS = [
-  { date: "24 जुलाई 2026, 10:42", dateEn: "24 July 2026, 10:42", time: "09:12", timeEn: "09:12", score: "23 / 30" },
-  { date: "22 जुलाई 2026, 19:05", dateEn: "22 July 2026, 19:05", time: "10:00", timeEn: "10:00", score: "19 / 30" },
-  { date: "21 जुलाई 2026, 08:20", dateEn: "21 July 2026, 08:20", time: "07:48", timeEn: "07:48", score: "16 / 30" }
+  { date: "24 जुलाई 2026, 10:42", dateEn: "24 July 2026, 10:42", time: "09:12", timeEn: "09:12", score: "23 / 30" }
 ];
 
 const S = {
   hi: {
     lockNote: "पंजीकरण के बाद जानकारी परिवर्तित नहीं की जा सकती, क्योंकि चयन के समय यह आधिकारिक दस्तावेज़ों से मिलाई जाती है। किसी वास्तविक त्रुटि के सुधार हेतु लिखें",
     participation: "सहभागिता",
-    stats: ["कुल प्रयास", "अंतिम प्रयास की तिथि", "औसत समय"],
+    stats: ["प्रयास", "प्रयास की तिथि", "लिया गया समय"],
     viewCertificate: "प्रमाण पत्र",
-    bestNote: "सर्वश्रेष्ठ प्रयास ही मेरिट सूची के लिए मान्य होता है। अंतिम चयन लॉटरी से होता है।",
+    bestNote: "प्रत्येक विद्यार्थी केवल एक बार प्रतियोगिता दे सकता है। अंतिम चयन लॉटरी से होता है।",
     groups: ["व्यक्तिगत जानकारी", "साइन इन", "पता", "शिक्षा"],
     keys: {
       name: "नाम", gender: "लिंग", dob: "जन्म तिथि", mobile: "मोबाइल नंबर",
@@ -146,9 +143,9 @@ const S = {
       address: "पता", city: "शहर या गाँव", district: "जिला", state: "राज्य", pin: "पिन कोड",
       category: "श्रेणी", level: "पढ़ाई का स्तर", institution: "संस्था", divyang: "दिव्यांग श्रेणी"
     },
-    mobileNote: "मोबाइल नंबर सत्यापित नहीं है। परिणाम ईमेल पर भेजे जाते हैं।",
+    mobileNote: "यही मोबाइल नंबर साइन इन के लिए उपयोग होता है।",
     emailNote: "परिणाम इसी ईमेल पर भेजे जाएँगे।",
-    googleLabel: "Google खाते से",
+    mobileSignIn: "मोबाइल नंबर से",
     otpLabel: "ईमेल कोड से",
     divyangNo: "नहीं",
     divyangYes: "हाँ",
@@ -163,9 +160,9 @@ const S = {
   en: {
     lockNote: "Details cannot be changed after registration, because they are checked against official documents at selection. For a genuine correction, write to",
     participation: "Participation",
-    stats: ["Attempts taken", "Date of last attempt", "Average time"],
+    stats: ["Attempts taken", "Date of attempt", "Time taken"],
     viewCertificate: "Certificate",
-    bestNote: "Only the best attempt counts towards the merit list. The final selection is made by lottery.",
+    bestNote: "Each student may take the competition only once. The final selection is made by lottery.",
     groups: ["Personal details", "Sign in", "Address", "Education"],
     keys: {
       name: "Name", gender: "Gender", dob: "Date of birth", mobile: "Mobile number",
@@ -173,9 +170,9 @@ const S = {
       address: "Address", city: "City or village", district: "District", state: "State", pin: "PIN code",
       category: "Category", level: "Level of education", institution: "Institution", divyang: "Divyang category"
     },
-    mobileNote: "The mobile number is not verified. Results are sent by email.",
+    mobileNote: "This is the mobile number used to sign in.",
     emailNote: "Results will be sent to this email.",
-    googleLabel: "With a Google account",
+    mobileSignIn: "With a mobile number",
     otpLabel: "With an email code",
     divyangNo: "No",
     divyangYes: "Yes",
@@ -213,9 +210,9 @@ class Component extends DCLogic {
       initials: name.trim().charAt(0),
       categoryLabel: t.categories[STUDENT.category],
       stats: [
-        { label: t.stats[0], value: hi ? "3 बार" : "3 times" },
+        { label: t.stats[0], value: hi ? "1 बार" : "1 time" },
         { label: t.stats[1], value: hi ? "24 जुलाई 2026" : "24 July 2026" },
-        { label: t.stats[2], value: "09:00" }
+        { label: t.stats[2], value: "09:12" }
       ],
       attempts: ATTEMPTS.map(a => ({ date: hi ? a.date : a.dateEn, time: (hi ? "समय " : "time ") + (hi ? a.time : a.timeEn), status: hi ? "पूर्ण" : "Completed" })),
       groups: [
@@ -227,7 +224,7 @@ class Component extends DCLogic {
         ] },
         { title: t.groups[1], note: t.emailNote, noteDisplay: "block", rows: [
           { k: k.email, v: STUDENT.email },
-          { k: k.provider, v: STUDENT.provider === "google" ? t.googleLabel : t.otpLabel }
+          { k: k.provider, v: t.mobileSignIn }
         ] },
         { title: t.groups[2], note: "", noteDisplay: "none", rows: [
           { k: k.address, v: STUDENT.address[lang] },

@@ -100,31 +100,24 @@
 
         <sc-if value="{{ isIdentity }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;flex-direction:column;gap:18px">
-            <button type="button" onClick="{{ useGoogle }}" style="min-height:58px;padding:16px 24px;border:1px solid #DCD1BC;border-radius:16px;background:#FCFAF4;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;font-size:17.5px;line-height:1.6;color:#161C2E" style-hover="background:#F1E9DA">
-              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" style="display:block"><path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 01-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z" fill="#4285F4"></path><path d="M12 22c2.7 0 4.9-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1a5.9 5.9 0 01-5.6-4.1H3.1v2.6A10 10 0 0012 22z" fill="#34A853"></path><path d="M6.4 14a6 6 0 010-3.8V7.6H3.1a10 10 0 000 8.9L6.4 14z" fill="#FBBC05"></path><path d="M12 6.1c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 003.1 7.6l3.3 2.6A5.9 5.9 0 0112 6.1z" fill="#EA4335"></path></svg>
-              {{ t.google }}
-            </button>
-            <div style="display:flex;align-items:center;gap:14px">
-              <span style="height:1px;flex:1 1 auto;background:#E8DFCE"></span>
-              <span style="font-size:15px;color:#6E6247">{{ t.or }}</span>
-              <span style="height:1px;flex:1 1 auto;background:#E8DFCE"></span>
-            </div>
-            <label style="display:flex;flex-direction:column;gap:7px">
-              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.emailLabel }}</span>
-              <input type="email" inputmode="email" autocomplete="email" value="{{ email }}" onInput="{{ onEmail }}" placeholder="name@gmail.com" style="min-height:54px;padding:14px 16px;border:1px solid {{ emailBorder }};border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
-              <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ emailMsgDisplay }}">{{ emailMsg }}</span>
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.mobileLabel }}</span>
+              <span style="display:flex;align-items:stretch;border:1px solid {{ mobileBorder }};border-radius:14px;background:#FCFAF4;overflow:hidden">
+                <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:0 13px;background:#F1E9DA;border-right:1px solid #E3D9C6">
+                  <svg viewBox="0 0 30 20" width="26" height="18" aria-hidden="true" focusable="false" style="display:block;border-radius:3px;box-shadow:0 0 0 1px rgba(20,32,62,.14)">
+                    <rect width="30" height="20" fill="#FFFFFF"></rect>
+                    <rect width="30" height="6.667" fill="#FF9933"></rect>
+                    <rect y="13.333" width="30" height="6.667" fill="#138808"></rect>
+                    <circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.7"></circle>
+                    <circle cx="15" cy="10" r="0.6" fill="#000080"></circle>
+                  </svg>
+                  <span style="font-size:16.5px;line-height:1.6;color:#2E3646;font-variant-numeric:tabular-nums">+91</span>
+                </span>
+                <input type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" value="{{ mobile }}" onInput="{{ onMobile }}" onBlur="{{ onMobileBlur }}" placeholder="00000 00000" style="flex:1 1 auto;min-width:0;min-height:58px;padding:14px 16px;border:0;background:transparent;font-size:19px;letter-spacing:.04em;line-height:1.6;color:#161C2E;font-variant-numeric:tabular-nums" />
+              </span>
+              <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ mobileMsgDisplay }}">{{ mobileMsg }}</span>
             </label>
-            <button type="button" onClick="{{ sendCode }}" style="min-height:56px;padding:16px 28px;border:0;border-radius:999px;background:#14203E;color:#FDF3DF;cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.sendCode }}</button>
-            <div style="display:{{ otpDisplay }};flex-direction:column;gap:9px;padding:20px;border-radius:16px;background:#F6F0E4">
-              <label style="display:flex;flex-direction:column;gap:7px">
-                <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.otpLabel }}</span>
-                <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" value="{{ otp }}" onInput="{{ onOtp }}" placeholder="000000" style="min-height:54px;max-width:220px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;font-size:22px;letter-spacing:.32em;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums" />
-              </label>
-              <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
-                <span style="font-size:15px;line-height:1.7;color:#6E6247">{{ resendLine }}</span>
-                <button type="button" onClick="{{ changeEmail }}" style="padding:0;border:0;background:none;cursor:pointer;font-size:15.5px;line-height:1.7;color:#27408B;text-decoration:underline">{{ t.changeEmail }}</button>
-              </div>
-            </div>
+            <p style="margin:0;font-size:15.5px;line-height:1.8;color:#565F72">{{ t.mobileHelp }}</p>
           </div>
         </sc-if>
 
@@ -136,21 +129,9 @@
               <span style="font-size:15px;line-height:1.7;color:#565F72">{{ t.nameHelp }}</span>
             </label>
             <label style="display:flex;flex-direction:column;gap:7px">
-              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.mobileLabel }}</span>
-              <span style="display:flex;align-items:stretch;border:1px solid {{ mobileBorder }};border-radius:14px;background:#FCFAF4;overflow:hidden">
-                <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:0 13px;background:#F1E9DA;border-right:1px solid #E3D9C6">
-                  <svg viewBox="0 0 30 20" width="26" height="18" aria-hidden="true" style="display:block;border-radius:3px;box-shadow:0 0 0 1px rgba(20,32,62,.14)">
-                    <rect width="30" height="20" fill="#FFFFFF"></rect>
-                    <rect width="30" height="6.667" fill="#FF9933"></rect>
-                    <rect y="13.333" width="30" height="6.667" fill="#138808"></rect>
-                    <circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.7"></circle>
-                    <circle cx="15" cy="10" r="0.6" fill="#000080"></circle>
-                  </svg>
-                  <span style="font-size:16.5px;line-height:1.6;color:#2E3646;font-variant-numeric:tabular-nums">+91</span>
-                </span>
-                <input type="tel" inputmode="numeric" maxlength="10" value="{{ mobile }}" onInput="{{ onMobile }}" onBlur="{{ onMobileBlur }}" placeholder="00000 00000" style="flex:1 1 auto;min-width:0;min-height:54px;padding:14px 16px;border:0;background:transparent;font-size:17px;line-height:1.6;color:#161C2E" />
-              </span>
-              <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ mobileMsgDisplay }}">{{ mobileMsg }}</span>
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.emailLabel }}</span>
+              <input type="email" inputmode="email" autocomplete="email" value="{{ email }}" onInput="{{ onEmail }}" placeholder="name@gmail.com" style="min-height:54px;padding:14px 16px;border:1px solid {{ emailBorder }};border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+              <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ emailMsgDisplay }}">{{ emailMsg }}</span>
             </label>
             <label style="display:flex;flex-direction:column;gap:7px">
               <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.dobLabel }}</span>
@@ -248,28 +229,10 @@
             </label>
             <div style="padding:22px;border-radius:16px;background:#F6F0E4;display:flex;flex-direction:column;gap:14px">
               <p style="margin:0;font-family:'Noto Serif Devanagari',serif;font-size:18px;line-height:1.5;color:#14203E">{{ t.guardianTitle }}</p>
-              <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
-                <label style="display:flex;flex-direction:column;gap:7px">
-                  <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.guardianName }}</span>
-                  <input type="text" value="{{ guardianName }}" onInput="{{ onGuardianName }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;font-size:17px;line-height:1.6;color:#161C2E" />
-                </label>
-                <label style="display:flex;flex-direction:column;gap:7px">
-                  <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.guardianMobile }}</span>
-                  <span style="display:flex;align-items:stretch;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;overflow:hidden">
-                    <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:0 13px;background:#F6F0E4;border-right:1px solid #E3D9C6">
-                      <svg viewBox="0 0 30 20" width="26" height="18" aria-hidden="true" style="display:block;border-radius:3px;box-shadow:0 0 0 1px rgba(20,32,62,.14)">
-                        <rect width="30" height="20" fill="#FFFFFF"></rect>
-                        <rect width="30" height="6.667" fill="#FF9933"></rect>
-                        <rect y="13.333" width="30" height="6.667" fill="#138808"></rect>
-                        <circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.7"></circle>
-                        <circle cx="15" cy="10" r="0.6" fill="#000080"></circle>
-                      </svg>
-                      <span style="font-size:16.5px;line-height:1.6;color:#2E3646;font-variant-numeric:tabular-nums">+91</span>
-                    </span>
-                    <input type="tel" inputmode="numeric" maxlength="10" value="{{ guardianMobile }}" onInput="{{ onGuardianMobile }}" placeholder="00000 00000" style="flex:1 1 auto;min-width:0;min-height:54px;padding:14px 16px;border:0;background:transparent;font-size:17px;line-height:1.6;color:#161C2E" />
-                  </span>
-                </label>
-              </div>
+              <label style="display:flex;flex-direction:column;gap:7px">
+                <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.guardianName }}</span>
+                <input type="text" value="{{ guardianName }}" onInput="{{ onGuardianName }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;font-size:17px;line-height:1.6;color:#161C2E" />
+              </label>
             </div>
           </div>
         </sc-if>
@@ -321,27 +284,22 @@ const S = {
     asideKicker: "गुरु पूर्णिमा, 29 जुलाई 2026",
     asideTitle: "भगवान श्रीकृष्ण मेधावी छात्रवृत्ति प्रतियोगिता",
     slides: [
-      { value: "₹1,00,000", label: "एकमुश्त छात्रवृत्ति" },
-      { value: "102 विद्यार्थी", label: "51 विद्यालय एवं 51 महाविद्यालय स्तर" },
-      { value: "30 प्रश्न", label: "10 मिनट, ऋणात्मक अंकन नहीं" },
-      { value: "निःशुल्क", label: "कक्षा 9 से महाविद्यालय तक" }
+      { value: "₹1,00,000", label: "छात्रवृत्ति" },
+      { value: "102", label: "विजेताओं को प्रायोजन" },
+      { value: "30", label: "प्रश्न" },
+      { value: "10", label: "मिनट" }
     ],
-    stepLabels: ["पहचान", "विद्यार्थी विवरण", "शिक्षा", "घोषणा"],
+    stepLabels: ["मोबाइल नंबर", "विद्यार्थी विवरण", "शिक्षा", "घोषणा"],
     stepOf: "चरण",
     of: "में से",
-    stepTitles: ["अपनी पहचान सत्यापित करें", "विद्यार्थी विवरण", "शिक्षा", "घोषणा एवं सहमति"],
-    google: "Google से जारी रखें",
-    or: "अथवा",
+    stepTitles: ["अपना मोबाइल नंबर दर्ज करें", "विद्यार्थी विवरण", "शिक्षा", "घोषणा एवं सहमति"],
     emailLabel: "ईमेल पता",
     emailInvalid: "पूरा ईमेल पता लिखें, जैसे name@gmail.com",
     emailTypo: "क्या आपका आशय gmail.com से है?",
-    sendCode: "6 अंकों का कोड भेजें",
-    otpLabel: "ईमेल पर आया कोड",
-    resend: "पुनः भेजें",
-    changeEmail: "ईमेल बदलें",
     nameLabel: "पूरा नाम",
     nameHelp: "जैसा आपकी अंकसूची में है",
     mobileLabel: "मोबाइल नंबर",
+    mobileHelp: "यही नंबर आपकी पहचान है और साइन इन के लिए उपयोग होगा।",
     mobileInvalid: "6, 7, 8 अथवा 9 से प्रारंभ होने वाला 10 अंकों का नंबर लिखें",
     mobileDuplicate: "यह नंबर पहले से पंजीकृत है। यदि यह खाता आपका है तो साइन इन करें।",
     dobLabel: "जन्म तिथि",
@@ -370,7 +328,6 @@ const S = {
     privacyLink: "गोपनीयता सूचना",
     guardianTitle: "अभिभावक की सहमति, 18 वर्ष से कम आयु पर",
     guardianName: "अभिभावक का नाम",
-    guardianMobile: "अभिभावक का मोबाइल नंबर",
     prev: "पिछला चरण",
     next: "आगे बढ़ें",
     finish: "पंजीकरण पूर्ण करें",
@@ -383,27 +340,22 @@ const S = {
     asideKicker: "Guru Purnima, 29 July 2026",
     asideTitle: "Bhagwan Shri Krishna Medhavi Chhatravritti Pratiyogita",
     slides: [
-      { value: "₹1,00,000", label: "One-time scholarship" },
-      { value: "102 students", label: "51 school and 51 college level" },
-      { value: "30 questions", label: "10 minutes, no negative marking" },
-      { value: "Free", label: "Class 9 to college" }
+      { value: "₹1,00,000", label: "Scholarship" },
+      { value: "102", label: "Winners sponsored" },
+      { value: "30", label: "Questions" },
+      { value: "10", label: "Minutes" }
     ],
-    stepLabels: ["Identity", "Student details", "Education", "Declaration"],
+    stepLabels: ["Mobile number", "Student details", "Education", "Declaration"],
     stepOf: "Step",
     of: "of",
-    stepTitles: ["Verify your identity", "Student details", "Education", "Declaration and consent"],
-    google: "Continue with Google",
-    or: "or",
+    stepTitles: ["Enter your mobile number", "Student details", "Education", "Declaration and consent"],
     emailLabel: "Email address",
     emailInvalid: "Enter a complete email address, for example name@gmail.com",
     emailTypo: "Did you mean gmail.com?",
-    sendCode: "Send a 6-digit code",
-    otpLabel: "Code from your email",
-    resend: "Resend",
-    changeEmail: "Change email address",
     nameLabel: "Full name",
     nameHelp: "As printed on your marksheet",
     mobileLabel: "Mobile number",
+    mobileHelp: "This number is your identity and will be used to sign in.",
     mobileInvalid: "Enter a 10-digit number starting with 6, 7, 8 or 9",
     mobileDuplicate: "This number is already registered. If the account is yours, sign in instead.",
     dobLabel: "Date of birth",
@@ -432,7 +384,6 @@ const S = {
     privacyLink: "Privacy notice",
     guardianTitle: "Guardian consent, for candidates under 18",
     guardianName: "Guardian's name",
-    guardianMobile: "Guardian's mobile number",
     prev: "Previous step",
     next: "Continue",
     finish: "Complete registration",
@@ -443,11 +394,11 @@ const S = {
 
 class Component extends DCLogic {
   state = {
-    lang: null, step: 0, slide: 0, verified: false, otpSent: false, otp: "", email: "", emailTouched: false,
+    lang: null, step: 0, slide: 0, email: "", emailTouched: false,
     name: "", mobile: "", mobileTouched: false, dob: "", gender: "",
     address: "", city: "", pin: "", district: "", districtQuery: "",
     category: "", level: "", institution: "", divyang: false,
-    rulesAccepted: false, privacyAccepted: false, guardianName: "", guardianMobile: ""
+    rulesAccepted: false, privacyAccepted: false, guardianName: ""
   };
 
   componentDidMount() {
@@ -477,9 +428,9 @@ class Component extends DCLogic {
 
   canAdvance() {
     const s = this.state;
-    if (s.step === 0) return s.verified;
+    if (s.step === 0) return !this.mobileProblem() && s.mobile.length === 10;
     if (s.step === 1) {
-      return s.name.trim().length >= 3 && !this.mobileProblem() && s.mobile.length === 10 && !!s.gender
+      return s.name.trim().length >= 3 && !this.emailProblem() && !!s.email.trim() && !!s.gender
         && !!s.address.trim() && !!s.city.trim() && /^\d{6}$/.test(s.pin) && !!s.district;
     }
     if (s.step === 2) return !!s.category && !!s.level && s.institution.trim().length >= 3;
@@ -532,17 +483,6 @@ class Component extends DCLogic {
       emailBorder: ep ? "#A03A2B" : "#DCD1BC",
       emailMsg: ep === "typo" ? t.emailTypo : (ep === "invalid" ? t.emailInvalid : ""),
       emailMsgDisplay: ep ? "block" : "none",
-      sendCode: () => this.setState({ otpSent: true }),
-      otpDisplay: s.otpSent ? "flex" : "none",
-      otp: s.otp,
-      onOtp: e => {
-        const v = e.target.value.replace(/\D/g, "").slice(0, 6);
-        this.setState({ otp: v, verified: v.length === 6 });
-      },
-      resendLine: t.resend + " 00:30",
-      changeEmail: () => this.setState({ otpSent: false, otp: "", verified: false }),
-      useGoogle: () => this.setState({ verified: true, step: 1 }),
-
       name: s.name,
       onName: e => this.setState({ name: e.target.value }),
       mobile: s.mobile,
@@ -598,7 +538,6 @@ class Component extends DCLogic {
       privacyBorder: s.privacyAccepted ? "#14203E" : "#DCD1BC",
       privacyBg: s.privacyAccepted ? "#F7F2E6" : "#FCFAF4",
       guardianName: s.guardianName, onGuardianName: e => this.setState({ guardianName: e.target.value }),
-      guardianMobile: s.guardianMobile, onGuardianMobile: e => this.setState({ guardianMobile: e.target.value.replace(/\D/g, "").slice(0, 10) }),
 
       prevDisplay: step === 0 ? "none" : "inline-flex",
       prev: () => this.setState(p => ({ step: Math.max(0, p.step - 1) })),

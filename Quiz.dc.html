@@ -40,6 +40,24 @@
 
 <div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
 
+  <sc-if value="{{ isDone }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <dc-import name="SiteHeader" lang="{{ lang }}" active="certificates" signed-in="{{ true }}" has-certificates="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
+      <section data-e="pad" style="max-width:780px;margin:0 auto;padding:66px 30px 96px">
+        <span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:74px;height:74px;border-radius:50%;background:#F4EBD8;border:1px solid #E5D3AC;margin-bottom:26px">
+          <svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="#8A6015" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:block"><circle cx="16" cy="16" r="11"></circle><path d="M11 16.4l3.4 3.3L21 12.6"></path></svg>
+        </span>
+        <h1 style="margin:0 0 14px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.8vw,38px);line-height:1.3;color:#14203E">{{ t.onceTitle }}</h1>
+        <p style="margin:0 0 32px;max-width:56ch;font-size:17.5px;line-height:1.85;color:#434C60">{{ t.onceBody }}</p>
+        <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="Certificates.dc.html" data-e="cta" style="min-height:58px;padding:17px 32px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;line-height:1.5">{{ t.download }}</a>
+          <a href="Home v5.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.home }}</a>
+        </div>
+      </section>
+      <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ isInstructions }}" hint-placeholder-val="{{ true }}">
     <div>
       <dc-import name="SiteHeader" lang="{{ lang }}" active="pratiyogita" signed-in="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
@@ -205,7 +223,6 @@
 
         <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
           <a href="Certificates.dc.html" data-e="cta" style="min-height:58px;padding:17px 32px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;line-height:1.5">{{ t.download }}</a>
-          <button type="button" onClick="{{ again }}" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;background:#FFFFFF;cursor:pointer;font-size:17px;line-height:1.5;color:#434C60">{{ t.again }}</button>
           <a href="Profile.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.profile }}</a>
         </div>
       </section>
@@ -280,12 +297,12 @@ const T = {
       "समय समाप्त होने पर उत्तर स्वतः जमा हो जाते हैं।",
       "पृष्ठ को रीफ़्रेश न करें तथा बैक बटन का प्रयोग न करें।",
       "जमा करने के बाद उस प्रयास के उत्तर परिवर्तित नहीं किए जा सकते।",
-      "आप जितनी बार चाहें प्रयास कर सकते हैं। सर्वश्रेष्ठ प्रयास ही मान्य होगा।"
+      "यह प्रतियोगिता प्रत्येक विद्यार्थी केवल एक बार दे सकता है।"
     ],
     insWarning: "कनेक्शन टूटने अथवा किसी अन्य व्यवधान की स्थिति में समय नहीं बढ़ाया जाएगा। उत्तर स्वतः सुरक्षित होते रहते हैं।",
     begin: "प्रारंभ करें",
     exit: "बाहर जाएँ",
-    exitNote: "बाहर जाने से कोई प्रयास व्यय नहीं होता।",
+    exitNote: "प्रारंभ करने से पूर्व बाहर जाने पर प्रयास दर्ज नहीं होता।",
     timeLeft: "शेष समय",
     normal: "शेष",
     warning: "सावधान",
@@ -302,7 +319,7 @@ const T = {
     states: ["वर्तमान", "उत्तर दिया गया", "देखा गया, उत्तर नहीं दिया", "नहीं देखा गया"],
     confirmTitle: "प्रयास जमा करें?",
     summary: ["उत्तर दिए गए", "उत्तर नहीं दिए", "शेष समय"],
-    confirmWarning: "एक बार जमा करने के बाद इस प्रयास के उत्तर परिवर्तित नहीं किए जा सकते।",
+    confirmWarning: "एक बार जमा करने के बाद यह प्रयास अंतिम है। दूसरा प्रयास संभव नहीं है।",
     goBack: "वापस जाएँ",
     confirm: "हाँ, जमा करें",
     doneTitle: "आपका प्रयास दर्ज हो गया",
@@ -313,7 +330,9 @@ const T = {
     lotteryWarning: "अधिक अंक प्राप्त करना ही छात्रवृत्ति की गारंटी नहीं है। चयन जिलेवार मेरिट सूची से बने पूल में से निर्णायक समिति द्वारा लॉटरी के माध्यम से होता है।",
     resultsNote: "परिणाम इसी वेबसाइट पर प्रकाशित किए जाएँगे तथा चयनित विद्यार्थियों को ईमेल एवं मोबाइल पर सूचित किया जाएगा। प्रकाशन की तिथि घोषित होना शेष है।",
     download: "मेरे प्रमाण पत्र",
-    again: "पुनः प्रयास करें",
+    home: "मुख्य पृष्ठ",
+    onceTitle: "आपका प्रयास पहले ही दर्ज है",
+    onceBody: "यह प्रतियोगिता प्रत्येक विद्यार्थी केवल एक बार दे सकता है। आपका प्रयास दर्ज हो चुका है, अतः दूसरा प्रयास संभव नहीं है।",
     profile: "मेरा खाता",
     ann5: "5 मिनट शेष", ann2: "2 मिनट शेष", ann1: "1 मिनट शेष", ann30: "30 सेकंड शेष",
   },
@@ -327,12 +346,12 @@ const T = {
       "The quiz submits itself automatically when the timer reaches zero.",
       "Do not refresh the page or use the back button.",
       "Once submitted, answers in that attempt cannot be changed.",
-      "You may take the competition as many times as you like. Your best attempt is the one that counts."
+      "Each student may take the competition only once."
     ],
     insWarning: "The timer will not be extended for a lost connection or any other interruption. Your answers are saved as you go.",
     begin: "Begin",
     exit: "Leave",
-    exitNote: "Leaving does not consume an attempt.",
+    exitNote: "Leaving before you begin does not record an attempt.",
     timeLeft: "Time remaining",
     normal: "left",
     warning: "Careful",
@@ -349,7 +368,7 @@ const T = {
     states: ["Current", "Answered", "Visited, unanswered", "Not visited"],
     confirmTitle: "Submit this attempt?",
     summary: ["Answered", "Not answered", "Time remaining"],
-    confirmWarning: "Once submitted, answers in this attempt cannot be changed.",
+    confirmWarning: "Once submitted this attempt is final. A second attempt is not possible.",
     goBack: "Go back",
     confirm: "Yes, submit",
     doneTitle: "Your attempt has been recorded",
@@ -360,7 +379,9 @@ const T = {
     lotteryWarning: "A high score does not by itself win the scholarship. Selection is made by the adjudicating committee, by lottery, from the pool formed by district-wise merit lists.",
     resultsNote: "Results will be published on this website and selected students will be informed by email and mobile. The publication date is yet to be announced.",
     download: "My certificates",
-    again: "Take again",
+    home: "Home",
+    onceTitle: "Your attempt is already recorded",
+    onceBody: "Each student may take the competition only once. Your attempt has been recorded, so a second attempt is not possible.",
     profile: "My account",
     ann5: "5 minutes remaining", ann2: "2 minutes remaining", ann1: "1 minute remaining", ann30: "30 seconds remaining",
   }
@@ -377,6 +398,7 @@ class Component extends DCLogic {
 
   componentDidMount() {
     try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+    try { if (Number(localStorage.getItem("skpn_attempts") || 0) > 0) this.setState({ phase: "done" }); } catch (e) {}
     this._onOnline = () => this.setState({ offline: !navigator.onLine });
     window.addEventListener("online", this._onOnline);
     window.addEventListener("offline", this._onOnline);
@@ -471,6 +493,7 @@ class Component extends DCLogic {
     return {
       lang: lang,
       t: t,
+      isDone: s.phase === "done",
       isInstructions: s.phase === "instructions",
       isAttempt: s.phase === "attempt",
       isSubmitted: s.phase === "submitted",
@@ -565,9 +588,6 @@ class Component extends DCLogic {
         { label: t.results[2], value: "1" },
         { label: t.results[3], value: this.mmss(DURATION - s.left) }
       ],
-      again: () => {
-        this.setState({ phase: "instructions", index: 0, answers: {}, visited: { 0: true }, left: DURATION, auto: false, announcement: "", order: [] });
-      },
 
       toggleLang: () => {
         const next = this.lang === "hi" ? "en" : "hi";

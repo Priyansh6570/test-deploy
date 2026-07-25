@@ -57,7 +57,7 @@
 
   <section style="position:relative;overflow:hidden;background:#0B1226;border-bottom:1px solid rgba(232,193,115,.22)">
     <div aria-hidden="true" style="position:absolute;left:50%;top:-60%;width:640px;height:640px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.16) 0%,rgba(232,193,115,0) 68%);animation:pr-glow 9s ease-in-out infinite"></div>
-    <div data-e="pad prizerow" style="position:relative;max-width:1220px;margin:0 auto;padding:52px 30px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px">
+    <div data-e="pad prizerow" style="position:relative;max-width:1220px;margin:0 auto;padding:52px 30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px">
       <sc-for list="{{ prize }}" as="p" hint-placeholder-count="3">
         <div style="display:flex;flex-direction:column;gap:8px">
           <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.15;color:#E8C173">{{ p.value }}</span>
@@ -144,32 +144,28 @@ const S = {
     lede: "मध्यप्रदेश के विद्यार्थियों के लिए निःशुल्क प्रतियोगिता, जिसका विषय 64 कलाएँ, 14 विद्याएँ, महर्षि सांदीपनि तथा भारतीय ज्ञान परंपरा है।",
     ctaPrimary: "पंजीकरण करें",
     ctaTake: "भाग लें",
-    ctaAgain: "पुनः भाग लें",
+    ctaAgain: "प्रमाण पत्र देखें",
     ctaSecondary: "संपूर्ण नियम पढ़ें",
     prize: [
-      { value: "₹1,00,000", label: "प्रति विद्यार्थी एकमुश्त छात्रवृत्ति" },
-      { value: "102", label: "विद्यार्थी, 51 विद्यालय स्तर एवं 51 महाविद्यालय स्तर" },
-      { value: "निःशुल्क", label: "कोई प्रवेश शुल्क नहीं, कोई दस्तावेज़ अपलोड नहीं" }
+      { value: "₹1,00,000", label: "प्रति विद्यार्थी छात्रवृत्ति" },
+      { value: "102", label: "विजेताओं को प्रायोजन" }
     ],
     whoTitle: "कौन भाग ले सकता है",
     categories: [
       { name: "विद्यालय स्तर", who: "कक्षा 9 से 12 तक के विद्यार्थी", count: "51 छात्रवृत्तियाँ", kind: "school" },
       { name: "महाविद्यालय स्तर", who: "महाविद्यालय, विश्वविद्यालय, पॉलिटेक्निक अथवा आईटीआई के विद्यार्थी", count: "51 छात्रवृत्तियाँ", kind: "college" }
     ],
-    whoNote: "अभ्यर्थी मध्यप्रदेश का निवासी तथा वर्तमान में अध्ययनरत होना चाहिए। दिव्यांग अभ्यर्थियों के लिए पृथक मेरिट श्रेणी है।",
+    whoNote: "अभ्यर्थी मध्यप्रदेश का निवासी तथा वर्तमान में अध्ययनरत होना चाहिए।",
     formatTitle: "प्रतियोगिता का स्वरूप",
     format: [
       { value: "30", label: "प्रश्न, प्रत्येक में एक सही विकल्प" },
-      { value: "10 मिनट", label: "कुल समय, समय समाप्त होने पर स्वतः जमा" },
-      { value: "1 अंक", label: "प्रत्येक सही उत्तर पर, ऋणात्मक अंकन नहीं" },
-      { value: "असीमित", label: "प्रयास, सर्वश्रेष्ठ प्रयास ही मान्य" },
-      { value: "लॉटरी", label: "मेरिट पूल से अंतिम चयन निर्णायक समिति द्वारा" }
+      { value: "10 मिनट", label: "कुल समय, समय समाप्त होने पर स्वतः जमा" }
     ],
     datesTitle: "तिथियाँ",
     dates: [
-      { when: "29 जुलाई 2026", what: "प्रतियोगिता प्रारंभ", note: "गुरु पूर्णिमा, महर्षि सांदीपनि गुरु पर्व" },
-      { when: "घोषित होना शेष", what: "प्रविष्टियों की अंतिम तिथि", note: "निर्धारित होने पर इसी पृष्ठ पर प्रकाशित" },
-      { when: "1 नवंबर 2026", what: "छात्रवृत्ति वितरण", note: "म.प्र. स्थापना दिवस, कृषि लोकोत्सव, भोपाल" }
+      { when: "29 जुलाई 2026", what: "प्रतियोगिता प्रारंभ", note: "महर्षि सांदीपनि गुरु पर्व आरंभ" },
+      { when: "4 सितम्बर 2026", what: "प्रविष्टियों की अंतिम तिथि", note: "श्रीकृष्ण जन्माष्टमी" },
+      { when: "1 नवंबर 2026", what: "छात्रवृत्ति वितरण", note: "मध्यप्रदेश स्थापना दिवस" }
     ],
     closeTitle: "प्रतियोगिता में सम्मिलित हों"
   },
@@ -179,32 +175,28 @@ const S = {
     lede: "A free competition for students of Madhya Pradesh on the 64 Kalas, the 14 Vidyas, Maharishi Sandipani and the Indian knowledge tradition.",
     ctaPrimary: "Register now",
     ctaTake: "Take part",
-    ctaAgain: "Take part again",
+    ctaAgain: "View certificate",
     ctaSecondary: "Read the full rules",
     prize: [
-      { value: "₹1,00,000", label: "One-time scholarship per student" },
-      { value: "102", label: "Students, 51 at school level and 51 at college level" },
-      { value: "Free", label: "No entry fee and no document upload" }
+      { value: "₹1,00,000", label: "Scholarship per student" },
+      { value: "102", label: "Winners sponsored" }
     ],
     whoTitle: "Who can participate",
     categories: [
       { name: "Vidyalaya Star", who: "Students of Classes 9 to 12", count: "51 scholarships", kind: "school" },
       { name: "Mahavidyalaya Star", who: "Students of colleges, universities, polytechnics or ITIs", count: "51 scholarships", kind: "college" }
     ],
-    whoNote: "The candidate must be a resident of Madhya Pradesh and currently enrolled. Divyang candidates compete in a dedicated merit category.",
+    whoNote: "The candidate must be a resident of Madhya Pradesh and currently enrolled.",
     formatTitle: "Format",
     format: [
       { value: "30", label: "Questions, one correct option each" },
-      { value: "10 minutes", label: "Total time, auto-submits when time expires" },
-      { value: "1 mark", label: "Per correct answer, no negative marking" },
-      { value: "Unlimited", label: "Attempts, the best attempt counts" },
-      { value: "Lottery", label: "Final selection from the merit pool by the committee" }
+      { value: "10 minutes", label: "Total time, auto-submits when time expires" }
     ],
     datesTitle: "Dates",
     dates: [
-      { when: "29 July 2026", what: "Competition opens", note: "Guru Purnima, Maharishi Sandipani Guru Parv" },
-      { when: "To be announced", what: "Last date for entries", note: "Published on this page once fixed" },
-      { when: "1 November 2026", what: "Scholarship distribution", note: "MP Sthapana Diwas, Krishi Lokotsav, Bhopal" }
+      { when: "29 July 2026", what: "Competition opens", note: "Maharishi Sandipani Guru Parv begins" },
+      { when: "4 September 2026", what: "Last date for entries", note: "Shri Krishna Janmashtami" },
+      { when: "1 November 2026", what: "Scholarship distribution", note: "Madhya Pradesh Sthapana Diwas" }
     ],
     closeTitle: "Enter the competition"
   }
@@ -237,7 +229,7 @@ class Component extends DCLogic {
     return {
       lang: lang,
       t: Object.assign({}, t, { ctaPrimary: signedIn ? (attempts > 0 ? t.ctaAgain : t.ctaTake) : t.ctaPrimary }),
-      primaryHref: signedIn ? "Quiz.dc.html" : "Register.dc.html",
+      primaryHref: signedIn ? (attempts > 0 ? "Certificates.dc.html" : "Quiz.dc.html") : "Register.dc.html",
       prize: t.prize,
       categories: t.categories.map(c => Object.assign({}, c, CAT_STYLE[c.kind], {
         isSchool: c.kind === "school",
