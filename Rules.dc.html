@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #FBF7F0; }
+  * { box-sizing: border-box; }
+  a { color: #27408B; text-decoration: none; }
+  a:hover { color: #8A6015; }
+  ::selection { background: #F1DFB6; color: #14203E; }
+  @media (max-width: 980px) {
+    [data-g="rules"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-g="foot"] { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
+    [data-e~="toc"] { position: static !important; }
+    [data-e~="nav"], [data-e~="signin-top"] { display: none !important; }
+    [data-e~="menu-btn"] { display: inline-flex !important; }
+  }
+  @media (max-width: 640px) {
+    [data-e~="pad"] { padding-left: 18px !important; padding-right: 18px !important; }
+    [data-e~="section"] { padding-top: 44px !important; padding-bottom: 52px !important; }
+    [data-e~="card"] { padding: 22px 18px !important; }
+    [data-e~="cta"] { width: 100% !important; }
+    [data-e~="ctarow"] { flex-direction: column-reverse !important; align-items: stretch !important; }
+  }
+</style>
+<script src="assets/site.js"></script>
+</helmet>
+
+<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="rules" signed-in="{{ signedIn }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
+
+  <section style="background:#0B1226;border-bottom:1px solid rgba(232,193,115,.24)">
+    <div data-e="pad" style="max-width:1220px;margin:0 auto;padding:52px 30px 46px">
+      <p style="margin:0 0 12px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#E8C173;line-height:1.9">{{ t.kicker }}</p>
+      <h1 style="margin:0 0 14px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(27px,4vw,42px);line-height:1.28;color:#FFF9EC;max-width:26ch">{{ t.title }}</h1>
+      <p style="margin:0;max-width:60ch;font-size:17.5px;line-height:1.85;color:#C6CCDD">{{ t.lede }}</p>
+    </div>
+  </section>
+
+  <section data-e="pad section" style="max-width:1220px;margin:0 auto;padding:54px 30px 70px">
+    <div data-g="rules" style="display:grid;grid-template-columns:minmax(0,.32fr) minmax(0,1fr);gap:44px;align-items:start">
+      <nav data-e="toc" aria-label="{{ t.tocLabel }}" style="position:sticky;top:96px;display:flex;flex-direction:column;gap:2px">
+        <p style="margin:0 0 10px;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.tocLabel }}</p>
+        <sc-for list="{{ toc }}" as="s" hint-placeholder-count="8">
+          <a href="{{ s.href }}" style="padding:9px 12px;border-radius:10px;font-size:16px;line-height:1.7;color:#434C60" style-hover="background:#F1E9DA;color:#14203E">{{ s.label }}</a>
+        </sc-for>
+      </nav>
+
+      <div>
+        <sc-for list="{{ sections }}" as="s" hint-placeholder-count="8">
+          <section id="{{ s.id }}" style="scroll-margin-top:100px;margin:0 0 30px;padding:0 0 26px;border-bottom:1px solid #E8DFCE">
+            <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:14px">
+              <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:20px;line-height:1.4;color:#8A6015;font-variant-numeric:tabular-nums">{{ s.n }}</span>
+              <h2 style="margin:0;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(21px,2.6vw,26px);line-height:1.4;color:#14203E">{{ s.title }}</h2>
+            </div>
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ s.points }}" as="p" hint-placeholder-count="4">
+                <li style="display:flex;gap:12px;align-items:flex-start">
+                  <span aria-hidden="true" style="margin-top:9px;width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:#E8C173"></span>
+                  <span style="font-size:17px;line-height:1.85;color:#2E3646">{{ p }}</span>
+                </li>
+              </sc-for>
+            </ul>
+          </section>
+        </sc-for>
+
+        <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ true }}">
+        <div data-e="card" style="padding:28px 30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 32px rgba(20,32,62,.07)">
+          <p style="margin:0 0 8px;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.endLabel }}</p>
+          <p style="margin:0 0 18px;font-family:'Noto Serif Devanagari',serif;font-size:19.5px;line-height:1.7;color:#14203E">मैंने सारे नियम पढ़ लिए हैं और मुझे स्वीकार हैं। मेरी दी हुई जानकारी सही है।</p>
+          <p style="margin:0 0 22px;font-size:16px;line-height:1.8;color:#565F72">I have read all the rules and accept them. The information I have provided is correct.</p>
+
+          <label style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:16px 18px;border:1px solid {{ checkBorder }};border-radius:14px;background:{{ checkBg }};transition:border-color .16s ease,background .16s ease">
+            <input type="checkbox" checked="{{ accepted }}" onChange="{{ toggleAccept }}" style="margin-top:3px;width:22px;height:22px;flex:0 0 auto;accent-color:#14203E;cursor:pointer" />
+            <span style="font-size:16.5px;line-height:1.8;color:#2E3646">{{ t.checkboxLabel }}</span>
+          </label>
+
+          <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px">
+            <a href="Pratiyogita.dc.html" data-e="cta" style="padding:15px 26px;min-height:54px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #DCD1BC;border-radius:999px;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.back }}</a>
+            <a href="{{ continueHref }}" aria-disabled="{{ blocked }}" data-e="cta" style="padding:16px 32px;min-height:56px;display:inline-flex;align-items:center;justify-content:center;background:{{ continueBg }};color:{{ continueFg }};border-radius:999px;font-size:18px;font-weight:600;line-height:1.5;pointer-events:{{ continueEvents }};box-shadow:{{ continueShadow }}">{{ t.accept }}</a>
+            <span style="font-size:15.5px;line-height:1.7;color:#565F72;display:{{ hintDisplay }}">{{ t.acceptHint }}</span>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400}}">
+const S = {
+  hi: {
+    kicker: "नियम",
+    title: "प्रतियोगिता के नियम एवं शर्तें",
+    lede: "यह पृष्ठ सार्वजनिक है और कोई भी इसे पढ़ सकता है। प्रत्येक प्रयास से पूर्व इन नियमों को स्वीकार करना अनिवार्य है।",
+    tocLabel: "विषय सूची",
+    endLabel: "घोषणा",
+    checkboxLabel: "मैंने ऊपर दी गई घोषणा पढ़ ली है और मुझे स्वीकार है।",
+    accept: "स्वीकार करें और आगे बढ़ें",
+    acceptHint: "आगे बढ़ने के लिए घोषणा स्वीकार करें।",
+    back: "वापस जाएँ",
+    sections: [
+      { id: "who", n: "1", title: "कौन भाग ले सकता है", points: [
+        "दो श्रेणियाँ हैं। विद्यालय स्तर में कक्षा 9 से 12 तक के विद्यार्थी तथा महाविद्यालय स्तर में महाविद्यालय, विश्वविद्यालय, पॉलिटेक्निक अथवा आईटीआई के विद्यार्थी।",
+        "अभ्यर्थी मध्यप्रदेश का निवासी होना चाहिए।",
+        "अभ्यर्थी वर्तमान में अध्ययनरत होना चाहिए।",
+        "भाग लेना पूर्णतः निःशुल्क है।"
+      ] },
+      { id: "form", n: "2", title: "पंजीकरण में क्या पूछा जाएगा", points: [
+        "नाम, ईमेल, मोबाइल नंबर, पता, जिला, लिंग, पढ़ाई का स्तर तथा वर्तमान अध्ययनरत संस्था का नाम।",
+        "श्रेणी का चयन, विद्यालय स्तर अथवा महाविद्यालय स्तर।",
+        "गलत जानकारी देने पर प्रविष्टि निरस्त मानी जाएगी।",
+        "वेबसाइट पर कोई दस्तावेज़ अपलोड नहीं करना है।"
+      ] },
+      { id: "divyang", n: "3", title: "दिव्यांग विद्यार्थियों के लिए", points: [
+        "दिव्यांगता के आधार पर भाग लेने वाले अभ्यर्थी को चयन होने पर शासन द्वारा जारी दिव्यांगता प्रमाण पत्र प्रस्तुत करना अनिवार्य होगा।",
+        "ऐसा न करने पर प्रविष्टि निरस्त मानी जाएगी।"
+      ] },
+      { id: "format", n: "4", title: "प्रतियोगिता का स्वरूप", points: [
+        "30 प्रश्न, प्रत्येक प्रश्न में एक सही विकल्प।",
+        "कुल समय 10 मिनट। समय समाप्त होने पर उत्तर स्वतः जमा हो जाते हैं।",
+        "प्रत्येक सही उत्तर पर 1 अंक। ऋणात्मक अंकन नहीं है, अतः सभी प्रश्नों का उत्तर दें।",
+        "जमा करने के पश्चात उस प्रयास के उत्तर परिवर्तित नहीं किए जा सकते।",
+        "आप जितनी बार चाहें प्रयास कर सकते हैं। सर्वश्रेष्ठ प्रयास ही मान्य होगा।",
+        "पाठ्यक्रम 64 कलाएँ, 14 विद्याएँ, महर्षि सांदीपनि तथा भारतीय ज्ञान परंपरा है।"
+      ] },
+      { id: "before", n: "5", title: "प्रारंभ करने से पूर्व", points: [
+        "स्थिर इंटरनेट कनेक्शन का प्रयोग करें।",
+        "प्रतियोगिता प्रारंभ होने के बाद पृष्ठ को रीफ़्रेश न करें तथा बैक बटन का प्रयोग न करें।",
+        "कनेक्शन टूटने अथवा किसी अन्य व्यवधान की स्थिति में समय नहीं बढ़ाया जाएगा।"
+      ] },
+      { id: "selection", n: "6", title: "चयन कैसे होता है", points: [
+        "प्रत्येक श्रेणी में पुरुष, महिला तथा दिव्यांग अभ्यर्थियों की पृथक जिलेवार मेरिट सूची बनाई जाती है।",
+        "प्रत्येक जिले से प्रत्येक श्रेणी के शीर्ष 50 विद्यार्थी, अर्थात प्रति जिला 100, चयन सूची के पूल में सम्मिलित होते हैं।",
+        "इस पूल में से निर्णायक समिति लॉटरी के माध्यम से विजेताओं का चयन करती है।",
+        "परिणाम इसी वेबसाइट पर प्रकाशित होंगे तथा चयनित विद्यार्थियों को ईमेल एवं मोबाइल पर सूचित किया जाएगा।",
+        "अधिक अंक प्राप्त करना ही छात्रवृत्ति की गारंटी नहीं है।"
+      ] },
+      { id: "prohibited", n: "7", title: "वर्जित", points: [
+        "किसी अन्य व्यक्ति के नाम अथवा दस्तावेज़ से पंजीकरण न करें।",
+        "प्रतियोगिता के दौरान किसी अन्य व्यक्ति की सहायता न लें।",
+        "किसी सॉफ़्टवेयर अथवा अनुचित साधन का प्रयोग न करें।"
+      ] },
+      { id: "other", n: "8", title: "अन्य महत्वपूर्ण शर्तें", points: [
+        "चयन होने पर अंकसूची, संस्था का परिचय पत्र, निवास प्रमाण, आधार तथा बैंक खाते का विवरण प्रस्तुत करना होगा।",
+        "आपकी जानकारी केवल इस प्रतियोगिता, परिणाम तथा छात्रवृत्ति संबंधी कार्य में उपयोग की जाएगी।",
+        "आयोजक चयनित विद्यार्थियों के नाम, जिला, संस्था तथा कार्यक्रम की फ़ोटो एवं वीडियो के उपयोग का अधिकार रखते हैं।",
+        "नियम एवं तिथियाँ परिवर्तित हो सकती हैं। परिवर्तन इसी वेबसाइट पर प्रकाशित किए जाएँगे।",
+        "श्रीकृष्ण पाथेय न्यास का निर्णय अंतिम होगा। न्यायक्षेत्र भोपाल।"
+      ] }
+    ]
+  },
+  en: {
+    kicker: "Rules",
+    title: "Rules and conditions of the competition",
+    lede: "This page is public and may be read by anyone. These rules must be accepted before every attempt.",
+    tocLabel: "Contents",
+    endLabel: "Declaration",
+    checkboxLabel: "I have read the declaration above and I accept it.",
+    accept: "Accept and continue",
+    acceptHint: "Accept the declaration to continue.",
+    back: "Go back",
+    sections: [
+      { id: "who", n: "1", title: "Who can participate", points: [
+        "There are two categories. Vidyalaya Star for students of Classes 9 to 12, and Mahavidyalaya Star for students of colleges, universities, polytechnics or ITIs.",
+        "The candidate must be a resident of Madhya Pradesh.",
+        "The candidate must be currently enrolled.",
+        "Participation is entirely free."
+      ] },
+      { id: "form", n: "2", title: "What the form asks for", points: [
+        "Name, email, mobile number, address, district, gender, level of education and the name of the institution currently enrolled in.",
+        "The category selection, Vidyalaya Star or Mahavidyalaya Star.",
+        "False information will cancel the entry.",
+        "No document is uploaded on this website."
+      ] },
+      { id: "divyang", n: "3", title: "For divyang students", points: [
+        "A candidate participating on the basis of disability must produce a government-issued disability certificate if selected.",
+        "Failure to do so cancels the entry."
+      ] },
+      { id: "format", n: "4", title: "Format of the competition", points: [
+        "30 questions, each with one correct option.",
+        "Total time is 10 minutes. Answers are submitted automatically when the time expires.",
+        "1 mark for each correct answer. There is no negative marking, so attempt every question.",
+        "Once an attempt is submitted, its answers cannot be changed.",
+        "You may attempt as many times as you like. Your best attempt is the one that counts.",
+        "The syllabus is the 64 Kalas, the 14 Vidyas, Maharishi Sandipani and the Indian knowledge tradition."
+      ] },
+      { id: "before", n: "5", title: "Before you begin", points: [
+        "Use a stable internet connection.",
+        "Do not refresh the page or use the back button once the quiz starts.",
+        "The timer will not be extended for a lost connection or any other interruption."
+      ] },
+      { id: "selection", n: "6", title: "How selection works", points: [
+        "Separate district-wise merit lists are prepared for male, female and divyang candidates in each category.",
+        "From every district, the top 50 students in each category, that is 100 per district, enter the shortlist pool.",
+        "From that pool, the adjudicating committee selects the awardees by lottery.",
+        "Results are published on this website, and selected students are informed by email and mobile.",
+        "A high score does not by itself win the scholarship."
+      ] },
+      { id: "prohibited", n: "7", title: "Prohibited", points: [
+        "Do not register using another person's name or documents.",
+        "Do not take help from another person during the quiz.",
+        "Do not use any software or any unfair method."
+      ] },
+      { id: "other", n: "8", title: "Other important terms", points: [
+        "On selection you must produce your marksheet, institutional identity card, proof of residence, Aadhaar and bank account details.",
+        "Your information will be used only for this competition, its results and the scholarship process.",
+        "The organisers reserve the right to use the names, districts, institutions and event photography or video of selected students.",
+        "Rules and dates may change, and changes will be published on this website.",
+        "The decision of Shri Krishna Pathey Nyas is final. Jurisdiction is Bhopal."
+      ] }
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  state = { lang: null, accepted: false };
+
+  componentDidMount() {
+    try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+  }
+
+  get lang() { return this.state.lang || this.props.language || "hi"; }
+
+  renderVals() {
+    const lang = this.lang, t = S[lang];
+    const ok = this.state.accepted;
+    return {
+      lang: lang,
+      t: t,
+      signedIn: this.props.signedIn ?? false,
+      sections: t.sections,
+      toc: t.sections.map(s => ({ label: s.n + ". " + s.title, href: "#" + s.id })),
+      accepted: ok,
+      blocked: !ok,
+      // Accepting is what unlocks the next step; the control is visibly inert until then.
+      continueHref: ok ? ((this.props.signedIn ?? false) ? "Quiz.dc.html" : "Register.dc.html") : "#",
+      continueBg: ok ? "linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%)" : "#EDE6D7",
+      continueFg: ok ? "#1E1503" : "#7C8494",
+      continueEvents: ok ? "auto" : "none",
+      continueShadow: ok ? "0 12px 30px rgba(232,193,115,.28)" : "none",
+      hintDisplay: ok ? "none" : "inline",
+      checkBorder: ok ? "#14203E" : "#DCD1BC",
+      checkBg: ok ? "#F7F2E6" : "#FCFAF4",
+      toggleAccept: () => this.setState(s => ({ accepted: !s.accepted })),
+      toggleLang: () => {
+        const next = this.lang === "hi" ? "en" : "hi";
+        try { localStorage.setItem("skpn_lang", next); } catch (e) {}
+        this.setState({ lang: next });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

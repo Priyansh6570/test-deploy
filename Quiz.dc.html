@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #FBF7F0; }
+  * { box-sizing: border-box; }
+  a { color: #27408B; text-decoration: none; }
+  a:hover { color: #8A6015; }
+  button, input { font-family: 'Noto Sans Devanagari', system-ui, sans-serif; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #27408B; outline-offset: 2px; }
+  @media (max-width: 980px) {
+    [data-g="quiz"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-g="two"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-g="foot"] { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
+    [data-e~="nav"], [data-e~="signin-top"] { display: none !important; }
+    [data-e~="menu-btn"] { display: inline-flex !important; }
+    [data-e~="palette-desktop"] { display: none !important; }
+    [data-e~="palette-bar"] { display: flex !important; }
+  }
+  @media (max-width: 640px) {
+    [data-e~="pad"] { padding-left: 16px !important; padding-right: 16px !important; }
+    [data-e~="card"] { padding: 22px 18px !important; }
+    [data-e~="qpad"] { padding: 22px 18px 96px !important; }
+    [data-e~="cta"] { width: 100% !important; }
+    [data-e~="ctarow"] { flex-direction: column !important; align-items: stretch !important; }
+  }
+</style>
+<script src="assets/site.js"></script>
+</helmet>
+
+<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
+
+  <sc-if value="{{ isInstructions }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <dc-import name="SiteHeader" lang="{{ lang }}" active="pratiyogita" signed-in="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
+      <section data-e="pad" style="max-width:860px;margin:0 auto;padding:52px 30px 76px">
+        <h1 style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.8vw,38px);line-height:1.3;color:#14203E">{{ t.insTitle }}</h1>
+        <p style="margin:0 0 30px;max-width:56ch;font-size:17.5px;line-height:1.85;color:#434C60">{{ t.insLede }}</p>
+        <ul data-e="card" style="margin:0 0 26px;padding:30px;list-style:none;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 16px 34px rgba(20,32,62,.07);display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ t.instructions }}" as="i" hint-placeholder-count="7">
+            <li style="display:flex;gap:14px;align-items:flex-start">
+              <span aria-hidden="true" style="margin-top:8px;width:8px;height:8px;flex:0 0 auto;border-radius:50%;background:#E8C173"></span>
+              <span style="font-size:17px;line-height:1.85;color:#2E3646">{{ i }}</span>
+            </li>
+          </sc-for>
+        </ul>
+        <p style="margin:0 0 28px;padding:20px 24px;border-left:3px solid #8A6015;border-radius:0 16px 16px 0;background:#F4EBD8;font-size:17px;line-height:1.85;color:#3D3524">{{ t.insWarning }}</p>
+        <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <button type="button" onClick="{{ begin }}" data-e="cta" style="min-height:58px;padding:17px 34px;border:0;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;cursor:pointer;font-size:18.5px;font-weight:600;line-height:1.5">{{ t.begin }}</button>
+          <a href="Pratiyogita.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.exit }}</a>
+        </div>
+        <p style="margin:16px 0 0;font-size:15.5px;line-height:1.8;color:#565F72">{{ t.exitNote }}</p>
+      </section>
+      <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAttempt }}" hint-placeholder-val="{{ true }}">
+    <div style="min-height:100vh;display:flex;flex-direction:column;background:#FBF7F0">
+      <header style="position:sticky;top:0;z-index:40;background:#FFFFFF;border-bottom:1px solid #E8DFCE">
+        <div data-e="pad" style="max-width:1220px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px">
+          <img src="uploads/skpn-logo.png" alt="श्रीकृष्ण पाथेय न्यास" width="38" height="38" style="display:block;width:38px;height:38px;flex:0 0 auto" />
+          <span style="font-size:15.5px;line-height:1.6;color:#565F72;white-space:nowrap">{{ progressLine }}</span>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+            <button type="button" onClick="{{ toggleLang }}" aria-label="Switch language" style="display:flex;align-items:center;border:1px solid #DCD1BC;background:#FCFAF4;border-radius:999px;padding:3px;cursor:pointer">
+              <span style="padding:5px 11px;font-size:14px;line-height:1.5;border-radius:999px;background:{{ hiBg }};color:{{ hiFg }}">हिं</span>
+              <span style="padding:5px 11px;font-size:14px;line-height:1.5;border-radius:999px;background:{{ enBg }};color:{{ enFg }}">EN</span>
+            </button>
+            <div role="timer" aria-label="{{ t.timeLeft }}" style="display:flex;align-items:center;gap:9px;padding:9px 16px;border:1.5px solid {{ timer.border }};border-radius:999px;background:{{ timer.bg }}">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="{{ timer.fg }}" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false" style="display:block"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2.2"></path></svg>
+              <span style="font-size:19px;font-weight:600;line-height:1.4;color:{{ timer.fg }};font-variant-numeric:tabular-nums">{{ clock }}</span>
+              <span style="font-size:14px;line-height:1.5;color:{{ timer.fg }}">{{ timer.label }}</span>
+            </div>
+          </div>
+        </div>
+        <div aria-hidden="true" style="height:3px;background:#F0EADD"><div style="height:3px;width:{{ progressPct }};background:#E8C173;transition:width .2s linear"></div></div>
+      </header>
+
+      <p aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">{{ announcement }}</p>
+
+      <div style="display:{{ offlineDisplay }};background:#F4EBD8;border-bottom:1px solid #E5D3AC">
+        <p data-e="pad" style="margin:0;max-width:1220px;padding:12px 24px;font-size:15.5px;line-height:1.7;color:#3D3524">{{ t.offline }}</p>
+      </div>
+
+      <div data-g="quiz" data-e="pad qpad" style="flex:1 1 auto;max-width:1220px;width:100%;margin:0 auto;padding:28px 24px 40px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;align-items:start">
+        <main data-e="card" style="padding:30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 30px rgba(20,32,62,.06)">
+          <p style="margin:0 0 14px;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ questionCounter }}</p>
+          <h1 style="margin:0 0 24px;font-family:'Noto Serif Devanagari',serif;font-weight:500;font-size:clamp(21px,2.6vw,27px);line-height:1.6;color:#161C2E">{{ question.text }}</h1>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ options }}" as="o" hint-placeholder-count="4">
+              <button type="button" onClick="{{ o.select }}" aria-pressed="{{ o.on }}" style="min-height:60px;padding:16px 20px;text-align:left;display:flex;align-items:center;gap:14px;border:1.5px solid {{ o.border }};border-radius:16px;background:{{ o.bg }};cursor:pointer;font-size:17.5px;line-height:1.7;color:{{ o.fg }};transition:border-color .14s ease,background .14s ease">
+                <span aria-hidden="true" style="width:30px;height:30px;flex:0 0 auto;border-radius:50%;border:1.5px solid {{ o.markBorder }};background:{{ o.markBg }};color:{{ o.markFg }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600">{{ o.letter }}</span>
+                <span>{{ o.text }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:26px;padding-top:22px;border-top:1px solid #F0EADD">
+            <button type="button" onClick="{{ prev }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:{{ prevCursor }};font-size:16.5px;line-height:1.5;color:{{ prevFg }}">{{ t.prev }}</button>
+            <button type="button" onClick="{{ clearAnswer }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#434C60;display:{{ clearDisplay }}">{{ t.clear }}</button>
+            <button type="button" onClick="{{ next }}" style="margin-left:auto;min-height:54px;padding:15px 30px;border:0;border-radius:999px;background:{{ nextBg }};color:{{ nextFg }};cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ nextLabel }}</button>
+          </div>
+        </main>
+
+        <aside data-e="palette-desktop card" style="padding:24px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 30px rgba(20,32,62,.06);position:sticky;top:96px">
+          <p style="margin:0 0 14px;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.paletteTitle }}</p>
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:20px">
+            <sc-for list="{{ palette }}" as="p" hint-placeholder-count="30">
+              <button type="button" onClick="{{ p.go }}" aria-label="{{ p.aria }}" aria-current="{{ p.current }}" style="aspect-ratio:1/1;min-width:38px;min-height:38px;border:{{ p.border }};border-radius:{{ p.radius }};background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:14.5px;font-weight:600;line-height:1;display:flex;align-items:center;justify-content:center;position:relative;font-variant-numeric:tabular-nums">{{ p.n }}<span aria-hidden="true" style="position:absolute;right:2px;bottom:1px;font-size:11px;line-height:1;color:{{ p.markFg }}">{{ p.mark }}</span></button>
+            </sc-for>
+          </div>
+          <dl style="margin:0;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ counts }}" as="c" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px">
+                <span aria-hidden="true" style="width:26px;height:26px;flex:0 0 auto;border:{{ c.border }};border-radius:{{ c.radius }};background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">{{ c.mark }}</span>
+                <dt style="flex:1 1 auto;font-size:15.5px;line-height:1.6;color:#434C60">{{ c.label }}</dt>
+                <dd style="margin:0;font-size:16px;font-weight:600;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums">{{ c.value }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+          <button type="button" onClick="{{ askSubmit }}" style="margin-top:22px;width:100%;min-height:54px;padding:15px;border:0;border-radius:999px;background:#14203E;color:#FDF3DF;cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.submit }}</button>
+        </aside>
+      </div>
+
+      <div data-e="palette-bar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:#FFFFFF;border-top:1px solid #E8DFCE;padding:12px 16px;gap:12px;align-items:center;box-shadow:0 -6px 24px rgba(20,32,62,.1)">
+        <button type="button" onClick="{{ openSheet }}" aria-expanded="{{ sheetOpen }}" style="flex:1 1 auto;min-height:52px;padding:14px 18px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#161C2E;display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span>{{ t.paletteTitle }}</span>
+          <span style="font-weight:600;font-variant-numeric:tabular-nums">{{ answeredOf }}</span>
+        </button>
+        <button type="button" onClick="{{ askSubmit }}" style="flex:0 0 auto;min-height:52px;padding:14px 22px;border:0;border-radius:14px;background:#14203E;color:#FDF3DF;cursor:pointer;font-size:16.5px;font-weight:600;line-height:1.5">{{ t.submit }}</button>
+      </div>
+
+      <div role="dialog" aria-modal="true" aria-label="{{ t.paletteTitle }}" style="display:{{ sheetDisplay }};position:fixed;inset:0;z-index:60;background:rgba(11,18,38,.5);align-items:flex-end">
+        <div style="width:100%;max-height:80vh;overflow:auto;background:#FFFFFF;border-radius:22px 22px 0 0;padding:22px 18px 28px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+            <p style="margin:0;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.5;color:#14203E">{{ t.paletteTitle }}</p>
+            <button type="button" onClick="{{ closeSheet }}" aria-label="{{ t.close }}" style="width:46px;height:46px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;cursor:pointer;font-size:19px;line-height:1;color:#434C60">×</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:20px">
+            <sc-for list="{{ palette }}" as="p" hint-placeholder-count="30">
+              <button type="button" onClick="{{ p.goClose }}" aria-label="{{ p.aria }}" style="aspect-ratio:1/1;min-width:44px;min-height:44px;border:{{ p.border }};border-radius:{{ p.radius }};background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;position:relative;font-variant-numeric:tabular-nums">{{ p.n }}<span aria-hidden="true" style="position:absolute;right:3px;bottom:1px;font-size:11px;line-height:1;color:{{ p.markFg }}">{{ p.mark }}</span></button>
+            </sc-for>
+          </div>
+          <dl style="margin:0;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ counts }}" as="c" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px">
+                <span aria-hidden="true" style="width:26px;height:26px;flex:0 0 auto;border:{{ c.border }};border-radius:{{ c.radius }};background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">{{ c.mark }}</span>
+                <dt style="flex:1 1 auto;font-size:15.5px;line-height:1.6;color:#434C60">{{ c.label }}</dt>
+                <dd style="margin:0;font-size:16px;font-weight:600;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums">{{ c.value }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+        </div>
+      </div>
+
+      <div role="dialog" aria-modal="true" aria-label="{{ t.confirmTitle }}" style="display:{{ modalDisplay }};position:fixed;inset:0;z-index:70;background:rgba(11,18,38,.55);align-items:center;justify-content:center;padding:20px">
+        <div data-e="card" style="width:100%;max-width:520px;background:#FFFFFF;border-radius:22px;padding:30px;box-shadow:0 30px 70px rgba(11,18,38,.4)">
+          <h2 style="margin:0 0 18px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:23px;line-height:1.4;color:#14203E">{{ t.confirmTitle }}</h2>
+          <dl style="margin:0 0 20px;display:flex;flex-direction:column">
+            <sc-for list="{{ summary }}" as="r" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid #F0EADD">
+                <dt style="font-size:16.5px;line-height:1.6;color:#434C60">{{ r.label }}</dt>
+                <dd style="margin:0;font-size:18px;font-weight:600;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums">{{ r.value }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+          <p style="margin:0 0 24px;padding:16px 20px;border-radius:14px;background:#F4EBD8;font-size:16.5px;line-height:1.8;color:#3D3524">{{ t.confirmWarning }}</p>
+          <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
+            <button type="button" onClick="{{ closeModal }}" style="flex:1 1 auto;min-height:56px;max-height:56px;padding:0 26px;border:0;border-radius:999px;background:#14203E;color:#FDF3DF;cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.goBack }}</button>
+            <button type="button" onClick="{{ confirmSubmit }}" style="flex:1 1 auto;min-height:54px;max-height:54px;padding:0 24px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#434C60">{{ t.confirm }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSubmitted }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <dc-import name="SiteHeader" lang="{{ lang }}" active="certificates" signed-in="{{ true }}" has-certificates="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
+      <section data-e="pad" style="max-width:900px;margin:0 auto;padding:52px 30px 76px">
+        <p style="margin:0 0 12px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#6E6247;line-height:1.9">{{ submittedKind }}</p>
+        <h1 style="margin:0 0 10px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.8vw,38px);line-height:1.3;color:#14203E">{{ t.doneTitle }}</h1>
+        <p style="margin:0 0 30px;font-size:17px;line-height:1.8;color:#565F72">{{ stampLine }}</p>
+
+        <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:26px">
+          <sc-for list="{{ results }}" as="r" hint-placeholder-count="4">
+            <div data-e="card" style="padding:26px 28px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 30px rgba(20,32,62,.06);display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:15.5px;line-height:1.6;color:#565F72">{{ r.label }}</span>
+              <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:30px;line-height:1.3;color:#14203E;font-variant-numeric:tabular-nums">{{ r.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <p style="margin:0 0 28px;padding:24px 28px;border-left:3px solid #8A6015;border-radius:0 18px 18px 0;background:#F4EBD8;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.7;color:#3D3524">{{ t.lotteryWarning }}</p>
+        <p style="margin:0 0 30px;font-size:16.5px;line-height:1.85;color:#434C60;max-width:66ch">{{ t.resultsNote }}</p>
+
+        <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="Certificates.dc.html" data-e="cta" style="min-height:58px;padding:17px 32px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;line-height:1.5">{{ t.download }}</a>
+          <button type="button" onClick="{{ again }}" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;background:#FFFFFF;cursor:pointer;font-size:17px;line-height:1.5;color:#434C60">{{ t.again }}</button>
+          <a href="Profile.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.profile }}</a>
+        </div>
+      </section>
+      <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300}}">
+const QUESTIONS = [
+  { q: "सांदीपनि भारतीय परंपरा में मुख्यतः किस रूप में स्मरण किए जाते हैं?", o: ["दार्शनिक", "गुरु", "ज्योतिषाचार्य", "तपस्वी"], a: 1 },
+  { q: "परंपरा के अनुसार सांदीपनि का आश्रम किस प्राचीन नगर में स्थित माना जाता है?", o: ["काशी", "मथुरा", "उज्जयिनी", "द्वारका"], a: 2 },
+  { q: "निम्नलिखित में से कौन सांदीपनि के शिष्यों में सम्मिलित नहीं थे?", o: ["श्रीकृष्ण", "बलराम", "सुदामा", "अर्जुन"], a: 3 },
+  { q: "प्राचीन भारत के सोलह महाजनपदों में उज्जयिनी किस महाजनपद की राजधानी थी?", o: ["अवन्ति", "कोशल", "वत्स", "मगध"], a: 0 },
+  { q: "सांदीपनि और श्रीकृष्ण का संबंध किस आदर्श का सर्वश्रेष्ठ उदाहरण माना जाता है?", o: ["राजा–प्रजा", "गुरु–शिष्य", "पिता–पुत्र", "मित्रता"], a: 1 },
+  { q: "परंपरा के अनुसार श्रीकृष्ण ने सांदीपनि के आश्रम में कितनी कलाओं का अध्ययन किया था?", o: ["32", "48", "64", "72"], a: 2 },
+  { q: "सुदामा का सांदीपनि के आश्रम से क्या संबंध था?", o: ["वे आश्रम के पुरोहित थे।", "वे आश्रम के संरक्षक थे।", "वे आश्रम के शिक्षक थे।", "वे श्रीकृष्ण के सहपाठी थे।"], a: 3 },
+  { q: "भारतीय गुरुकुल व्यवस्था में विद्यार्थी के लिए कौन-सा गुण सबसे अधिक अपेक्षित माना गया है?", o: ["विनय", "वैभव", "प्रसिद्धि", "अधिकार"], a: 0 },
+  { q: "सांदीपनि से संबंधित कथा का प्रमुख उल्लेख किस पुराण में मिलता है?", o: ["पद्मपुराण", "श्रीमद्भागवत महापुराण", "मत्स्यपुराण", "वामनपुराण"], a: 1 },
+  { q: "प्राचीन भारतीय शिक्षा का मूल उद्देश्य क्या माना गया है?", o: ["ज्ञान और चरित्र का विकास करना", "केवल शास्त्र कंठस्थ कराना", "केवल युद्धकला सिखाना", "केवल जीविका प्राप्त करना"], a: 0 },
+  { q: "सांदीपनि के आश्रम में शिक्षा प्राप्त करने के बाद श्रीकृष्ण ने गुरु के प्रति अपनी कृतज्ञता किस प्रकार व्यक्त की?", o: ["राजपद प्रदान करके", "यज्ञ का आयोजन करके", "आश्रम का विस्तार करके", "गुरु-दक्षिणा देकर"], a: 3 },
+  { q: "गुरु-दक्षिणा के प्रसंग में श्रीकृष्ण किसे वापस लाए थे?", o: ["गुरु की गौएँ", "गुरु का पुत्र", "गुरु का ग्रंथ", "गुरु का रथ"], a: 1 },
+  { q: "भारतीय संस्कृति में गुरु का सर्वोच्च महत्व किस कारण माना गया है?", o: ["वे राज्य का संचालन करते हैं।", "वे ज्ञान और संस्कार प्रदान करते हैं।", "वे न्याय करते हैं।", "वे यज्ञ कराते हैं।"], a: 1 },
+  { q: "वर्तमान उज्जैन में स्थित सांदीपनि आश्रम मुख्यतः किस कारण प्रसिद्ध है?", o: ["व्यापारिक केंद्र होने के कारण", "प्राचीन दुर्ग होने के कारण", "श्रीकृष्ण की शिक्षा-स्थली होने के कारण", "राजमहल होने के कारण"], a: 2 },
+  { q: "सांदीपनि का जीवन भारतीय शिक्षा-दर्शन के किस मूल सिद्धांत को सबसे अधिक अभिव्यक्त करता है?", o: ["ज्ञान के साथ संस्कार", "धन के साथ सम्मान", "शक्ति के साथ शासन", "विजय के साथ विस्तार"], a: 0 },
+  { q: "सांदीपनि के आश्रम में शिक्षा प्राप्त करने के लिए श्रीकृष्ण किसके साथ गए थे?", o: ["उद्धव", "बलराम", "अक्रूर", "सात्यकि"], a: 1 },
+  { q: "प्राचीन भारतीय गुरुकुल व्यवस्था में विद्यार्थी के दैनिक जीवन का महत्वपूर्ण अंग क्या था?", o: ["सेवा और स्वावलंबन", "केवल वाद-विवाद", "केवल शास्त्र-पाठ", "केवल अस्त्राभ्यास"], a: 0 },
+  { q: "'विद्या ददाति विनयम्' सूक्ति के अनुसार विद्या का प्रथम फल क्या माना गया है?", o: ["ऐश्वर्य", "विनय", "यश", "वैभव"], a: 1 },
+  { q: "श्रीकृष्ण और सुदामा की मित्रता का आधार क्या था?", o: ["राजवंशीय संबंध", "व्यापारिक संबंध", "युद्ध में सहभागिता", "गुरुकुल में साथ बिताया जीवन"], a: 3 },
+  { q: "भारतीय परंपरा में गुरुकुल का संचालन मुख्यतः किस आधार पर होता था?", o: ["राजकोष", "गुरु का आश्रम और समाज का सहयोग", "व्यापारिक आय", "कर व्यवस्था"], a: 1 },
+  { q: "श्रीकृष्ण द्वारा गुरु-दक्षिणा पूर्ण करने की कथा किस मूल्य को सबसे अधिक प्रतिष्ठित करती है?", o: ["पराक्रम", "नेतृत्व", "कृतज्ञता", "राजनीति"], a: 2 },
+  { q: "प्राचीन भारतीय शिक्षा-पद्धति में ज्ञान के साथ किसके विकास पर समान बल दिया जाता था?", o: ["व्यक्तित्व और चरित्र", "धन और वैभव", "राजनीति और प्रशासन", "वाणिज्य और उद्योग"], a: 0 },
+  { q: "उज्जयिनी प्राचीन काल में किस कारण विशेष प्रसिद्ध थी?", o: ["शिक्षा और ज्योतिष के केंद्र के रूप में", "समुद्री व्यापार के लिए", "लौह उद्योग के लिए", "विशाल बंदरगाह के लिए"], a: 0 },
+  { q: "सांदीपनि की परंपरा भारतीय संस्कृति में किस संबंध को सर्वोच्च गरिमा प्रदान करती है?", o: ["राजा और मंत्री", "गुरु और शिष्य", "पिता और पुत्र", "व्यापारी और ग्राहक"], a: 1 },
+  { q: "गुरुकुल में विद्यार्थियों के लिए समान जीवन-पद्धति अपनाने का प्रमुख उद्देश्य क्या था?", o: ["अनुशासन और समानता का विकास", "आर्थिक बचत", "राजकीय नियमों का पालन", "सैन्य प्रशिक्षण"], a: 0 },
+  { q: "भारतीय संस्कृति में गुरु को देवतुल्य मानने का प्रमुख कारण क्या है?", o: ["वे राज्य का संचालन करते हैं।", "वे अज्ञान से ज्ञान की ओर ले जाते हैं।", "वे यज्ञ सम्पन्न कराते हैं।", "वे न्याय करते हैं।"], a: 1 },
+  { q: "सांदीपनि की शिक्षण परंपरा का सबसे महत्वपूर्ण संदेश क्या माना जा सकता है?", o: ["शिक्षा अधिकार है, कर्तव्य नहीं।", "शिक्षा केवल शास्त्रों तक सीमित है।", "शिक्षा केवल राजकुमारों के लिए है।", "शिक्षा का उद्देश्य मनुष्य का समग्र विकास है।"], a: 3 },
+  { q: "श्रीकृष्ण के जीवन में सांदीपनि का स्थान किस रूप में सर्वाधिक महत्वपूर्ण है?", o: ["राजनीतिक मार्गदर्शक", "सेनापति", "आध्यात्मिक और शैक्षिक गुरु", "राजपुरोहित"], a: 2 },
+  { q: "वर्तमान समय में सांदीपनि आश्रम का सबसे बड़ा महत्व क्या है?", o: ["यह केवल एक पुरातात्त्विक स्थल है।", "यह भारतीय गुरु-शिष्य परंपरा का जीवंत स्मृति-स्थल है।", "यह प्राचीन दुर्ग का अवशेष है।", "यह व्यापारिक केंद्र है।"], a: 1 },
+  { q: "यदि सांदीपनि की शिक्षा को एक वाक्य में व्यक्त करना हो, तो सबसे उपयुक्त कथन कौन-सा होगा?", o: ["ज्ञान का उद्देश्य केवल सफलता है।", "विद्या का मूल्य केवल आजीविका है।", "शिक्षा का लक्ष्य केवल प्रतियोगिता है।", "ज्ञान तभी सार्थक है जब वह जीवन में आचरण बन जाए।"], a: 3 },
+  { q: "परंपरा के अनुसार सांदीपनि का गोत्र किस नाम से संबद्ध माना जाता है?", o: ["भारद्वाज", "कश्यप", "अंगिरस", "गौतम"], a: 2 },
+  { q: "श्रीमद्भागवत के किस स्कंध में सांदीपनि के आश्रम का वर्णन मिलता है?", o: ["नवम", "दशम", "एकादश", "द्वादश"], a: 1 },
+  { q: "श्रीकृष्ण और बलराम को सांदीपनि के आश्रम भेजने का निर्णय किसने लिया था?", o: ["उग्रसेन", "वसुदेव", "अक्रूर", "नंद"], a: 1 },
+  { q: "शिक्षा पूर्ण होने पर सांदीपनि ने अपने शिष्यों से किस प्रकार की दक्षिणा की अपेक्षा की?", o: ["धन", "भूमि", "अपने पुत्र को वापस लाने की", "गौदान"], a: 2 },
+  { q: "सांदीपनि के पुत्र के लुप्त होने का संबंध किस स्थान से बताया गया है?", o: ["यमुना", "प्रभास क्षेत्र का समुद्र", "गंगा", "नर्मदा"], a: 1 },
+  { q: "गुरु-दक्षिणा की पूर्ति के क्रम में श्रीकृष्ण सबसे पहले किससे मिले?", o: ["इंद्र", "समुद्र", "वरुण", "कुबेर"], a: 1 },
+  { q: "पंचजन नामक दैत्य का वध किस प्रसंग से जुड़ा हुआ है?", o: ["कंस-वध", "रुक्मिणी-हरण", "गोवर्धन-धारण", "गुरु-दक्षिणा"], a: 3 },
+  { q: "पंचजन के शरीर से प्राप्त वस्तु कौन-सी थी?", o: ["गदा", "चक्र", "शंख", "धनुष"], a: 2 },
+  { q: "श्रीकृष्ण ने यमलोक जाकर किसे वापस लाया था?", o: ["उद्धव", "सांदीपनि के पुत्र को", "अक्रूर को", "सात्यकि को"], a: 1 },
+  { q: "सांदीपनि ने गुरु-दक्षिणा प्राप्त होने पर श्रीकृष्ण और बलराम को क्या आशीर्वाद दिया था?", o: ["अजेय होने का", "दीर्घायु होने का", "उनका यश संसार में चिरस्थायी होने का", "सम्राट बनने का"], a: 2 },
+  { q: "सांदीपनि के आश्रम में प्रवेश करने से पूर्व श्रीकृष्ण और बलराम का उपनयन संस्कार किसने सम्पन्न कराया था?", o: ["गर्गाचार्य", "सांदीपनि", "वसिष्ठ", "धौम्य"], a: 0 },
+  { q: "श्रीकृष्ण और बलराम को गुरुकुल भेजने का निर्णय किस घटना के बाद लिया गया?", o: ["कंस-वध", "गोवर्धन-धारण", "रुक्मिणी-विवाह", "कालिय-दमन"], a: 0 },
+  { q: "भागवत के अनुसार सांदीपनि के आश्रम में श्रीकृष्ण और बलराम ने सबसे पहले किसका पालन किया?", o: ["राजधर्म", "ब्रह्मचर्य-व्रत", "वनवास", "तपस्या"], a: 1 },
+  { q: "भारतीय परंपरा में सांदीपनि आश्रम के निकट स्थित 'अंकपात' का संबंध किस मान्यता से जोड़ा जाता है?", o: ["शस्त्र-अभ्यास", "अक्षर एवं अंक-लेखन के प्रारम्भिक अभ्यास", "यज्ञ", "धनुर्विद्या"], a: 1 },
+  { q: "उज्जैन स्थित सांदीपनि आश्रम परिसर में स्थित प्रसिद्ध 'गोमती कुंड' के बारे में परंपरागत मान्यता क्या है?", o: ["उसका निर्माण सम्राट अशोक ने कराया।", "उसमें विभिन्न तीर्थों का जल प्रतिष्ठित किया गया।", "वह प्राकृतिक झील है।", "उसका संबंध विक्रमादित्य से है।"], a: 1 },
+  { q: "श्रीमद्भागवत के अनुसार श्रीकृष्ण और बलराम ने शिक्षा ग्रहण करने में कौन-सी विशेष क्षमता का परिचय दिया?", o: ["उन्होंने प्रत्येक विद्या को अत्यंत अल्प समय में आत्मसात किया।", "उन्होंने केवल अस्त्र-विद्या सीखी।", "उन्होंने केवल वेदों का अध्ययन किया।", "उन्होंने क्रमशः बारह वर्षों तक अध्ययन किया।"], a: 0 },
+  { q: "भारतीय परंपरा में सांदीपनि आश्रम आज किस नगर की सांस्कृतिक पहचान का महत्वपूर्ण अंग माना जाता है?", o: ["नासिक", "उज्जैन", "प्रयागराज", "कुरुक्षेत्र"], a: 1 },
+  { q: "सांदीपनि का नाम श्रीकृष्ण के अतिरिक्त किस अन्य प्रमुख शिष्य के कारण भी व्यापक रूप से स्मरण किया जाता है?", o: ["उद्धव", "सुदामा", "सात्यकि", "प्रद्युम्न"], a: 1 },
+  { q: "उज्जैन स्थित सांदीपनि आश्रम आज मुख्यतः किस कारण श्रद्धालुओं को आकर्षित करता है?", o: ["केवल प्राचीन स्थापत्य के कारण", "श्रीकृष्ण की शिक्षा-स्थली के कारण", "विशाल दुर्ग के कारण", "प्राचीन व्यापारिक मार्ग के कारण"], a: 1 },
+  { q: "सांदीपनि के जीवन से संबंधित परंपराओं का संरक्षण आज मुख्यतः किस उद्देश्य से महत्वपूर्ण माना जाता है?", o: ["प्राचीन शिक्षा-संस्कृति की निरंतरता बनाए रखने के लिए", "पर्यटन बढ़ाने के लिए", "व्यापारिक विकास के लिए", "भाषा और बोलियों को बढ़ावा देने के लिए"], a: 0 }
+];
+
+const T = {
+  hi: {
+    insTitle: "प्रारंभ करने से पूर्व",
+    insLede: "कृपया ये बिंदु ध्यान से पढ़ें। प्रारंभ करें दबाने पर समय चलना शुरू हो जाएगा।",
+    instructions: [
+      "30 प्रश्न। प्रत्येक प्रश्न में एक सही विकल्प।",
+      "कुल समय 10 मिनट। समय प्रारंभ करें दबाने पर चलना शुरू होता है और रुकता नहीं।",
+      "प्रत्येक सही उत्तर पर 1 अंक। ऋणात्मक अंकन नहीं है, अतः सभी प्रश्नों का उत्तर दें।",
+      "समय समाप्त होने पर उत्तर स्वतः जमा हो जाते हैं।",
+      "पृष्ठ को रीफ़्रेश न करें तथा बैक बटन का प्रयोग न करें।",
+      "जमा करने के बाद उस प्रयास के उत्तर परिवर्तित नहीं किए जा सकते।",
+      "आप जितनी बार चाहें प्रयास कर सकते हैं। सर्वश्रेष्ठ प्रयास ही मान्य होगा।"
+    ],
+    insWarning: "कनेक्शन टूटने अथवा किसी अन्य व्यवधान की स्थिति में समय नहीं बढ़ाया जाएगा। उत्तर स्वतः सुरक्षित होते रहते हैं।",
+    begin: "प्रारंभ करें",
+    exit: "बाहर जाएँ",
+    exitNote: "बाहर जाने से कोई प्रयास व्यय नहीं होता।",
+    timeLeft: "शेष समय",
+    normal: "शेष",
+    warning: "सावधान",
+    critical: "अंतिम क्षण",
+    offline: "इंटरनेट कनेक्शन टूट गया है। आपके उत्तर सुरक्षित हैं। कनेक्शन आने पर स्वतः जुड़ जाएगा।",
+    questionOf: "प्रश्न",
+    of: "में से",
+    prev: "पिछला",
+    nextLabel: "अगला",
+    clear: "उत्तर हटाएँ",
+    submit: "जमा करें",
+    paletteTitle: "प्रश्न सूची",
+    close: "बंद करें",
+    states: ["वर्तमान", "उत्तर दिया गया", "देखा गया, उत्तर नहीं दिया", "नहीं देखा गया"],
+    confirmTitle: "प्रयास जमा करें?",
+    summary: ["उत्तर दिए गए", "उत्तर नहीं दिए", "शेष समय"],
+    confirmWarning: "एक बार जमा करने के बाद इस प्रयास के उत्तर परिवर्तित नहीं किए जा सकते।",
+    goBack: "वापस जाएँ",
+    confirm: "हाँ, जमा करें",
+    doneTitle: "आपका प्रयास दर्ज हो गया",
+    submittedManual: "जमा किया गया",
+    submittedAuto: "समय समाप्त, स्वतः जमा",
+    stamp: "दर्ज समय",
+    results: ["उत्तर दिए गए", "उत्तर नहीं दिए", "कुल प्रयास", "लिया गया समय"],
+    lotteryWarning: "अधिक अंक प्राप्त करना ही छात्रवृत्ति की गारंटी नहीं है। चयन जिलेवार मेरिट सूची से बने पूल में से निर्णायक समिति द्वारा लॉटरी के माध्यम से होता है।",
+    resultsNote: "परिणाम इसी वेबसाइट पर प्रकाशित किए जाएँगे तथा चयनित विद्यार्थियों को ईमेल एवं मोबाइल पर सूचित किया जाएगा। प्रकाशन की तिथि घोषित होना शेष है।",
+    download: "मेरे प्रमाण पत्र",
+    again: "पुनः प्रयास करें",
+    profile: "मेरा खाता",
+    ann5: "5 मिनट शेष", ann2: "2 मिनट शेष", ann1: "1 मिनट शेष", ann30: "30 सेकंड शेष",
+  },
+  en: {
+    insTitle: "Before you begin",
+    insLede: "Please read these points carefully. The timer starts the moment you press Begin.",
+    instructions: [
+      "30 questions. One correct option per question.",
+      "10 minutes in total. The timer starts when you press Begin and does not pause.",
+      "1 mark per correct answer. There is no negative marking, so attempt everything.",
+      "The quiz submits itself automatically when the timer reaches zero.",
+      "Do not refresh the page or use the back button.",
+      "Once submitted, answers in that attempt cannot be changed.",
+      "You may take the competition as many times as you like. Your best attempt is the one that counts."
+    ],
+    insWarning: "The timer will not be extended for a lost connection or any other interruption. Your answers are saved as you go.",
+    begin: "Begin",
+    exit: "Leave",
+    exitNote: "Leaving does not consume an attempt.",
+    timeLeft: "Time remaining",
+    normal: "left",
+    warning: "Careful",
+    critical: "Final moments",
+    offline: "The connection has dropped. Your answers are saved and it will reconnect on its own.",
+    questionOf: "Question",
+    of: "of",
+    prev: "Previous",
+    nextLabel: "Next",
+    clear: "Clear response",
+    submit: "Submit",
+    paletteTitle: "Question list",
+    close: "Close",
+    states: ["Current", "Answered", "Visited, unanswered", "Not visited"],
+    confirmTitle: "Submit this attempt?",
+    summary: ["Answered", "Not answered", "Time remaining"],
+    confirmWarning: "Once submitted, answers in this attempt cannot be changed.",
+    goBack: "Go back",
+    confirm: "Yes, submit",
+    doneTitle: "Your attempt has been recorded",
+    submittedManual: "Submitted",
+    submittedAuto: "Time expired, submitted automatically",
+    stamp: "Recorded at",
+    results: ["Answered", "Not answered", "Attempts taken", "Time taken"],
+    lotteryWarning: "A high score does not by itself win the scholarship. Selection is made by the adjudicating committee, by lottery, from the pool formed by district-wise merit lists.",
+    resultsNote: "Results will be published on this website and selected students will be informed by email and mobile. The publication date is yet to be announced.",
+    download: "My certificates",
+    again: "Take again",
+    profile: "My account",
+    ann5: "5 minutes remaining", ann2: "2 minutes remaining", ann1: "1 minute remaining", ann30: "30 seconds remaining",
+  }
+};
+
+const TOTAL = 30;
+const DURATION = 600;
+
+class Component extends DCLogic {
+  state = {
+    lang: null, phase: "instructions", index: 0, answers: {}, visited: { 0: true },
+    left: DURATION, modal: false, sheet: false, offline: false, auto: false, announcement: "", stamp: "", order: []
+  };
+
+  componentDidMount() {
+    try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+    this._onOnline = () => this.setState({ offline: !navigator.onLine });
+    window.addEventListener("online", this._onOnline);
+    window.addEventListener("offline", this._onOnline);
+    this._onKey = e => {
+      if (e.key !== "Escape") return;
+      if (this.state.modal) this.setState({ modal: false });
+      else if (this.state.sheet) this.setState({ sheet: false });
+    };
+    document.addEventListener("keydown", this._onKey);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("online", this._onOnline);
+    window.removeEventListener("offline", this._onOnline);
+    document.removeEventListener("keydown", this._onKey);
+    if (this._tick) clearInterval(this._tick);
+  }
+
+  get lang() { return this.state.lang || this.props.language || "hi"; }
+
+  pickOrder() {
+    const idx = QUESTIONS.map((_, i) => i);
+    for (let i = idx.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+    }
+    return idx.slice(0, TOTAL);
+  }
+
+  questions() {
+    const order = (this.state.order && this.state.order.length) ? this.state.order : QUESTIONS.map((_, i) => i).slice(0, TOTAL);
+    return order.map(i => ({ text: QUESTIONS[i].q, options: QUESTIONS[i].o, answer: QUESTIONS[i].a }));
+  }
+
+  startTimer() {
+    if (this._tick) clearInterval(this._tick);
+    this._tick = setInterval(() => {
+      this.setState(s => {
+        const left = s.left - 1;
+        const t = T[this.lang];
+        let ann = s.announcement;
+        if (left === 300) ann = t.ann5; else if (left === 120) ann = t.ann2;
+        else if (left === 60) ann = t.ann1; else if (left === 30) ann = t.ann30;
+        if (left <= 0) {
+          clearInterval(this._tick);
+          this.recordAttempt();
+          return { left: 0, phase: "submitted", auto: true, modal: false, sheet: false, stamp: new Date().toLocaleString(), announcement: ann };
+        }
+        return { left: left, announcement: ann };
+      });
+    }, 1000);
+  }
+
+  recordAttempt() {
+    try {
+      localStorage.setItem("skpn_signed_in", "1");
+      localStorage.setItem("skpn_attempts", String(Number(localStorage.getItem("skpn_attempts") || 0) + 1));
+    } catch (e) {}
+  }
+
+  mmss(sec) {
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  renderVals() {
+    const lang = this.lang, t = T[lang], s = this.state;
+    const questions = this.questions();
+    const q = questions[s.index] || { text: "", options: [] };
+    const answeredCount = Object.keys(s.answers).length;
+    const visitedUnanswered = Object.keys(s.visited).filter(k => s.answers[k] === undefined && Number(k) !== s.index).length;
+    const notVisited = TOTAL - Object.keys(s.visited).length;
+    const level = s.left <= 30 ? "critical" : (s.left <= 120 ? "warning" : "normal");
+    const timer = {
+      normal: { fg: "#14203E", bg: "#FCFAF4", border: "#DCD1BC", label: t.normal },
+      warning: { fg: "#7A5412", bg: "#F7EEDA", border: "#C9A24A", label: t.warning },
+      critical: { fg: "#8C2F1F", bg: "#F7E4E0", border: "#B4483A", label: t.critical }
+    }[level];
+
+    const paletteStyle = i => {
+      if (i === s.index) return { bg: "#14203E", fg: "#FFF9EC", border: "2px solid #14203E", radius: "12px", mark: "", markFg: "#FFF9EC", state: t.states[0] };
+      if (s.answers[i] !== undefined) return { bg: "#E8C173", fg: "#1E1503", border: "1.5px solid #B98F3C", radius: "12px", mark: "✓", markFg: "#1E1503", state: t.states[1] };
+      if (s.visited[i]) return { bg: "#FCFAF4", fg: "#434C60", border: "1.5px dashed #A9B0BE", radius: "12px", mark: "–", markFg: "#565F72", state: t.states[2] };
+      return { bg: "#F2ECE0", fg: "#565F72", border: "1px solid #E3D9C6", radius: "50%", mark: "", markFg: "#565F72", state: t.states[3] };
+    };
+
+    const goTo = i => this.setState(p => {
+      const visited = Object.assign({}, p.visited); visited[i] = true;
+      return { index: i, visited: visited };
+    });
+
+    return {
+      lang: lang,
+      t: t,
+      isInstructions: s.phase === "instructions",
+      isAttempt: s.phase === "attempt",
+      isSubmitted: s.phase === "submitted",
+      begin: () => { this.setState({ phase: "attempt", left: DURATION, order: this.pickOrder() }); this.startTimer(); },
+
+      clock: this.mmss(s.left),
+      timer: timer,
+      progressLine: t.questionOf + " " + (s.index + 1) + " " + t.of + " " + TOTAL,
+      progressPct: Math.round(((s.index + 1) / TOTAL) * 100) + "%",
+      questionCounter: t.questionOf + " " + (s.index + 1) + " / " + TOTAL,
+      question: q,
+      announcement: s.announcement,
+      offlineDisplay: s.offline ? "block" : "none",
+      hiBg: lang === "hi" ? "#14203E" : "transparent",
+      hiFg: lang === "hi" ? "#FDF3DF" : "#434C60",
+      enBg: lang === "en" ? "#14203E" : "transparent",
+      enFg: lang === "en" ? "#FDF3DF" : "#434C60",
+
+      options: q.options.map((text, i) => {
+        const on = s.answers[s.index] === i;
+        return {
+          text: text, letter: (lang === "hi" ? ["अ", "ब", "स", "द"] : ["A", "B", "C", "D"])[i],
+          on: on,
+          select: () => this.setState(p => {
+            const answers = Object.assign({}, p.answers); answers[p.index] = i;
+            return { answers: answers };
+          }),
+          bg: on ? "#F7F2E6" : "#FCFAF4",
+          fg: "#161C2E",
+          border: on ? "#14203E" : "#E3D9C6",
+          markBg: on ? "#14203E" : "#FFFFFF",
+          markFg: on ? "#FFF9EC" : "#565F72",
+          markBorder: on ? "#14203E" : "#DCD1BC"
+        };
+      }),
+
+      prev: () => { if (s.index > 0) goTo(s.index - 1); },
+      prevCursor: s.index === 0 ? "not-allowed" : "pointer",
+      prevFg: s.index === 0 ? "#9AA2B1" : "#434C60",
+      next: () => { if (s.index < TOTAL - 1) goTo(s.index + 1); else this.setState({ modal: true }); },
+      nextLabel: s.index === TOTAL - 1 ? t.submit : t.nextLabel,
+      nextBg: s.index === TOTAL - 1 ? "#14203E" : "#14203E",
+      nextFg: "#FDF3DF",
+      clearAnswer: () => this.setState(p => {
+        const answers = Object.assign({}, p.answers); delete answers[p.index];
+        return { answers: answers };
+      }),
+      clearDisplay: s.answers[s.index] === undefined ? "none" : "inline-flex",
+
+      palette: questions.map((_, i) => {
+        const st = paletteStyle(i);
+        return {
+          n: String(i + 1), bg: st.bg, fg: st.fg, border: st.border, radius: st.radius, mark: st.mark, markFg: st.markFg,
+          current: i === s.index ? "true" : "false",
+          aria: t.questionOf + " " + (i + 1) + ", " + st.state,
+          go: () => goTo(i),
+          goClose: () => { goTo(i); this.setState({ sheet: false }); }
+        };
+      }),
+      counts: [
+        { label: t.states[1], value: String(answeredCount), bg: "#E8C173", fg: "#1E1503", border: "1.5px solid #B98F3C", radius: "8px", mark: "✓" },
+        { label: t.states[2], value: String(visitedUnanswered), bg: "#FCFAF4", fg: "#565F72", border: "1.5px dashed #A9B0BE", radius: "8px", mark: "–" },
+        { label: t.states[3], value: String(notVisited < 0 ? 0 : notVisited), bg: "#F2ECE0", fg: "#565F72", border: "1px solid #E3D9C6", radius: "50%", mark: "" },
+        { label: t.states[0], value: String(s.index + 1), bg: "#14203E", fg: "#FFF9EC", border: "2px solid #14203E", radius: "8px", mark: "" }
+      ],
+      answeredOf: answeredCount + " / " + TOTAL,
+
+      sheetOpen: s.sheet,
+      sheetDisplay: s.sheet ? "flex" : "none",
+      openSheet: () => this.setState({ sheet: true }),
+      closeSheet: () => this.setState({ sheet: false }),
+
+      modalDisplay: s.modal ? "flex" : "none",
+      askSubmit: () => this.setState({ modal: true, sheet: false }),
+      closeModal: () => this.setState({ modal: false }),
+      confirmSubmit: () => {
+        if (this._tick) clearInterval(this._tick);
+        this.recordAttempt();
+        this.setState({ phase: "submitted", modal: false, auto: false, stamp: new Date().toLocaleString() });
+      },
+      summary: [
+        { label: t.summary[0], value: String(answeredCount) },
+        { label: t.summary[1], value: String(TOTAL - answeredCount) },
+        { label: t.summary[2], value: this.mmss(s.left) }
+      ],
+
+      submittedKind: s.auto ? t.submittedAuto : t.submittedManual,
+      stampLine: t.stamp + ": " + (s.stamp || ""),
+      results: [
+        { label: t.results[0], value: String(answeredCount) },
+        { label: t.results[1], value: String(TOTAL - answeredCount) },
+        { label: t.results[2], value: "1" },
+        { label: t.results[3], value: this.mmss(DURATION - s.left) }
+      ],
+      again: () => {
+        this.setState({ phase: "instructions", index: 0, answers: {}, visited: { 0: true }, left: DURATION, auto: false, announcement: "", order: [] });
+      },
+
+      toggleLang: () => {
+        const next = this.lang === "hi" ? "en" : "hi";
+        try { localStorage.setItem("skpn_lang", next); } catch (e) {}
+        this.setState({ lang: next });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

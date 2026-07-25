@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #FBF7F0; }
+  * { box-sizing: border-box; }
+  a { color: #27408B; text-decoration: none; }
+  a:hover { color: #8A6015; }
+  ::selection { background: #F1DFB6; color: #14203E; }
+  input, select, textarea, button { font-family: 'Noto Sans Devanagari', system-ui, sans-serif; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #27408B; outline-offset: 2px; }
+  @keyframes rg-inA { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes rg-inB { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes rg-glow { 0%,100% { opacity:.3; transform:scale(1); } 50% { opacity:.75; transform:scale(1.06); } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+  @media (max-width: 900px) {
+    [data-e~="split"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-e~="aside"] { min-height: 0 !important; padding: 18px 20px !important; gap: 14px !important; }
+    [data-e~="asidebody"] { display: none !important; }
+    [data-e~="asideslide"] { flex-direction: row !important; align-items: center !important; gap: 12px !important; }
+    [data-e~="slidevalue"] { font-size: 20px !important; }
+  }
+  @media (max-width: 980px) {
+    [data-g="two"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-g="foot"] { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
+    [data-e~="nav"], [data-e~="signin-top"] { display: none !important; }
+    [data-e~="menu-btn"] { display: inline-flex !important; }
+  }
+  @media (max-width: 640px) {
+    [data-e~="pad"] { padding-left: 14px !important; padding-right: 14px !important; }
+    [data-e~="form"] { padding: 26px 20px 30px !important; }
+    [data-e~="cta"] { width: 100% !important; }
+    [data-e~="ctarow"] { flex-direction: column-reverse !important; align-items: stretch !important; }
+    [data-e~="steps"] { gap: 6px !important; }
+    [data-e~="steplabel"] { display: none !important; }
+  }
+</style>
+<script src="assets/site.js"></script>
+</helmet>
+
+<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="pratiyogita" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
+
+  <section data-e="pad" style="max-width:1180px;margin:0 auto;padding:40px 30px 76px">
+    <div data-e="split" style="display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);border-radius:26px;overflow:hidden;box-shadow:0 2px 6px rgba(20,32,62,.06),0 22px 52px rgba(20,32,62,.14);align-items:stretch">
+
+      <aside data-e="aside" style="position:relative;overflow:hidden;background:#070B1E;min-height:560px;padding:36px 32px;display:flex;flex-direction:column;gap:24px">
+        <img src="assets/pathey.png" alt="" width="2560" height="1440" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%;opacity:.46" />
+        <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(170deg, rgba(7,11,30,.5) 0%, rgba(7,11,30,.87) 52%, rgba(5,8,22,.97) 100%)"></div>
+        <div aria-hidden="true" style="position:absolute;left:-12%;top:-14%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.22) 0%,rgba(232,193,115,0) 70%);animation:rg-glow 9s ease-in-out infinite"></div>
+
+        <div style="position:relative;display:flex;align-items:center;gap:12px">
+          <span style="width:46px;height:46px;flex:0 0 auto;border-radius:50%;background:#04060F;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(232,193,115,.4)">
+            <img src="uploads/skpn-logo.png" alt="" width="34" height="34" style="display:block;width:34px;height:34px" />
+          </span>
+          <span style="font-family:'Noto Serif Devanagari',serif;font-size:15.5px;line-height:1.45;color:#FFF9EC">{{ t.asideOrg }}</span>
+        </div>
+
+        <div data-e="asidebody" style="position:relative;margin-top:auto;display:flex;flex-direction:column;gap:12px">
+          <p style="margin:0;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#E8C173;line-height:1.9">{{ t.asideKicker }}</p>
+          <h2 style="margin:0;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(23px,2.5vw,30px);line-height:1.32;color:#FFF9EC;text-wrap:balance">{{ t.asideTitle }}</h2>
+        </div>
+
+        <div style="position:relative;padding-top:20px;border-top:1px solid rgba(232,193,115,.24);display:flex;flex-direction:column;gap:14px">
+          <div data-e="asideslide" style="min-height:64px;display:flex;flex-direction:column;gap:5px;animation:{{ slideAnim }} .45s cubic-bezier(.22,.61,.36,1)">
+            <span data-e="slidevalue" style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:26px;line-height:1.25;color:#E8C173;white-space:nowrap">{{ slide.value }}</span>
+            <span style="font-size:15.5px;line-height:1.7;color:#C6CCDD">{{ slide.label }}</span>
+          </div>
+          <div aria-hidden="true" style="display:flex;gap:6px">
+            <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
+              <span style="width:{{ d.w }};height:4px;border-radius:2px;background:{{ d.bg }};transition:width .3s ease,background .3s ease"></span>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+
+      <div data-e="form" style="padding:36px 34px 40px;background:#FFFFFF;display:flex;flex-direction:column">
+        <h1 style="margin:0 0 20px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(25px,3.2vw,33px);line-height:1.3;color:#14203E">{{ t.title }}</h1>
+
+        <ol data-e="steps" style="margin:0 0 8px;padding:0;list-style:none;display:flex;align-items:center;gap:10px">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+            <li style="display:flex;align-items:center;gap:10px;flex:0 1 auto">
+              <span style="width:32px;height:32px;flex:0 0 auto;border-radius:50%;background:{{ s.bg }};color:{{ s.fg }};border:1px solid {{ s.border }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600">{{ s.n }}</span>
+              <span data-e="steplabel" style="font-size:15.5px;line-height:1.6;color:{{ s.labelFg }};white-space:nowrap">{{ s.label }}</span>
+              <span aria-hidden="true" style="width:18px;height:1px;background:#DCD1BC;display:{{ s.sepDisplay }}"></span>
+            </li>
+          </sc-for>
+        </ol>
+        <p style="margin:0 0 26px;font-size:15px;line-height:1.7;color:#565F72">{{ stepCounter }}</p>
+
+        <sc-if value="{{ isIdentity }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <button type="button" onClick="{{ useGoogle }}" style="min-height:58px;padding:16px 24px;border:1px solid #DCD1BC;border-radius:16px;background:#FCFAF4;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;font-size:17.5px;line-height:1.6;color:#161C2E" style-hover="background:#F1E9DA">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" style="display:block"><path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 01-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z" fill="#4285F4"></path><path d="M12 22c2.7 0 4.9-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1a5.9 5.9 0 01-5.6-4.1H3.1v2.6A10 10 0 0012 22z" fill="#34A853"></path><path d="M6.4 14a6 6 0 010-3.8V7.6H3.1a10 10 0 000 8.9L6.4 14z" fill="#FBBC05"></path><path d="M12 6.1c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 003.1 7.6l3.3 2.6A5.9 5.9 0 0112 6.1z" fill="#EA4335"></path></svg>
+              {{ t.google }}
+            </button>
+            <div style="display:flex;align-items:center;gap:14px">
+              <span style="height:1px;flex:1 1 auto;background:#E8DFCE"></span>
+              <span style="font-size:15px;color:#6E6247">{{ t.or }}</span>
+              <span style="height:1px;flex:1 1 auto;background:#E8DFCE"></span>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.emailLabel }}</span>
+              <input type="email" inputmode="email" autocomplete="email" value="{{ email }}" onInput="{{ onEmail }}" placeholder="name@gmail.com" style="min-height:54px;padding:14px 16px;border:1px solid {{ emailBorder }};border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+              <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ emailMsgDisplay }}">{{ emailMsg }}</span>
+            </label>
+            <button type="button" onClick="{{ sendCode }}" style="min-height:56px;padding:16px 28px;border:0;border-radius:999px;background:#14203E;color:#FDF3DF;cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.sendCode }}</button>
+            <div style="display:{{ otpDisplay }};flex-direction:column;gap:9px;padding:20px;border-radius:16px;background:#F6F0E4">
+              <label style="display:flex;flex-direction:column;gap:7px">
+                <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.otpLabel }}</span>
+                <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" value="{{ otp }}" onInput="{{ onOtp }}" placeholder="000000" style="min-height:54px;max-width:220px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;font-size:22px;letter-spacing:.32em;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums" />
+              </label>
+              <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+                <span style="font-size:15px;line-height:1.7;color:#6E6247">{{ resendLine }}</span>
+                <button type="button" onClick="{{ changeEmail }}" style="padding:0;border:0;background:none;cursor:pointer;font-size:15.5px;line-height:1.7;color:#27408B;text-decoration:underline">{{ t.changeEmail }}</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStudent }}" hint-placeholder-val="{{ true }}">
+          <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
+            <label style="display:flex;flex-direction:column;gap:7px;grid-column:1 / -1">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.nameLabel }}</span>
+              <input type="text" maxlength="100" value="{{ name }}" onInput="{{ onName }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+              <span style="font-size:15px;line-height:1.7;color:#565F72">{{ t.nameHelp }}</span>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.mobileLabel }}</span>
+              <span style="display:flex;align-items:stretch;border:1px solid {{ mobileBorder }};border-radius:14px;background:#FCFAF4;overflow:hidden">
+                <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:0 13px;background:#F1E9DA;border-right:1px solid #E3D9C6">
+                  <svg viewBox="0 0 30 20" width="26" height="18" aria-hidden="true" style="display:block;border-radius:3px;box-shadow:0 0 0 1px rgba(20,32,62,.14)">
+                    <rect width="30" height="20" fill="#FFFFFF"></rect>
+                    <rect width="30" height="6.667" fill="#FF9933"></rect>
+                    <rect y="13.333" width="30" height="6.667" fill="#138808"></rect>
+                    <circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.7"></circle>
+                    <circle cx="15" cy="10" r="0.6" fill="#000080"></circle>
+                  </svg>
+                  <span style="font-size:16.5px;line-height:1.6;color:#2E3646;font-variant-numeric:tabular-nums">+91</span>
+                </span>
+                <input type="tel" inputmode="numeric" maxlength="10" value="{{ mobile }}" onInput="{{ onMobile }}" onBlur="{{ onMobileBlur }}" placeholder="00000 00000" style="flex:1 1 auto;min-width:0;min-height:54px;padding:14px 16px;border:0;background:transparent;font-size:17px;line-height:1.6;color:#161C2E" />
+              </span>
+              <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ mobileMsgDisplay }}">{{ mobileMsg }}</span>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.dobLabel }}</span>
+              <input type="date" value="{{ dob }}" onInput="{{ onDob }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+            </label>
+            <fieldset style="grid-column:1 / -1;margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:10px">
+              <legend style="padding:0;font-size:16px;line-height:1.6;color:#2E3646">{{ t.genderLabel }}</legend>
+              <div style="display:flex;flex-wrap:wrap;gap:10px">
+                <sc-for list="{{ genders }}" as="g" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ g.select }}" aria-pressed="{{ g.on }}" style="min-height:48px;padding:12px 22px;border:1px solid {{ g.border }};border-radius:999px;background:{{ g.bg }};color:{{ g.fg }};cursor:pointer;font-size:16.5px;line-height:1.6">{{ g.label }}</button>
+                </sc-for>
+              </div>
+            </fieldset>
+
+            <div style="grid-column:1 / -1;display:flex;align-items:center;gap:14px;margin-top:6px">
+              <span style="font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.addressGroup }}</span>
+              <span style="flex:1 1 auto;height:1px;background:#EFE5D3"></span>
+            </div>
+
+            <label style="display:flex;flex-direction:column;gap:7px;grid-column:1 / -1">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.addressLabel }}</span>
+              <textarea rows="2" value="{{ address }}" onInput="{{ onAddress }}" style="padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.7;color:#161C2E;resize:vertical"></textarea>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.cityLabel }}</span>
+              <input type="text" value="{{ city }}" onInput="{{ onCity }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.pinLabel }}</span>
+              <input type="text" inputmode="numeric" maxlength="6" value="{{ pin }}" onInput="{{ onPin }}" placeholder="000000" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E;font-variant-numeric:tabular-nums" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.districtLabel }}</span>
+              <input type="search" value="{{ districtQuery }}" onInput="{{ onDistrict }}" placeholder="{{ t.districtPlaceholder }}" style="min-height:54px;padding:14px 16px;border:1px solid {{ districtBorder }};border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+              <span style="display:{{ districtListDisplay }};flex-wrap:wrap;gap:8px;max-height:150px;overflow:auto;padding-top:4px">
+                <sc-for list="{{ districts }}" as="d" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ d.select }}" aria-pressed="{{ d.on }}" style="min-height:44px;padding:10px 15px;border:1px solid {{ d.border }};border-radius:999px;background:{{ d.bg }};color:{{ d.fg }};cursor:pointer;font-size:15.5px;line-height:1.6">{{ d.label }}</button>
+                </sc-for>
+              </span>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.stateLabel }}</span>
+              <input type="text" value="{{ t.stateValue }}" disabled="{{ true }}" style="min-height:54px;padding:14px 16px;border:1px solid #E8DFCE;border-radius:14px;background:#F2ECE0;font-size:17px;line-height:1.6;color:#565F72" />
+            </label>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isEducation }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <fieldset style="margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:12px">
+              <legend style="padding:0 0 2px;font-size:16px;line-height:1.6;color:#2E3646">{{ t.categoryLabel }}</legend>
+              <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+                <sc-for list="{{ categories }}" as="c" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ c.select }}" aria-pressed="{{ c.on }}" style="text-align:left;padding:20px;border:1.5px solid {{ c.border }};border-radius:18px;background:{{ c.bg }};cursor:pointer;display:flex;gap:14px;align-items:flex-start;min-height:104px;transition:border-color .16s ease,background .16s ease" style-hover="border-color:#B98F3C">
+                    <span aria-hidden="true" style="margin-top:2px;width:24px;height:24px;flex:0 0 auto;border-radius:50%;border:2px solid {{ c.radioBorder }};background:#FFFFFF;display:flex;align-items:center;justify-content:center">
+                      <span style="width:12px;height:12px;border-radius:50%;background:{{ c.radioDot }}"></span>
+                    </span>
+                    <span style="display:flex;flex-direction:column;gap:5px">
+                      <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:20px;line-height:1.4;color:#14203E">{{ c.name }}</span>
+                      <span style="font-size:16px;line-height:1.7;color:#434C60">{{ c.who }}</span>
+                    </span>
+                  </button>
+                </sc-for>
+              </div>
+            </fieldset>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.levelLabel }}</span>
+              <select value="{{ level }}" onChange="{{ onLevel }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E">
+                <sc-for list="{{ levels }}" as="l" hint-placeholder-count="4">
+                  <option value="{{ l }}">{{ l }}</option>
+                </sc-for>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.institutionLabel }}</span>
+              <input type="text" value="{{ institution }}" onInput="{{ onInstitution }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
+            </label>
+            <label style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:16px 18px;border:1px solid {{ divyangBorder }};border-radius:14px;background:{{ divyangBg }};transition:border-color .16s ease,background .16s ease">
+              <input type="checkbox" checked="{{ divyang }}" onChange="{{ toggleDivyang }}" style="margin-top:3px;width:22px;height:22px;flex:0 0 auto;accent-color:#14203E;cursor:pointer" />
+              <span style="font-size:16.5px;line-height:1.8;color:#2E3646">{{ t.divyangLabel }}</span>
+            </label>
+            <p style="margin:0;display:{{ divyangNoticeDisplay }};padding:18px 22px;border-left:3px solid #8A6015;border-radius:0 14px 14px 0;background:#F4EBD8;font-size:16.5px;line-height:1.8;color:#3D3524">{{ t.divyangNotice }}</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isDeclare }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <label style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:16px 18px;border:1px solid {{ rulesBorder }};border-radius:14px;background:{{ rulesBg }}">
+              <input type="checkbox" checked="{{ rulesAccepted }}" onChange="{{ toggleRules }}" style="margin-top:3px;width:22px;height:22px;flex:0 0 auto;accent-color:#14203E;cursor:pointer" />
+              <span style="font-size:16.5px;line-height:1.8;color:#2E3646">{{ t.rulesConsent }} <a href="Rules.dc.html">{{ t.rulesLink }}</a></span>
+            </label>
+            <label style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:16px 18px;border:1px solid {{ privacyBorder }};border-radius:14px;background:{{ privacyBg }}">
+              <input type="checkbox" checked="{{ privacyAccepted }}" onChange="{{ togglePrivacy }}" style="margin-top:3px;width:22px;height:22px;flex:0 0 auto;accent-color:#14203E;cursor:pointer" />
+              <span style="font-size:16.5px;line-height:1.8;color:#2E3646">{{ t.privacyConsent }} <a href="Legal.dc.html">{{ t.privacyLink }}</a></span>
+            </label>
+            <div style="padding:22px;border-radius:16px;background:#F6F0E4;display:flex;flex-direction:column;gap:14px">
+              <p style="margin:0;font-family:'Noto Serif Devanagari',serif;font-size:18px;line-height:1.5;color:#14203E">{{ t.guardianTitle }}</p>
+              <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.guardianName }}</span>
+                  <input type="text" value="{{ guardianName }}" onInput="{{ onGuardianName }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;font-size:17px;line-height:1.6;color:#161C2E" />
+                </label>
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.guardianMobile }}</span>
+                  <span style="display:flex;align-items:stretch;border:1px solid #DCD1BC;border-radius:14px;background:#FFFFFF;overflow:hidden">
+                    <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:0 13px;background:#F6F0E4;border-right:1px solid #E3D9C6">
+                      <svg viewBox="0 0 30 20" width="26" height="18" aria-hidden="true" style="display:block;border-radius:3px;box-shadow:0 0 0 1px rgba(20,32,62,.14)">
+                        <rect width="30" height="20" fill="#FFFFFF"></rect>
+                        <rect width="30" height="6.667" fill="#FF9933"></rect>
+                        <rect y="13.333" width="30" height="6.667" fill="#138808"></rect>
+                        <circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.7"></circle>
+                        <circle cx="15" cy="10" r="0.6" fill="#000080"></circle>
+                      </svg>
+                      <span style="font-size:16.5px;line-height:1.6;color:#2E3646;font-variant-numeric:tabular-nums">+91</span>
+                    </span>
+                    <input type="tel" inputmode="numeric" maxlength="10" value="{{ guardianMobile }}" onInput="{{ onGuardianMobile }}" placeholder="00000 00000" style="flex:1 1 auto;min-width:0;min-height:54px;padding:14px 16px;border:0;background:transparent;font-size:17px;line-height:1.6;color:#161C2E" />
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid #F0EADD">
+          <button type="button" onClick="{{ prev }}" data-e="cta" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;background:#FFFFFF;cursor:pointer;font-size:17px;line-height:1.5;color:#434C60;display:{{ prevDisplay }}">{{ t.prev }}</button>
+          <button type="button" onClick="{{ next }}" data-e="cta" style="min-height:56px;padding:16px 30px;border:0;border-radius:999px;background:{{ nextBg }};color:{{ nextFg }};cursor:{{ nextCursor }};font-size:18px;font-weight:600;line-height:1.5">{{ nextLabel }}</button>
+        </div>
+
+        <p style="margin:22px 0 0;font-size:15.5px;line-height:1.8;color:#565F72">{{ t.haveAccount }} <a href="Login.dc.html">{{ t.signIn }}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200}}">
+const DISTRICTS = [
+  ["Agar Malwa","आगर मालवा"],["Alirajpur","अलीराजपुर"],["Anuppur","अनूपपुर"],["Ashoknagar","अशोकनगर"],["Balaghat","बालाघाट"],
+  ["Barwani","बड़वानी"],["Betul","बैतूल"],["Bhind","भिंड"],["Bhopal","भोपाल"],["Burhanpur","बुरहानपुर"],
+  ["Chhatarpur","छतरपुर"],["Chhindwara","छिंदवाड़ा"],["Damoh","दमोह"],["Datia","दतिया"],["Dewas","देवास"],
+  ["Dhar","धार"],["Dindori","डिंडौरी"],["Guna","गुना"],["Gwalior","ग्वालियर"],["Harda","हरदा"],
+  ["Indore","इंदौर"],["Jabalpur","जबलपुर"],["Jhabua","झाबुआ"],["Katni","कटनी"],["Khandwa","खंडवा"],
+  ["Khargone","खरगोन"],["Maihar","मैहर"],["Mandla","मंडला"],["Mandsaur","मंदसौर"],["Mauganj","मऊगंज"],
+  ["Morena","मुरैना"],["Narmadapuram","नर्मदापुरम"],["Narsinghpur","नरसिंहपुर"],["Neemuch","नीमच"],["Niwari","निवाड़ी"],
+  ["Pandhurna","पांढुर्णा"],["Panna","पन्ना"],["Raisen","रायसेन"],["Rajgarh","राजगढ़"],["Ratlam","रतलाम"],
+  ["Rewa","रीवा"],["Sagar","सागर"],["Satna","सतना"],["Sehore","सीहोर"],["Seoni","सिवनी"],
+  ["Shahdol","शहडोल"],["Shajapur","शाजापुर"],["Sheopur","श्योपुर"],["Shivpuri","शिवपुरी"],["Sidhi","सीधी"],
+  ["Singrauli","सिंगरौली"],["Tikamgarh","टीकमगढ़"],["Ujjain","उज्जैन"],["Umaria","उमरिया"],["Vidisha","विदिशा"]
+];
+
+const LEVELS = {
+  hi: {
+    vidyalaya: ["कक्षा 9", "कक्षा 10", "कक्षा 11", "कक्षा 12"],
+    mahavidyalaya: ["स्नातक, प्रथम वर्ष", "स्नातक, द्वितीय वर्ष", "स्नातक, तृतीय वर्ष", "स्नातक, चतुर्थ वर्ष", "स्नातकोत्तर, प्रथम वर्ष", "स्नातकोत्तर, द्वितीय वर्ष", "डिप्लोमा या पॉलिटेक्निक", "आईटीआई", "शोध या पीएच.डी."]
+  },
+  en: {
+    vidyalaya: ["Class 9", "Class 10", "Class 11", "Class 12"],
+    mahavidyalaya: ["Undergraduate, 1st year", "Undergraduate, 2nd year", "Undergraduate, 3rd year", "Undergraduate, 4th year", "Postgraduate, 1st year", "Postgraduate, 2nd year", "Diploma or Polytechnic", "ITI", "Research or PhD"]
+  }
+};
+
+const S = {
+  hi: {
+    title: "प्रतियोगिता के लिए पंजीकरण",
+    asideOrg: "श्रीकृष्ण पाथेय न्यास, भोपाल",
+    asideKicker: "गुरु पूर्णिमा, 29 जुलाई 2026",
+    asideTitle: "भगवान श्रीकृष्ण मेधावी छात्रवृत्ति प्रतियोगिता",
+    slides: [
+      { value: "₹1,00,000", label: "एकमुश्त छात्रवृत्ति" },
+      { value: "102 विद्यार्थी", label: "51 विद्यालय एवं 51 महाविद्यालय स्तर" },
+      { value: "30 प्रश्न", label: "10 मिनट, ऋणात्मक अंकन नहीं" },
+      { value: "निःशुल्क", label: "कक्षा 9 से महाविद्यालय तक" }
+    ],
+    stepLabels: ["पहचान", "विद्यार्थी विवरण", "शिक्षा", "घोषणा"],
+    stepOf: "चरण",
+    of: "में से",
+    stepTitles: ["अपनी पहचान सत्यापित करें", "विद्यार्थी विवरण", "शिक्षा", "घोषणा एवं सहमति"],
+    google: "Google से जारी रखें",
+    or: "अथवा",
+    emailLabel: "ईमेल पता",
+    emailInvalid: "पूरा ईमेल पता लिखें, जैसे name@gmail.com",
+    emailTypo: "क्या आपका आशय gmail.com से है?",
+    sendCode: "6 अंकों का कोड भेजें",
+    otpLabel: "ईमेल पर आया कोड",
+    resend: "पुनः भेजें",
+    changeEmail: "ईमेल बदलें",
+    nameLabel: "पूरा नाम",
+    nameHelp: "जैसा आपकी अंकसूची में है",
+    mobileLabel: "मोबाइल नंबर",
+    mobileInvalid: "6, 7, 8 अथवा 9 से प्रारंभ होने वाला 10 अंकों का नंबर लिखें",
+    mobileDuplicate: "यह नंबर पहले से पंजीकृत है। यदि यह खाता आपका है तो साइन इन करें।",
+    dobLabel: "जन्म तिथि",
+    genderLabel: "लिंग",
+    genders: ["पुरुष", "महिला", "अन्य"],
+    addressGroup: "पता",
+    addressLabel: "पता",
+    cityLabel: "शहर या गाँव",
+    pinLabel: "पिन कोड",
+    districtLabel: "जिला",
+    districtPlaceholder: "जिला खोजें",
+    stateLabel: "राज्य",
+    stateValue: "मध्यप्रदेश",
+    categoryLabel: "किस श्रेणी में आवेदन, एक विकल्प चुनें",
+    categories: [
+      { key: "vidyalaya", name: "विद्यालय स्तर", who: "कक्षा 9 से 12 तक" },
+      { key: "mahavidyalaya", name: "महाविद्यालय स्तर", who: "महाविद्यालय, विश्वविद्यालय, पॉलिटेक्निक अथवा आईटीआई" }
+    ],
+    levelLabel: "पढ़ाई का स्तर",
+    institutionLabel: "वर्तमान अध्ययनरत विद्यालय या महाविद्यालय का नाम",
+    divyangLabel: "दिव्यांग श्रेणी में आवेदन",
+    divyangNotice: "चयन होने पर शासन द्वारा जारी दिव्यांगता प्रमाण पत्र प्रस्तुत करना अनिवार्य होगा।",
+    rulesConsent: "मुझे प्रतियोगिता के नियम स्वीकार हैं।",
+    rulesLink: "नियम पढ़ें",
+    privacyConsent: "मैं सहमत हूँ कि मेरी जानकारी इस प्रतियोगिता, परिणाम एवं छात्रवृत्ति संबंधी कार्य में उपयोग की जाएगी।",
+    privacyLink: "गोपनीयता सूचना",
+    guardianTitle: "अभिभावक की सहमति, 18 वर्ष से कम आयु पर",
+    guardianName: "अभिभावक का नाम",
+    guardianMobile: "अभिभावक का मोबाइल नंबर",
+    prev: "पिछला चरण",
+    next: "आगे बढ़ें",
+    finish: "पंजीकरण पूर्ण करें",
+    haveAccount: "पहले से पंजीकृत हैं?",
+    signIn: "साइन इन करें"
+  },
+  en: {
+    title: "Register for the competition",
+    asideOrg: "Shri Krishna Pathey Nyas, Bhopal",
+    asideKicker: "Guru Purnima, 29 July 2026",
+    asideTitle: "Bhagwan Shri Krishna Medhavi Chhatravritti Pratiyogita",
+    slides: [
+      { value: "₹1,00,000", label: "One-time scholarship" },
+      { value: "102 students", label: "51 school and 51 college level" },
+      { value: "30 questions", label: "10 minutes, no negative marking" },
+      { value: "Free", label: "Class 9 to college" }
+    ],
+    stepLabels: ["Identity", "Student details", "Education", "Declaration"],
+    stepOf: "Step",
+    of: "of",
+    stepTitles: ["Verify your identity", "Student details", "Education", "Declaration and consent"],
+    google: "Continue with Google",
+    or: "or",
+    emailLabel: "Email address",
+    emailInvalid: "Enter a complete email address, for example name@gmail.com",
+    emailTypo: "Did you mean gmail.com?",
+    sendCode: "Send a 6-digit code",
+    otpLabel: "Code from your email",
+    resend: "Resend",
+    changeEmail: "Change email address",
+    nameLabel: "Full name",
+    nameHelp: "As printed on your marksheet",
+    mobileLabel: "Mobile number",
+    mobileInvalid: "Enter a 10-digit number starting with 6, 7, 8 or 9",
+    mobileDuplicate: "This number is already registered. If the account is yours, sign in instead.",
+    dobLabel: "Date of birth",
+    genderLabel: "Gender",
+    genders: ["Male", "Female", "Other"],
+    addressGroup: "Address",
+    addressLabel: "Address",
+    cityLabel: "City or village",
+    pinLabel: "PIN code",
+    districtLabel: "District",
+    districtPlaceholder: "Search for a district",
+    stateLabel: "State",
+    stateValue: "Madhya Pradesh",
+    categoryLabel: "Applying as, choose one",
+    categories: [
+      { key: "vidyalaya", name: "Vidyalaya Star", who: "Classes 9 to 12" },
+      { key: "mahavidyalaya", name: "Mahavidyalaya Star", who: "College, university, polytechnic or ITI" }
+    ],
+    levelLabel: "Level of education",
+    institutionLabel: "Name of school or college currently enrolled in",
+    divyangLabel: "Applying under the Divyang category",
+    divyangNotice: "If selected, a government-issued disability certificate must be produced.",
+    rulesConsent: "I accept the rules of the competition.",
+    rulesLink: "Read the rules",
+    privacyConsent: "I consent to my information being used for this competition, its results and the scholarship process.",
+    privacyLink: "Privacy notice",
+    guardianTitle: "Guardian consent, for candidates under 18",
+    guardianName: "Guardian's name",
+    guardianMobile: "Guardian's mobile number",
+    prev: "Previous step",
+    next: "Continue",
+    finish: "Complete registration",
+    haveAccount: "Already registered?",
+    signIn: "Sign in"
+  }
+};
+
+class Component extends DCLogic {
+  state = {
+    lang: null, step: 0, slide: 0, verified: false, otpSent: false, otp: "", email: "", emailTouched: false,
+    name: "", mobile: "", mobileTouched: false, dob: "", gender: "",
+    address: "", city: "", pin: "", district: "", districtQuery: "",
+    category: "", level: "", institution: "", divyang: false,
+    rulesAccepted: false, privacyAccepted: false, guardianName: "", guardianMobile: ""
+  };
+
+  componentDidMount() {
+    try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    this._rot = setInterval(() => this.setState(s => ({ slide: s.slide + 1 })), 2000);
+  }
+  componentWillUnmount() { if (this._rot) clearInterval(this._rot); }
+
+  get lang() { return this.state.lang || this.props.language || "hi"; }
+
+  emailProblem() {
+    const v = this.state.email.trim();
+    if (!v) return "";
+    if (/(gmial\.com|gmail\.con|gmail\.co$|yahoo\.co$)/i.test(v)) return "typo";
+    if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v)) return "invalid";
+    return "";
+  }
+
+  mobileProblem() {
+    const v = this.state.mobile;
+    if (!v) return "";
+    if (!/^[6-9]\d{9}$/.test(v)) return "invalid";
+    if (v === "9876543210") return "duplicate";
+    return "";
+  }
+
+  canAdvance() {
+    const s = this.state;
+    if (s.step === 0) return s.verified;
+    if (s.step === 1) {
+      return s.name.trim().length >= 3 && !this.mobileProblem() && s.mobile.length === 10 && !!s.gender
+        && !!s.address.trim() && !!s.city.trim() && /^\d{6}$/.test(s.pin) && !!s.district;
+    }
+    if (s.step === 2) return !!s.category && !!s.level && s.institution.trim().length >= 3;
+    return s.rulesAccepted && s.privacyAccepted;
+  }
+
+  renderVals() {
+    const lang = this.lang, t = S[lang], s = this.state;
+    const step = s.step;
+    const ep = this.emailProblem(), mp = this.mobileProblem();
+    const levels = s.category ? LEVELS[lang][s.category] : [];
+    const dq = s.districtQuery.trim().toLowerCase();
+    const districts = DISTRICTS
+      .filter(d => !dq || d[0].toLowerCase().indexOf(dq) !== -1 || d[1].indexOf(s.districtQuery.trim()) !== -1)
+      .slice(0, 12)
+      .map(d => {
+        const label = lang === "hi" ? d[1] : d[0];
+        const on = s.district === d[0];
+        return {
+          label: label, on: on,
+          select: () => this.setState({ district: d[0], districtQuery: label }),
+          bg: on ? "#14203E" : "#FCFAF4", fg: on ? "#FFF9EC" : "#2E3646", border: on ? "#14203E" : "#DCD1BC"
+        };
+      });
+
+    const ok = this.canAdvance();
+    const mobileMsg = s.mobileTouched && mp === "invalid" ? t.mobileInvalid : (s.mobileTouched && mp === "duplicate" ? t.mobileDuplicate : "");
+    const si = s.slide % t.slides.length;
+
+    return {
+      lang: lang,
+      t: t,
+      slide: t.slides[si],
+      slideAnim: s.slide % 2 === 0 ? "rg-inA" : "rg-inB",
+      dots: t.slides.map((_, n) => ({ w: n === si ? "22px" : "8px", bg: n === si ? "#E8C173" : "rgba(232,193,115,.32)" })),
+
+      steps: t.stepLabels.map((label, i) => ({
+        n: String(i + 1), label: label,
+        bg: i === step ? "#14203E" : (i < step ? "#F4EBD8" : "#FFFFFF"),
+        fg: i === step ? "#FDF3DF" : (i < step ? "#7A5412" : "#7C8494"),
+        border: i === step ? "#14203E" : "#DCD1BC",
+        labelFg: i === step ? "#14203E" : "#565F72",
+        sepDisplay: i === t.stepLabels.length - 1 ? "none" : "block"
+      })),
+      stepCounter: t.stepOf + " " + (step + 1) + " " + t.of + " 4 · " + t.stepTitles[step],
+      isIdentity: step === 0, isStudent: step === 1, isEducation: step === 2, isDeclare: step === 3,
+
+      email: s.email,
+      onEmail: e => this.setState({ email: e.target.value, emailTouched: true }),
+      emailBorder: ep ? "#A03A2B" : "#DCD1BC",
+      emailMsg: ep === "typo" ? t.emailTypo : (ep === "invalid" ? t.emailInvalid : ""),
+      emailMsgDisplay: ep ? "block" : "none",
+      sendCode: () => this.setState({ otpSent: true }),
+      otpDisplay: s.otpSent ? "flex" : "none",
+      otp: s.otp,
+      onOtp: e => {
+        const v = e.target.value.replace(/\D/g, "").slice(0, 6);
+        this.setState({ otp: v, verified: v.length === 6 });
+      },
+      resendLine: t.resend + " 00:30",
+      changeEmail: () => this.setState({ otpSent: false, otp: "", verified: false }),
+      useGoogle: () => this.setState({ verified: true, step: 1 }),
+
+      name: s.name,
+      onName: e => this.setState({ name: e.target.value }),
+      mobile: s.mobile,
+      onMobile: e => this.setState({ mobile: e.target.value.replace(/\D/g, "").slice(0, 10) }),
+      onMobileBlur: () => this.setState({ mobileTouched: true }),
+      mobileBorder: mobileMsg ? "#A03A2B" : "#DCD1BC",
+      mobileMsg: mobileMsg,
+      mobileMsgDisplay: mobileMsg ? "block" : "none",
+      dob: s.dob,
+      onDob: e => this.setState({ dob: e.target.value }),
+      genders: t.genders.map(g => ({
+        label: g, on: s.gender === g,
+        select: () => this.setState({ gender: g }),
+        bg: s.gender === g ? "#14203E" : "#FCFAF4",
+        fg: s.gender === g ? "#FFF9EC" : "#2E3646",
+        border: s.gender === g ? "#14203E" : "#DCD1BC"
+      })),
+
+      address: s.address, onAddress: e => this.setState({ address: e.target.value }),
+      city: s.city, onCity: e => this.setState({ city: e.target.value }),
+      pin: s.pin, onPin: e => this.setState({ pin: e.target.value.replace(/\D/g, "").slice(0, 6) }),
+      districtQuery: s.districtQuery,
+      onDistrict: e => this.setState({ districtQuery: e.target.value, district: "" }),
+      districts: districts,
+      districtBorder: s.district ? "#14203E" : "#DCD1BC",
+      districtListDisplay: s.district ? "none" : "flex",
+
+      categories: t.categories.map(c => ({
+        name: c.name, who: c.who, on: s.category === c.key,
+        select: () => this.setState({ category: c.key, level: "" }),
+        bg: s.category === c.key ? "#F7F2E6" : "#FCFAF4",
+        border: s.category === c.key ? "#14203E" : "#DCD1BC",
+        radioBorder: s.category === c.key ? "#14203E" : "#B6BCC9",
+        radioDot: s.category === c.key ? "#14203E" : "transparent"
+      })),
+      levels: levels,
+      level: s.level,
+      onLevel: e => this.setState({ level: e.target.value }),
+      institution: s.institution,
+      onInstitution: e => this.setState({ institution: e.target.value }),
+      divyang: s.divyang,
+      toggleDivyang: () => this.setState(p => ({ divyang: !p.divyang })),
+      divyangBorder: s.divyang ? "#14203E" : "#DCD1BC",
+      divyangBg: s.divyang ? "#F7F2E6" : "#FCFAF4",
+      divyangNoticeDisplay: s.divyang ? "block" : "none",
+
+      rulesAccepted: s.rulesAccepted,
+      toggleRules: () => this.setState(p => ({ rulesAccepted: !p.rulesAccepted })),
+      rulesBorder: s.rulesAccepted ? "#14203E" : "#DCD1BC",
+      rulesBg: s.rulesAccepted ? "#F7F2E6" : "#FCFAF4",
+      privacyAccepted: s.privacyAccepted,
+      togglePrivacy: () => this.setState(p => ({ privacyAccepted: !p.privacyAccepted })),
+      privacyBorder: s.privacyAccepted ? "#14203E" : "#DCD1BC",
+      privacyBg: s.privacyAccepted ? "#F7F2E6" : "#FCFAF4",
+      guardianName: s.guardianName, onGuardianName: e => this.setState({ guardianName: e.target.value }),
+      guardianMobile: s.guardianMobile, onGuardianMobile: e => this.setState({ guardianMobile: e.target.value.replace(/\D/g, "").slice(0, 10) }),
+
+      prevDisplay: step === 0 ? "none" : "inline-flex",
+      prev: () => this.setState(p => ({ step: Math.max(0, p.step - 1) })),
+      next: () => {
+        if (!this.canAdvance()) return;
+        if (step === 3) {
+          try { localStorage.setItem("skpn_signed_in", "1"); } catch (e) {}
+          window.location.href = "Quiz.dc.html";
+          return;
+        }
+        this.setState(p => ({ step: Math.min(3, p.step + 1) }));
+      },
+      nextLabel: step === 3 ? t.finish : t.next,
+      nextBg: ok ? "#14203E" : "#EDE6D7",
+      nextFg: ok ? "#FDF3DF" : "#7C8494",
+      nextCursor: ok ? "pointer" : "not-allowed",
+
+      toggleLang: () => {
+        const next = this.lang === "hi" ? "en" : "hi";
+        try { localStorage.setItem("skpn_lang", next); } catch (e) {}
+        this.setState({ lang: next });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

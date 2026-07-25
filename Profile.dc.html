@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #FBF7F0; }
+  * { box-sizing: border-box; }
+  a { color: #27408B; text-decoration: none; }
+  a:hover { color: #8A6015; }
+  button:focus-visible, a:focus-visible { outline: 3px solid #27408B; outline-offset: 2px; }
+  @media (max-width: 980px) {
+    [data-g="two"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-g="foot"] { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
+    [data-e~="nav"], [data-e~="signin-top"] { display: none !important; }
+    [data-e~="menu-btn"] { display: inline-flex !important; }
+  }
+  @media (max-width: 640px) {
+    [data-e~="pad"] { padding-left: 18px !important; padding-right: 18px !important; }
+    [data-e~="card"] { padding: 22px 18px !important; }
+    [data-e~="row"] { flex-direction: column !important; align-items: flex-start !important; gap: 3px !important; }
+    [data-e~="rowval"] { margin-left: 0 !important; text-align: left !important; }
+    [data-e~="attempt"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  }
+</style>
+<script src="assets/site.js"></script>
+</helmet>
+
+<div style="background:#FBF7F0;color:#161C2E;font-family:'Noto Sans Devanagari',system-ui,sans-serif;min-width:320px;overflow-x:hidden">
+  <dc-import name="SiteHeader" lang="{{ lang }}" active="home" signed-in="{{ true }}" has-certificates="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
+
+  <section data-e="pad" style="max-width:1060px;margin:0 auto;padding:48px 30px 76px">
+    <div style="display:flex;align-items:center;gap:18px;margin-bottom:12px">
+      <span aria-hidden="true" style="width:64px;height:64px;flex:0 0 auto;border-radius:50%;background:#14203E;color:#FDF3DF;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif Devanagari',serif;font-size:24px;font-weight:600">{{ initials }}</span>
+      <div>
+        <h1 style="margin:0 0 4px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.3;color:#14203E">{{ student.fullName }}</h1>
+        <p style="margin:0;font-size:16.5px;line-height:1.7;color:#565F72">{{ student.district }} · {{ categoryLabel }}</p>
+      </div>
+    </div>
+    <p style="margin:0 0 32px;max-width:64ch;font-size:16.5px;line-height:1.85;color:#434C60">{{ t.lockNote }} <a href="mailto:shrikrishnapatheynyas@gmail.com">shrikrishnapatheynyas@gmail.com</a></p>
+
+    <div data-e="card" style="padding:28px 30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 32px rgba(20,32,62,.06);margin-bottom:20px">
+      <h2 style="margin:0 0 18px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:21px;line-height:1.4;color:#14203E">{{ t.participation }}</h2>
+      <div data-e="attempt" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:18px 20px;border-radius:16px;background:#F6F0E4;display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:15px;line-height:1.6;color:#565F72">{{ s.label }}</span>
+            <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:25px;line-height:1.3;color:#14203E;font-variant-numeric:tabular-nums">{{ s.value }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+        <sc-for list="{{ attempts }}" as="a" hint-placeholder-count="3">
+          <li data-e="row" style="display:flex;align-items:baseline;gap:20px;padding:16px 2px;border-top:1px solid #F0EADD">
+            <span style="min-width:180px;font-size:16.5px;line-height:1.7;color:#161C2E;font-variant-numeric:tabular-nums">{{ a.date }}</span>
+            <span style="font-size:16px;line-height:1.7;color:#565F72">{{ a.time }}</span>
+            <span style="font-size:16.5px;line-height:1.7;color:#8A6015">{{ a.status }}</span>
+            <a data-e="rowval" href="Certificates.dc.html" style="margin-left:auto;font-size:16px;line-height:1.7">{{ t.viewCertificate }} <span aria-hidden="true">→</span></a>
+          </li>
+        </sc-for>
+      </ul>
+      <p style="margin:20px 0 0;padding:16px 20px;border-radius:14px;background:#F4EBD8;font-size:16px;line-height:1.8;color:#3D3524">{{ t.bestNote }}</p>
+    </div>
+
+    <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+        <div data-e="card" style="padding:28px 30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 32px rgba(20,32,62,.06)">
+          <h2 style="margin:0 0 16px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:20px;line-height:1.4;color:#14203E">{{ g.title }}</h2>
+          <dl style="margin:0;display:flex;flex-direction:column">
+            <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+              <div data-e="row" style="display:flex;align-items:baseline;gap:18px;padding:13px 0;border-top:1px solid #F0EADD">
+                <dt style="min-width:150px;font-size:15.5px;line-height:1.7;color:#565F72">{{ r.k }}</dt>
+                <dd data-e="rowval" style="margin:0 0 0 auto;font-size:16.5px;line-height:1.7;color:#161C2E;text-align:right">{{ r.v }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+          <p style="margin:14px 0 0;font-size:15px;line-height:1.75;color:#6E6247;display:{{ g.noteDisplay }}">{{ g.note }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <div data-e="card" style="margin-top:20px;padding:28px 30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 32px rgba(20,32,62,.06)">
+      <h2 style="margin:0 0 8px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:20px;line-height:1.4;color:#14203E">{{ t.langTitle }}</h2>
+      <p style="margin:0 0 16px;font-size:16px;line-height:1.8;color:#565F72">{{ t.langNote }}</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" onClick="{{ setHi }}" aria-pressed="{{ hiOn }}" style="min-height:50px;padding:13px 24px;border:1px solid {{ hiBorder }};border-radius:999px;background:{{ hiBg }};color:{{ hiFg }};cursor:pointer;font-size:16.5px;line-height:1.6">हिन्दी</button>
+        <button type="button" onClick="{{ setEn }}" aria-pressed="{{ enOn }}" style="min-height:50px;padding:13px 24px;border:1px solid {{ enBorder }};border-radius:999px;background:{{ enBg }};color:{{ enFg }};cursor:pointer;font-size:16.5px;line-height:1.6">English</button>
+      </div>
+    </div>
+
+    <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px">
+      <a href="Quiz.dc.html" style="min-height:56px;padding:16px 30px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.startQuiz }}</a>
+      <a href="Home v5.dc.html" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:16.5px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.signOut }}</a>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200}}">
+const STUDENT = {
+  fullName: "अनन्या वर्मा",
+  fullNameEn: "Ananya Verma",
+  email: "ananya.verma@gmail.com",
+  mobile: "98XXXXXX21",
+  gender: { hi: "महिला", en: "Female" },
+  dob: "2010-06-14",
+  address: { hi: "वार्ड 7, गांधी मार्ग", en: "Ward 7, Gandhi Marg" },
+  city: { hi: "सीहोर", en: "Sehore" },
+  district: "Sehore",
+  districtHi: "सीहोर",
+  pin: "466001",
+  category: "vidyalaya",
+  level: { hi: "कक्षा 10", en: "Class 10" },
+  institution: { hi: "शासकीय उच्चतर माध्यमिक विद्यालय, सीहोर", en: "Government Higher Secondary School, Sehore" },
+  divyang: false,
+  provider: "google"
+};
+
+const ATTEMPTS = [
+  { date: "24 जुलाई 2026, 10:42", dateEn: "24 July 2026, 10:42", time: "09:12", timeEn: "09:12", score: "23 / 30" },
+  { date: "22 जुलाई 2026, 19:05", dateEn: "22 July 2026, 19:05", time: "10:00", timeEn: "10:00", score: "19 / 30" },
+  { date: "21 जुलाई 2026, 08:20", dateEn: "21 July 2026, 08:20", time: "07:48", timeEn: "07:48", score: "16 / 30" }
+];
+
+const S = {
+  hi: {
+    lockNote: "पंजीकरण के बाद जानकारी परिवर्तित नहीं की जा सकती, क्योंकि चयन के समय यह आधिकारिक दस्तावेज़ों से मिलाई जाती है। किसी वास्तविक त्रुटि के सुधार हेतु लिखें",
+    participation: "सहभागिता",
+    stats: ["कुल प्रयास", "अंतिम प्रयास की तिथि", "औसत समय"],
+    viewCertificate: "प्रमाण पत्र",
+    bestNote: "सर्वश्रेष्ठ प्रयास ही मेरिट सूची के लिए मान्य होता है। अंतिम चयन लॉटरी से होता है।",
+    groups: ["व्यक्तिगत जानकारी", "साइन इन", "पता", "शिक्षा"],
+    keys: {
+      name: "नाम", gender: "लिंग", dob: "जन्म तिथि", mobile: "मोबाइल नंबर",
+      email: "ईमेल", provider: "साइन इन का तरीका",
+      address: "पता", city: "शहर या गाँव", district: "जिला", state: "राज्य", pin: "पिन कोड",
+      category: "श्रेणी", level: "पढ़ाई का स्तर", institution: "संस्था", divyang: "दिव्यांग श्रेणी"
+    },
+    mobileNote: "मोबाइल नंबर सत्यापित नहीं है। परिणाम ईमेल पर भेजे जाते हैं।",
+    emailNote: "परिणाम इसी ईमेल पर भेजे जाएँगे।",
+    googleLabel: "Google खाते से",
+    otpLabel: "ईमेल कोड से",
+    divyangNo: "नहीं",
+    divyangYes: "हाँ",
+    divyangNote: "दिव्यांग श्रेणी में चयन होने पर शासन द्वारा जारी दिव्यांगता प्रमाण पत्र प्रस्तुत करना अनिवार्य होगा।",
+    stateValue: "मध्यप्रदेश",
+    categories: { vidyalaya: "विद्यालय स्तर", mahavidyalaya: "महाविद्यालय स्तर" },
+    langTitle: "भाषा",
+    langNote: "यह इस पृष्ठ की एकमात्र परिवर्तनीय सेटिंग है। आपकी पसंद आपके खाते में सुरक्षित रहती है।",
+    startQuiz: "प्रतियोगिता प्रारंभ करें",
+    signOut: "साइन आउट"
+  },
+  en: {
+    lockNote: "Details cannot be changed after registration, because they are checked against official documents at selection. For a genuine correction, write to",
+    participation: "Participation",
+    stats: ["Attempts taken", "Date of last attempt", "Average time"],
+    viewCertificate: "Certificate",
+    bestNote: "Only the best attempt counts towards the merit list. The final selection is made by lottery.",
+    groups: ["Personal details", "Sign in", "Address", "Education"],
+    keys: {
+      name: "Name", gender: "Gender", dob: "Date of birth", mobile: "Mobile number",
+      email: "Email", provider: "Sign-in method",
+      address: "Address", city: "City or village", district: "District", state: "State", pin: "PIN code",
+      category: "Category", level: "Level of education", institution: "Institution", divyang: "Divyang category"
+    },
+    mobileNote: "The mobile number is not verified. Results are sent by email.",
+    emailNote: "Results will be sent to this email.",
+    googleLabel: "With a Google account",
+    otpLabel: "With an email code",
+    divyangNo: "No",
+    divyangYes: "Yes",
+    divyangNote: "If selected under the divyang category, a government-issued disability certificate must be produced.",
+    stateValue: "Madhya Pradesh",
+    categories: { vidyalaya: "Vidyalaya Star", mahavidyalaya: "Mahavidyalaya Star" },
+    langTitle: "Language",
+    langNote: "This is the only editable setting on this page. Your choice is saved to your account.",
+    startQuiz: "Start the quiz",
+    signOut: "Sign out"
+  }
+};
+
+class Component extends DCLogic {
+  state = { lang: null };
+
+  componentDidMount() {
+    try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+  }
+
+  get lang() { return this.state.lang || this.props.language || "hi"; }
+
+  setLang(next) {
+    try { localStorage.setItem("skpn_lang", next); } catch (e) {}
+    this.setState({ lang: next });
+  }
+
+  renderVals() {
+    const lang = this.lang, t = S[lang], k = t.keys, hi = lang === "hi";
+    const name = hi ? STUDENT.fullName : STUDENT.fullNameEn;
+    return {
+      lang: lang,
+      t: t,
+      student: { fullName: name, district: hi ? STUDENT.districtHi : STUDENT.district },
+      initials: name.trim().charAt(0),
+      categoryLabel: t.categories[STUDENT.category],
+      stats: [
+        { label: t.stats[0], value: hi ? "3 बार" : "3 times" },
+        { label: t.stats[1], value: hi ? "24 जुलाई 2026" : "24 July 2026" },
+        { label: t.stats[2], value: "09:00" }
+      ],
+      attempts: ATTEMPTS.map(a => ({ date: hi ? a.date : a.dateEn, time: (hi ? "समय " : "time ") + (hi ? a.time : a.timeEn), status: hi ? "पूर्ण" : "Completed" })),
+      groups: [
+        { title: t.groups[0], note: t.mobileNote, noteDisplay: "block", rows: [
+          { k: k.name, v: name },
+          { k: k.gender, v: STUDENT.gender[lang] },
+          { k: k.dob, v: STUDENT.dob },
+          { k: k.mobile, v: "+91 " + STUDENT.mobile }
+        ] },
+        { title: t.groups[1], note: t.emailNote, noteDisplay: "block", rows: [
+          { k: k.email, v: STUDENT.email },
+          { k: k.provider, v: STUDENT.provider === "google" ? t.googleLabel : t.otpLabel }
+        ] },
+        { title: t.groups[2], note: "", noteDisplay: "none", rows: [
+          { k: k.address, v: STUDENT.address[lang] },
+          { k: k.city, v: STUDENT.city[lang] },
+          { k: k.district, v: hi ? STUDENT.districtHi : STUDENT.district },
+          { k: k.state, v: t.stateValue },
+          { k: k.pin, v: STUDENT.pin }
+        ] },
+        { title: t.groups[3], note: STUDENT.divyang ? t.divyangNote : "", noteDisplay: STUDENT.divyang ? "block" : "none", rows: [
+          { k: k.category, v: t.categories[STUDENT.category] },
+          { k: k.level, v: STUDENT.level[lang] },
+          { k: k.institution, v: STUDENT.institution[lang] },
+          { k: k.divyang, v: STUDENT.divyang ? t.divyangYes : t.divyangNo }
+        ] }
+      ],
+      hiOn: hi, enOn: !hi,
+      hiBg: hi ? "#14203E" : "#FCFAF4", hiFg: hi ? "#FDF3DF" : "#434C60", hiBorder: hi ? "#14203E" : "#DCD1BC",
+      enBg: hi ? "#FCFAF4" : "#14203E", enFg: hi ? "#434C60" : "#FDF3DF", enBorder: hi ? "#DCD1BC" : "#14203E",
+      setHi: () => this.setLang("hi"),
+      setEn: () => this.setLang("en"),
+      toggleLang: () => this.setLang(hi ? "en" : "hi")
+    };
+  }
+}
+
+</script>
+</body>
+</html>
