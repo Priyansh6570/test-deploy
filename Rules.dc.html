@@ -50,12 +50,11 @@
     <div aria-hidden="true" style="position:absolute;inset:-10%;background-image:radial-gradient(1.5px 1.5px at 14% 26%, rgba(255,238,196,.7), transparent 60%),radial-gradient(1.2px 1.2px at 74% 18%, rgba(255,238,196,.55), transparent 60%),radial-gradient(1.5px 1.5px at 42% 72%, rgba(255,238,196,.5), transparent 60%),radial-gradient(1.1px 1.1px at 88% 66%, rgba(255,238,196,.6), transparent 60%);background-size:460px 460px;animation:rl-drift 44s linear infinite alternate;opacity:.7"></div>
     <div aria-hidden="true" style="position:absolute;right:-8%;top:-40%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.18) 0%,rgba(232,193,115,0) 68%);animation:rl-glow 10s ease-in-out infinite"></div>
     <div data-e="pad" style="position:relative;max-width:1220px;margin:0 auto;padding:56px 30px 50px">
-      <p style="margin:0 0 12px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#E8C173;line-height:1.9">{{ t.kicker }}</p>
+      <p style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-size:17px;letter-spacing:.01em;color:#E8C173;line-height:1.9">{{ t.kicker }}</p>
       <h1 style="margin:0 0 16px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(27px,4vw,44px);line-height:1.26;color:#FFF9EC;max-width:26ch;text-wrap:balance">{{ t.title }}</h1>
-      <p style="margin:0 0 26px;max-width:60ch;font-size:17.5px;line-height:1.85;color:#C6CCDD">{{ t.lede }}</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px">
         <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
-          <span style="padding:9px 18px;border-radius:999px;border:1px solid rgba(232,193,115,.42);background:rgba(232,193,115,.1);color:#F3E3C2;font-size:15.5px;line-height:1.6;white-space:nowrap">{{ c }}</span>
+          <span style="padding:9px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#FFFFFF;font-size:15.5px;line-height:1.6;white-space:nowrap">{{ c }}</span>
         </sc-for>
       </div>
     </div>
@@ -67,7 +66,7 @@
   <section data-e="pad section" style="max-width:1220px;margin:0 auto;padding:48px 30px 72px">
     <div data-g="rules" style="display:grid;grid-template-columns:minmax(0,.3fr) minmax(0,1fr);gap:48px;align-items:start">
       <nav data-e="toc" aria-label="{{ t.tocLabel }}" style="position:sticky;top:92px">
-        <p style="margin:0 0 12px;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.tocLabel }}</p>
+        <p style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-size:15.5px;letter-spacing:.01em;color:#161C2E;line-height:1.8">{{ t.tocLabel }}</p>
         <div data-e="toclist" style="display:flex;flex-direction:column;gap:3px">
           <sc-for list="{{ toc }}" as="s" hint-placeholder-count="6">
             <a href="{{ s.href }}" data-e="tocitem" style="display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:12px;font-size:15.5px;line-height:1.6;background:{{ s.bg }};color:{{ s.fg }};border-left:2px solid {{ s.mark }};transition:background .2s ease,color .2s ease,border-color .2s ease" style-hover="background:#F1E9DA;color:#14203E">
@@ -91,7 +90,7 @@
               <sc-for list="{{ s.points }}" as="p" hint-placeholder-count="4">
                 <li style="display:flex;gap:14px;align-items:flex-start">
                   <span aria-hidden="true" style="margin-top:2px;width:26px;height:26px;flex:0 0 auto;border-radius:9px;background:#F7EFDD;border:1px solid #EADFC5;color:#8A6015;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums">{{ p.n }}</span>
-                  <span style="font-size:17px;line-height:1.85;color:#2E3646;text-wrap:pretty">{{ p.text }}</span>
+                  <span style="font-size:17px;line-height:1.85;color:#161C2E;text-wrap:pretty">{{ p.text }}</span>
                 </li>
               </sc-for>
             </ol>
@@ -101,19 +100,19 @@
         <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ true }}">
         <div data-e="card" data-reveal style="position:relative;overflow:hidden;padding:30px 32px;background:linear-gradient(150deg,#101838 0%,#070B1E 100%);border-radius:24px;box-shadow:0 18px 44px rgba(20,32,62,.22)">
           <span aria-hidden="true" style="position:absolute;left:-60px;bottom:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.18) 0%,rgba(232,193,115,0) 70%);animation:rl-glow 9s ease-in-out infinite"></span>
-          <p style="position:relative;margin:0 0 10px;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#E8C173;line-height:1.8">{{ t.endLabel }}</p>
+          <p style="position:relative;margin:0 0 10px;font-family:'Noto Serif Devanagari',serif;font-size:15.5px;letter-spacing:.01em;color:#E8C173;line-height:1.8">{{ t.endLabel }}</p>
           <p style="position:relative;margin:0 0 10px;font-family:'Noto Serif Devanagari',serif;font-size:20px;line-height:1.7;color:#FFF9EC">मैंने सारे नियम पढ़ लिए हैं और मुझे स्वीकार हैं। मेरी दी हुई जानकारी सही है।</p>
-          <p style="position:relative;margin:0 0 22px;font-size:16px;line-height:1.8;color:#B9C1D6">I have read all the rules and accept them. The information I have provided is correct.</p>
+          <p style="position:relative;margin:0 0 22px;font-size:16px;line-height:1.8;color:#E9E4D8">I have read all the rules and accept them. The information I have provided is correct.</p>
 
           <label style="position:relative;display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:16px 18px;border:1px solid {{ checkBorder }};border-radius:14px;background:{{ checkBg }};transition:border-color .16s ease,background .16s ease">
             <input type="checkbox" checked="{{ accepted }}" onChange="{{ toggleAccept }}" style="margin-top:3px;width:22px;height:22px;flex:0 0 auto;accent-color:#E8C173;cursor:pointer" />
-            <span style="font-size:16.5px;line-height:1.8;color:#E7EAF3">{{ t.checkboxLabel }}</span>
+            <span style="font-size:16.5px;line-height:1.8;color:#F6F2E9">{{ t.checkboxLabel }}</span>
           </label>
 
           <div data-e="ctarow" style="position:relative;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px">
-            <a href="Pratiyogita.dc.html" data-e="cta" style="padding:15px 26px;min-height:54px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,249,236,.36);border-radius:999px;font-size:17px;line-height:1.5;color:#EDEFF6" style-hover="background:rgba(255,255,255,.1)">{{ t.back }}</a>
+            <a href="Pratiyogita.dc.html" data-e="cta" style="padding:15px 26px;min-height:54px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,249,236,.36);border-radius:999px;font-size:17px;line-height:1.5;color:#F6F2E9" style-hover="background:rgba(255,255,255,.1)">{{ t.back }}</a>
             <a href="{{ continueHref }}" aria-disabled="{{ blocked }}" data-e="cta" style="padding:16px 32px;min-height:56px;display:inline-flex;align-items:center;justify-content:center;background:{{ continueBg }};color:{{ continueFg }};border-radius:999px;font-size:18px;font-weight:600;line-height:1.5;pointer-events:{{ continueEvents }};box-shadow:{{ continueShadow }}">{{ t.accept }}</a>
-            <span style="font-size:15.5px;line-height:1.7;color:#9BA5BE;display:{{ hintDisplay }}">{{ t.acceptHint }}</span>
+            <span style="font-size:15.5px;line-height:1.7;color:#DBD5C7;display:{{ hintDisplay }}">{{ t.acceptHint }}</span>
           </div>
         </div>
         </sc-if>
@@ -130,11 +129,10 @@ const S = {
   hi: {
     kicker: "दिशा निर्देश",
     title: "भगवान श्रीकृष्ण मेधावी छात्रवृत्ति योजना हेतु ऑन लाइन प्रतियोगिता के दिशा निर्देश",
-    lede: "यह पृष्ठ सार्वजनिक है और कोई भी इसे पढ़ सकता है। प्रत्येक प्रयास से पूर्व इन नियमों को स्वीकार करना अनिवार्य है।",
     chips: ["निःशुल्क", "30 प्रश्न", "10 मिनट", "दो वर्ग"],
     tocLabel: "विषय सूची",
     endLabel: "घोषणा",
-    checkboxLabel: "मैंने ऊपर दी गई घोषणा पढ़ ली है और मुझे स्वीकार है।",
+    checkboxLabel: "मैंने सभी नियम पढ़ और समझ लिए हैं तथा मैं इनसे सहमत हूँ।",
     accept: "स्वीकार करें और आगे बढ़ें",
     acceptHint: "आगे बढ़ने के लिए घोषणा स्वीकार करें।",
     back: "वापस जाएँ",
@@ -180,11 +178,10 @@ const S = {
   en: {
     kicker: "Guidelines",
     title: "Guidelines for the online competition of the Bhagwan Shri Krishna Medhavi Chhatravritti Yojana",
-    lede: "This page is public and may be read by anyone. These rules must be accepted before every attempt.",
     chips: ["Free entry", "30 questions", "10 minutes", "Two categories"],
     tocLabel: "Contents",
     endLabel: "Declaration",
-    checkboxLabel: "I have read the declaration above and I accept it.",
+    checkboxLabel: "I have read and understood all the rules and I agree to them.",
     accept: "Accept and continue",
     acceptHint: "Accept the declaration to continue.",
     back: "Go back",
@@ -230,10 +227,15 @@ const S = {
 };
 
 class Component extends DCLogic {
-  state = { lang: null, accepted: false, active: 0, progress: 0 };
+  state = { lang: null, accepted: false, active: 0, progress: 0, signedIn: null, attempts: 0 };
 
   componentDidMount() {
     try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+    try {
+      const si = localStorage.getItem("skpn_signed_in") === "1";
+      const at = Number(localStorage.getItem("skpn_attempts") || 0);
+      if (si || at) this.setState({ signedIn: si, attempts: at });
+    } catch (e) {}
 
     let queued = false;
     this._onScroll = () => {
@@ -268,12 +270,14 @@ class Component extends DCLogic {
     const lang = this.lang, t = S[lang];
     const ok = this.state.accepted;
     const active = this.state.active;
+    const signedIn = this.state.signedIn ?? (this.props.signedIn ?? false);
+    const attempts = this.state.attempts || 0;
     return {
       lang: lang,
       t: t,
       chips: t.chips,
       progress: this.state.progress.toFixed(1) + "%",
-      signedIn: this.props.signedIn ?? false,
+      signedIn: signedIn && attempts === 0,
       sections: t.sections.map(s => ({
         id: s.id, n: s.n, title: s.title,
         points: s.points.map((p, i) => ({ n: String(i + 1), text: p }))
@@ -283,15 +287,15 @@ class Component extends DCLogic {
         n: s.n,
         href: "#" + s.id,
         bg: i === active ? "#F4EBD8" : "transparent",
-        fg: i === active ? "#14203E" : "#434C60",
-        numFg: i === active ? "#8A6015" : "#9A9382",
+        fg: i === active ? "#14203E" : "#161C2E",
+        numFg: i === active ? "#8A6015" : "#161C2E",
         mark: i === active ? "#E8C173" : "transparent"
       })),
       accepted: ok,
       blocked: !ok,
-      continueHref: ok ? ((this.props.signedIn ?? false) ? "Quiz.dc.html" : "Register.dc.html") : "#",
+      continueHref: ok ? "Quiz.dc.html" : "#",
       continueBg: ok ? "linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%)" : "rgba(255,249,236,.12)",
-      continueFg: ok ? "#1E1503" : "#8891A8",
+      continueFg: ok ? "#1E1503" : "#DBD5C7",
       continueEvents: ok ? "auto" : "none",
       continueShadow: ok ? "0 12px 30px rgba(232,193,115,.28)" : "none",
       hintDisplay: ok ? "none" : "inline",

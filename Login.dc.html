@@ -62,14 +62,14 @@
         </div>
 
         <div data-e="asidebody" style="position:relative;margin-top:auto;display:flex;flex-direction:column;gap:12px">
-          <p style="margin:0;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#E8C173;line-height:1.9">{{ t.asideKicker }}</p>
+          <p style="margin:0;font-family:'Noto Serif Devanagari',serif;font-size:16.5px;letter-spacing:.01em;color:#E8C173;line-height:1.9">{{ t.asideKicker }}</p>
           <h2 style="margin:0;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(23px,2.5vw,30px);line-height:1.32;color:#FFF9EC;text-wrap:balance">{{ t.asideTitle }}</h2>
         </div>
 
         <div style="position:relative;padding-top:20px;border-top:1px solid rgba(232,193,115,.24);display:flex;flex-direction:column;gap:14px">
           <div data-e="asideslide" style="min-height:64px;display:flex;flex-direction:column;gap:5px;animation:{{ slideAnim }} .45s cubic-bezier(.22,.61,.36,1)">
             <span data-e="slidevalue" style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:26px;line-height:1.25;color:#E8C173;white-space:nowrap">{{ slide.value }}</span>
-            <span style="font-size:15.5px;line-height:1.7;color:#C6CCDD">{{ slide.label }}</span>
+            <span style="font-size:15.5px;line-height:1.7;color:#E9E4D8">{{ slide.label }}</span>
           </div>
           <div aria-hidden="true" style="display:flex;gap:6px">
             <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
@@ -82,12 +82,12 @@
       <div data-e="form" style="padding:38px 36px;background:#FFFFFF;display:flex;flex-direction:column;gap:24px">
         <div>
           <h1 style="margin:0 0 8px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(25px,3.2vw,33px);line-height:1.3;color:#14203E">{{ t.title }}</h1>
-          <p style="margin:0;font-size:17px;line-height:1.8;color:#565F72">{{ t.lede }}</p>
+          <p style="margin:0;font-size:17px;line-height:1.8;color:#161C2E">{{ t.lede }}</p>
         </div>
 
         <div style="display:flex;flex-direction:column;gap:18px">
           <label style="display:flex;flex-direction:column;gap:8px">
-            <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.mobileLabel }}</span>
+            <span style="font-size:16px;line-height:1.6;color:#161C2E">{{ t.mobileLabel }}</span>
             <span style="display:flex;align-items:stretch;border:1px solid {{ mobileBorder }};border-radius:14px;background:#FCFAF4;overflow:hidden">
               <span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:0 13px;background:#F1E9DA;border-right:1px solid #E3D9C6">
                 <svg viewBox="0 0 30 20" width="26" height="18" aria-hidden="true" focusable="false" style="display:block;border-radius:3px;box-shadow:0 0 0 1px rgba(20,32,62,.14)">
@@ -97,7 +97,7 @@
                   <circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.7"></circle>
                   <circle cx="15" cy="10" r="0.6" fill="#000080"></circle>
                 </svg>
-                <span style="font-size:16.5px;line-height:1.6;color:#2E3646;font-variant-numeric:tabular-nums">+91</span>
+                <span style="font-size:16.5px;line-height:1.6;color:#161C2E;font-variant-numeric:tabular-nums">+91</span>
               </span>
               <input type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" value="{{ mobile }}" onInput="{{ onMobile }}" placeholder="00000 00000" style="flex:1 1 auto;min-width:0;min-height:58px;padding:14px 16px;border:0;background:transparent;font-size:19px;letter-spacing:.04em;line-height:1.6;color:#161C2E;font-variant-numeric:tabular-nums" />
             </span>
@@ -107,7 +107,7 @@
           <a href="{{ goHref }}" onClick="{{ markSignedIn }}" style="min-height:58px;padding:16px 28px;border-radius:999px;background:{{ goBg }};color:{{ goFg }};display:flex;align-items:center;justify-content:center;font-size:17.5px;font-weight:600;line-height:1.5;pointer-events:{{ goEvents }};text-decoration:none">{{ t.continue }}</a>
         </div>
 
-        <p style="margin:auto 0 0;padding-top:20px;border-top:1px solid #F0EADD;font-size:16.5px;line-height:1.8;color:#434C60">{{ t.noAccount }} <a href="Register.dc.html">{{ t.register }}</a></p>
+        <p style="margin:auto 0 0;padding-top:20px;border-top:1px solid #F0EADD;font-size:16.5px;line-height:1.8;color:#161C2E">{{ t.noAccount }} <a href="Register.dc.html">{{ t.register }}</a></p>
       </div>
     </div>
   </section>
@@ -184,7 +184,7 @@ class Component extends DCLogic {
       mobileMsgDisplay: bad ? "block" : "none",
       goHref: ok ? "Home v5.dc.html" : "#",
       goBg: ok ? "#14203E" : "#EDE6D7",
-      goFg: ok ? "#FDF3DF" : "#7C8494",
+      goFg: ok ? "#FDF3DF" : "#161C2E",
       goEvents: ok ? "auto" : "none",
       markSignedIn: () => { try { localStorage.setItem("skpn_signed_in", "1"); } catch (e) {} },
       toggleLang: () => {

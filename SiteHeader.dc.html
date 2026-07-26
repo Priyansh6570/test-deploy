@@ -23,7 +23,7 @@
       </span>
       <span data-e="brandtext" style="display:flex;flex-direction:column;line-height:1.25;min-width:0">
         <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:16.5px;color:#14203E">{{ t.orgShort }}</span>
-        <span style="font-size:11px;color:#565F72">{{ t.deptShort }}</span>
+        <span style="font-size:11px;color:#161C2E">{{ t.deptShort }}</span>
       </span>
     </a>
     <nav data-e="nav" style="margin-left:auto;display:flex;align-items:center;gap:2px">
@@ -83,7 +83,7 @@
           <svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" style="display:block"><path d="M21.3 8.2a2.6 2.6 0 00-1.8-1.8C17.8 6 12 6 12 6s-5.8 0-7.5.4A2.6 2.6 0 002.7 8.2C2.3 9.9 2.3 12 2.3 12s0 2.1.4 3.8a2.6 2.6 0 001.8 1.8C6.2 18 12 18 12 18s5.8 0 7.5-.4a2.6 2.6 0 001.8-1.8c.4-1.7.4-3.8.4-3.8s0-2.1-.4-3.8zM10.2 15V9l5.2 3z" fill="#F1DFB6"></path></svg>
         </a>
       </div>
-      <a href="mailto:shrikrishnapatheynyas@gmail.com" style="font-size:14.5px;line-height:1.7;color:#C6CCDD;text-decoration:none">shrikrishnapatheynyas@gmail.com</a>
+      <a href="mailto:shrikrishnapatheynyas@gmail.com" style="font-size:14.5px;line-height:1.7;color:#E9E4D8;text-decoration:none">shrikrishnapatheynyas@gmail.com</a>
     </div>
   </aside>
 </div>
@@ -96,7 +96,7 @@ const NAV = {
     { key: "about", label: "हमारे बारे में", href: "About.dc.html" },
     { key: "pratiyogita", label: "प्रतियोगिता", href: "Pratiyogita.dc.html" },
     { key: "rules", label: "नियम", href: "Rules.dc.html" },
-    { key: "certificates", label: "मेरे प्रमाण पत्र", href: "Certificates.dc.html" }
+    { key: "certificates", label: "प्रमाण पत्र", href: "Certificates.dc.html" }
   ],
   en: [
     { key: "home", label: "Home", href: "Home v5.dc.html" },
@@ -144,14 +144,14 @@ class Component extends DCLogic {
           weight: i.key === active ? "600" : "400",
           underline: i.key === active ? "#E8C173" : "transparent",
           drawerBg: i.key === active ? "rgba(232,193,115,.14)" : "transparent",
-          drawerFg: i.key === active ? "#FFF9EC" : "#D2D8E8"
+          drawerFg: i.key === active ? "#FFF9EC" : "#F2EEE4"
         })),
       accountHref: signedIn ? "Profile.dc.html" : "Login.dc.html",
       accountLabel: signedIn ? t.account : t.signIn,
       hiBg: lang === "hi" ? "#14203E" : "transparent",
-      hiFg: lang === "hi" ? "#FDF3DF" : "#434C60",
+      hiFg: lang === "hi" ? "#FDF3DF" : "#161C2E",
       enBg: lang === "en" ? "#14203E" : "transparent",
-      enFg: lang === "en" ? "#FDF3DF" : "#434C60",
+      enFg: lang === "en" ? "#FDF3DF" : "#161C2E",
       open: open,
       drawerTransform: open ? "translateX(0)" : "translateX(102%)",
       drawerVis: open ? "visible" : "hidden",

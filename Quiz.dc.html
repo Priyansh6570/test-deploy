@@ -18,6 +18,12 @@
   a:hover { color: #8A6015; }
   button, input { font-family: 'Noto Sans Devanagari', system-ui, sans-serif; }
   button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #27408B; outline-offset: 2px; }
+  [data-e~="cwarn"] { white-space: nowrap; text-align: center; }
+  [data-e~="cwarn"] br { display: none; }
+  @media (max-width: 760px) {
+    [data-e~="cwarn"] { white-space: normal; text-align: left; }
+    [data-e~="cwarn"] br { display: block; }
+  }
   @media (max-width: 980px) {
     [data-g="quiz"] { grid-template-columns: minmax(0,1fr) !important; }
     [data-g="two"] { grid-template-columns: minmax(0,1fr) !important; }
@@ -48,10 +54,10 @@
           <svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="#8A6015" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:block"><circle cx="16" cy="16" r="11"></circle><path d="M11 16.4l3.4 3.3L21 12.6"></path></svg>
         </span>
         <h1 style="margin:0 0 14px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.8vw,38px);line-height:1.3;color:#14203E">{{ t.onceTitle }}</h1>
-        <p style="margin:0 0 32px;max-width:56ch;font-size:17.5px;line-height:1.85;color:#434C60">{{ t.onceBody }}</p>
+        <p style="margin:0 0 32px;max-width:56ch;font-size:17.5px;line-height:1.85;color:#161C2E">{{ t.onceBody }}</p>
         <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
           <a href="Certificates.dc.html" data-e="cta" style="min-height:58px;padding:17px 32px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;line-height:1.5">{{ t.download }}</a>
-          <a href="Home v5.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.home }}</a>
+          <a href="Home v5.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#161C2E" style-hover="background:#F1E9DA">{{ t.home }}</a>
         </div>
       </section>
       <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
@@ -63,21 +69,20 @@
       <dc-import name="SiteHeader" lang="{{ lang }}" active="pratiyogita" signed-in="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
       <section data-e="pad" style="max-width:860px;margin:0 auto;padding:52px 30px 76px">
         <h1 style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.8vw,38px);line-height:1.3;color:#14203E">{{ t.insTitle }}</h1>
-        <p style="margin:0 0 30px;max-width:56ch;font-size:17.5px;line-height:1.85;color:#434C60">{{ t.insLede }}</p>
+        <p style="margin:0 0 30px;max-width:56ch;font-size:17.5px;line-height:1.85;color:#161C2E">{{ t.insLede }}</p>
         <ul data-e="card" style="margin:0 0 26px;padding:30px;list-style:none;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 16px 34px rgba(20,32,62,.07);display:flex;flex-direction:column;gap:14px">
           <sc-for list="{{ t.instructions }}" as="i" hint-placeholder-count="7">
             <li style="display:flex;gap:14px;align-items:flex-start">
               <span aria-hidden="true" style="margin-top:8px;width:8px;height:8px;flex:0 0 auto;border-radius:50%;background:#E8C173"></span>
-              <span style="font-size:17px;line-height:1.85;color:#2E3646">{{ i }}</span>
+              <span style="font-size:17px;line-height:1.85;color:#161C2E">{{ i }}</span>
             </li>
           </sc-for>
         </ul>
-        <p style="margin:0 0 28px;padding:20px 24px;border-left:3px solid #8A6015;border-radius:0 16px 16px 0;background:#F4EBD8;font-size:17px;line-height:1.85;color:#3D3524">{{ t.insWarning }}</p>
+        <p style="margin:0 0 28px;padding:20px 24px;border-left:3px solid #8A6015;border-radius:0 16px 16px 0;background:#F4EBD8;font-size:17px;line-height:1.85;color:#161C2E">{{ t.insWarning }}</p>
         <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
           <button type="button" onClick="{{ begin }}" data-e="cta" style="min-height:58px;padding:17px 34px;border:0;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;cursor:pointer;font-size:18.5px;font-weight:600;line-height:1.5">{{ t.begin }}</button>
-          <a href="Pratiyogita.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.exit }}</a>
+          <a href="Pratiyogita.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#161C2E" style-hover="background:#F1E9DA">{{ t.exit }}</a>
         </div>
-        <p style="margin:16px 0 0;font-size:15.5px;line-height:1.8;color:#565F72">{{ t.exitNote }}</p>
       </section>
       <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
     </div>
@@ -88,7 +93,7 @@
       <header style="position:sticky;top:0;z-index:40;background:#FFFFFF;border-bottom:1px solid #E8DFCE">
         <div data-e="pad" style="max-width:1220px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px">
           <img src="uploads/skpn-logo.png" alt="श्रीकृष्ण पाथेय न्यास" width="38" height="38" style="display:block;width:38px;height:38px;flex:0 0 auto" />
-          <span style="font-size:15.5px;line-height:1.6;color:#565F72;white-space:nowrap">{{ progressLine }}</span>
+          <span style="font-size:15.5px;line-height:1.6;color:#161C2E;white-space:nowrap">{{ progressLine }}</span>
           <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
             <button type="button" onClick="{{ toggleLang }}" aria-label="Switch language" style="display:flex;align-items:center;border:1px solid #DCD1BC;background:#FCFAF4;border-radius:999px;padding:3px;cursor:pointer">
               <span style="padding:5px 11px;font-size:14px;line-height:1.5;border-radius:999px;background:{{ hiBg }};color:{{ hiFg }}">हिं</span>
@@ -107,12 +112,12 @@
       <p aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">{{ announcement }}</p>
 
       <div style="display:{{ offlineDisplay }};background:#F4EBD8;border-bottom:1px solid #E5D3AC">
-        <p data-e="pad" style="margin:0;max-width:1220px;padding:12px 24px;font-size:15.5px;line-height:1.7;color:#3D3524">{{ t.offline }}</p>
+        <p data-e="pad" style="margin:0;max-width:1220px;padding:12px 24px;font-size:15.5px;line-height:1.7;color:#161C2E">{{ t.offline }}</p>
       </div>
 
       <div data-g="quiz" data-e="pad qpad" style="flex:1 1 auto;max-width:1220px;width:100%;margin:0 auto;padding:28px 24px 40px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;align-items:start">
         <main data-e="card" style="padding:30px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 30px rgba(20,32,62,.06)">
-          <p style="margin:0 0 14px;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ questionCounter }}</p>
+          <p style="margin:0 0 14px;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#161C2E;line-height:1.8">{{ questionCounter }}</p>
           <h1 style="margin:0 0 24px;font-family:'Noto Serif Devanagari',serif;font-weight:500;font-size:clamp(21px,2.6vw,27px);line-height:1.6;color:#161C2E">{{ question.text }}</h1>
           <div style="display:flex;flex-direction:column;gap:12px">
             <sc-for list="{{ options }}" as="o" hint-placeholder-count="4">
@@ -128,13 +133,13 @@
           </div>
           <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:26px;padding-top:22px;border-top:1px solid #F0EADD">
             <button type="button" onClick="{{ prev }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:{{ prevCursor }};font-size:16.5px;line-height:1.5;color:{{ prevFg }}">{{ t.prev }}</button>
-            <button type="button" onClick="{{ clearAnswer }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#434C60;display:{{ clearDisplay }}">{{ t.clear }}</button>
+            <button type="button" onClick="{{ clearAnswer }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#161C2E;display:{{ clearDisplay }}">{{ t.clear }}</button>
             <button type="button" onClick="{{ next }}" style="margin-left:auto;min-height:54px;padding:15px 30px;border:0;border-radius:999px;background:{{ nextBg }};color:{{ nextFg }};cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ nextLabel }}</button>
           </div>
         </main>
 
         <aside data-e="palette-desktop card" style="padding:24px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 30px rgba(20,32,62,.06);position:sticky;top:96px">
-          <p style="margin:0 0 14px;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.paletteTitle }}</p>
+          <p style="margin:0 0 14px;font-family:'Noto Serif Devanagari',serif;font-size:15.5px;letter-spacing:.01em;color:#161C2E;line-height:1.8">{{ t.paletteTitle }}</p>
           <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:20px">
             <sc-for list="{{ palette }}" as="p" hint-placeholder-count="30">
               <button type="button" onClick="{{ p.go }}" aria-label="{{ p.aria }}" aria-current="{{ p.current }}" style="aspect-ratio:1/1;min-width:38px;min-height:38px;border:{{ p.border }};border-radius:{{ p.radius }};background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:14.5px;font-weight:600;line-height:1;display:flex;align-items:center;justify-content:center;position:relative;font-variant-numeric:tabular-nums">{{ p.n }}<span aria-hidden="true" style="position:absolute;right:2px;bottom:1px;font-size:11px;line-height:1;color:{{ p.markFg }}">{{ p.mark }}</span></button>
@@ -144,7 +149,7 @@
             <sc-for list="{{ counts }}" as="c" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;gap:11px">
                 <span aria-hidden="true" style="width:26px;height:26px;flex:0 0 auto;border:{{ c.border }};border-radius:{{ c.radius }};background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">{{ c.mark }}</span>
-                <dt style="flex:1 1 auto;font-size:15.5px;line-height:1.6;color:#434C60">{{ c.label }}</dt>
+                <dt style="flex:1 1 auto;font-size:15.5px;line-height:1.6;color:#161C2E">{{ c.label }}</dt>
                 <dd style="margin:0;font-size:16px;font-weight:600;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums">{{ c.value }}</dd>
               </div>
             </sc-for>
@@ -165,7 +170,7 @@
         <div style="width:100%;max-height:80vh;overflow:auto;background:#FFFFFF;border-radius:22px 22px 0 0;padding:22px 18px 28px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
             <p style="margin:0;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.5;color:#14203E">{{ t.paletteTitle }}</p>
-            <button type="button" onClick="{{ closeSheet }}" aria-label="{{ t.close }}" style="width:46px;height:46px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;cursor:pointer;font-size:19px;line-height:1;color:#434C60">×</button>
+            <button type="button" onClick="{{ closeSheet }}" aria-label="{{ t.close }}" style="width:46px;height:46px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;cursor:pointer;font-size:19px;line-height:1;color:#161C2E">×</button>
           </div>
           <div role="status" style="display:{{ guardDisplay }};align-items:center;gap:10px;margin-bottom:16px;padding:12px 16px;border-radius:14px;background:#FBEEDC;border:1px solid #E4C48A;font-size:15.5px;line-height:1.6;color:#7A4B0C">
             <span aria-hidden="true" style="width:22px;height:22px;flex:0 0 auto;border-radius:50%;background:#E8C173;color:#3A2703;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">!</span>
@@ -180,7 +185,7 @@
             <sc-for list="{{ counts }}" as="c" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;gap:11px">
                 <span aria-hidden="true" style="width:26px;height:26px;flex:0 0 auto;border:{{ c.border }};border-radius:{{ c.radius }};background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">{{ c.mark }}</span>
-                <dt style="flex:1 1 auto;font-size:15.5px;line-height:1.6;color:#434C60">{{ c.label }}</dt>
+                <dt style="flex:1 1 auto;font-size:15.5px;line-height:1.6;color:#161C2E">{{ c.label }}</dt>
                 <dd style="margin:0;font-size:16px;font-weight:600;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums">{{ c.value }}</dd>
               </div>
             </sc-for>
@@ -189,20 +194,20 @@
       </div>
 
       <div role="dialog" aria-modal="true" aria-label="{{ t.confirmTitle }}" style="display:{{ modalDisplay }};position:fixed;inset:0;z-index:70;background:rgba(11,18,38,.55);align-items:center;justify-content:center;padding:20px">
-        <div data-e="card" style="width:100%;max-width:520px;background:#FFFFFF;border-radius:22px;padding:30px;box-shadow:0 30px 70px rgba(11,18,38,.4)">
+        <div data-e="card" style="width:100%;max-width:700px;background:#FFFFFF;border-radius:22px;padding:30px;box-shadow:0 30px 70px rgba(11,18,38,.4)">
           <h2 style="margin:0 0 18px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:23px;line-height:1.4;color:#14203E">{{ t.confirmTitle }}</h2>
           <dl style="margin:0 0 20px;display:flex;flex-direction:column">
             <sc-for list="{{ summary }}" as="r" hint-placeholder-count="3">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid #F0EADD">
-                <dt style="font-size:16.5px;line-height:1.6;color:#434C60">{{ r.label }}</dt>
+                <dt style="font-size:16.5px;line-height:1.6;color:#161C2E">{{ r.label }}</dt>
                 <dd style="margin:0;font-size:18px;font-weight:600;line-height:1.5;color:#161C2E;font-variant-numeric:tabular-nums">{{ r.value }}</dd>
               </div>
             </sc-for>
           </dl>
-          <p style="margin:0 0 24px;padding:16px 20px;border-radius:14px;background:#F4EBD8;font-size:16.5px;line-height:1.8;color:#3D3524">{{ t.confirmWarning }}</p>
+          <p data-e="cwarn" style="margin:0 0 24px;padding:16px 20px;border-radius:14px;background:#F4EBD8;font-size:16px;line-height:1.8;color:#161C2E">{{ t.confirmWarn1 }} <br />{{ t.confirmWarn2 }}</p>
           <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
             <button type="button" onClick="{{ closeModal }}" style="flex:1 1 auto;min-height:56px;max-height:56px;padding:0 26px;border:0;border-radius:999px;background:#14203E;color:#FDF3DF;cursor:pointer;font-size:17.5px;font-weight:600;line-height:1.5">{{ t.goBack }}</button>
-            <button type="button" onClick="{{ confirmSubmit }}" style="flex:1 1 auto;min-height:54px;max-height:54px;padding:0 24px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#434C60">{{ t.confirm }}</button>
+            <button type="button" onClick="{{ confirmSubmit }}" style="flex:1 1 auto;min-height:54px;max-height:54px;padding:0 24px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#161C2E">{{ t.confirm }}</button>
           </div>
         </div>
       </div>
@@ -213,25 +218,24 @@
     <div>
       <dc-import name="SiteHeader" lang="{{ lang }}" active="certificates" signed-in="{{ true }}" has-certificates="{{ true }}" on-toggle-lang="{{ toggleLang }}" hint-size="100%,68px"></dc-import>
       <section data-e="pad" style="max-width:900px;margin:0 auto;padding:52px 30px 76px">
-        <p style="margin:0 0 12px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#6E6247;line-height:1.9">{{ submittedKind }}</p>
+        <p style="margin:0 0 12px;font-family:'Noto Serif Devanagari',serif;font-size:17px;letter-spacing:.01em;color:#161C2E;line-height:1.9">{{ submittedKind }}</p>
         <h1 style="margin:0 0 10px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(26px,3.8vw,38px);line-height:1.3;color:#14203E">{{ t.doneTitle }}</h1>
-        <p style="margin:0 0 30px;font-size:17px;line-height:1.8;color:#565F72">{{ stampLine }}</p>
+        <p style="margin:0 0 30px;font-size:17px;line-height:1.8;color:#161C2E">{{ stampLine }}</p>
 
         <div data-g="two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:26px">
           <sc-for list="{{ results }}" as="r" hint-placeholder-count="4">
             <div data-e="card" style="padding:26px 28px;background:#FFFFFF;border-radius:20px;box-shadow:0 2px 4px rgba(20,32,62,.05),0 14px 30px rgba(20,32,62,.06);display:flex;flex-direction:column;gap:6px">
-              <span style="font-size:15.5px;line-height:1.6;color:#565F72">{{ r.label }}</span>
+              <span style="font-size:15.5px;line-height:1.6;color:#161C2E">{{ r.label }}</span>
               <span style="font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:30px;line-height:1.3;color:#14203E;font-variant-numeric:tabular-nums">{{ r.value }}</span>
             </div>
           </sc-for>
         </div>
 
-        <p style="margin:0 0 28px;padding:24px 28px;border-left:3px solid #8A6015;border-radius:0 18px 18px 0;background:#F4EBD8;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.7;color:#3D3524">{{ t.lotteryWarning }}</p>
-        <p style="margin:0 0 30px;font-size:16.5px;line-height:1.85;color:#434C60;max-width:66ch">{{ t.resultsNote }}</p>
+        <p style="margin:0 0 30px;font-size:16.5px;line-height:1.85;color:#161C2E;max-width:66ch">{{ t.resultsNote }}</p>
 
         <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px">
           <a href="Certificates.dc.html" data-e="cta" style="min-height:58px;padding:17px 32px;border-radius:999px;background:linear-gradient(180deg,#F6E0AC 0%,#E8C173 100%);color:#1E1503;display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;line-height:1.5">{{ t.download }}</a>
-          <a href="Profile.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#434C60" style-hover="background:#F1E9DA">{{ t.profile }}</a>
+          <a href="Profile.dc.html" data-e="cta" style="min-height:56px;padding:16px 28px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1.5;color:#161C2E" style-hover="background:#F1E9DA">{{ t.profile }}</a>
         </div>
       </section>
       <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,300px"></dc-import>
@@ -309,7 +313,6 @@ const T = {
     insWarning: "कनेक्शन टूटने अथवा किसी अन्य व्यवधान की स्थिति में समय नहीं बढ़ाया जाएगा। उत्तर स्वतः सुरक्षित होते रहते हैं।",
     begin: "प्रारंभ करें",
     exit: "बाहर जाएँ",
-    exitNote: "प्रारंभ करने से पूर्व बाहर जाने पर प्रयास दर्ज नहीं होता।",
     timeLeft: "शेष समय",
     normal: "शेष",
     warning: "सावधान",
@@ -327,7 +330,8 @@ const T = {
     states: ["वर्तमान", "उत्तर दिया गया", "देखा गया, उत्तर नहीं दिया", "नहीं देखा गया"],
     confirmTitle: "प्रयास जमा करें?",
     summary: ["उत्तर दिए गए", "उत्तर नहीं दिए", "शेष समय"],
-    confirmWarning: "एक बार जमा करने के बाद यह प्रयास अंतिम है। दूसरा प्रयास संभव नहीं है।",
+    confirmWarn1: "एक बार जमा करने के बाद यह प्रयास अंतिम है।",
+    confirmWarn2: "दूसरा प्रयास संभव नहीं है।",
     goBack: "वापस जाएँ",
     confirm: "हाँ, जमा करें",
     doneTitle: "आपका प्रयास दर्ज हो गया",
@@ -335,9 +339,8 @@ const T = {
     submittedAuto: "समय समाप्त, स्वतः जमा",
     stamp: "दर्ज समय",
     results: ["उत्तर दिए गए", "उत्तर नहीं दिए", "कुल प्रयास", "लिया गया समय"],
-    lotteryWarning: "अधिक अंक प्राप्त करना ही छात्रवृत्ति की गारंटी नहीं है। चयन जिलेवार मेरिट सूची से बने पूल में से निर्णायक समिति द्वारा लॉटरी के माध्यम से होता है।",
-    resultsNote: "परिणाम इसी वेबसाइट पर प्रकाशित किए जाएँगे तथा चयनित विद्यार्थियों को ईमेल एवं मोबाइल पर सूचित किया जाएगा। प्रकाशन की तिथि घोषित होना शेष है।",
-    download: "मेरे प्रमाण पत्र",
+    resultsNote: "परिणाम इसी वेबसाइट पर प्रकाशित किए जाएँगे तथा चयनित विद्यार्थियों को ईमेल एवं मोबाइल पर सूचित किया जाएगा। 1 नवंबर 2026 को चयनित विद्यार्थियों को छात्रवृत्ति प्रदान की जाएगी।",
+    download: "प्रमाण पत्र",
     home: "मुख्य पृष्ठ",
     onceTitle: "आपका प्रयास पहले ही दर्ज है",
     onceBody: "यह प्रतियोगिता प्रत्येक विद्यार्थी केवल एक बार दे सकता है। आपका प्रयास दर्ज हो चुका है, अतः दूसरा प्रयास संभव नहीं है।",
@@ -358,7 +361,6 @@ const T = {
     insWarning: "The timer will not be extended for a lost connection or any other interruption. Your answers are saved as you go.",
     begin: "Begin",
     exit: "Leave",
-    exitNote: "Leaving before you begin does not record an attempt.",
     timeLeft: "Time remaining",
     normal: "left",
     warning: "Careful",
@@ -376,7 +378,8 @@ const T = {
     states: ["Current", "Answered", "Visited, unanswered", "Not visited"],
     confirmTitle: "Submit this attempt?",
     summary: ["Answered", "Not answered", "Time remaining"],
-    confirmWarning: "Once submitted this attempt is final. A second attempt is not possible.",
+    confirmWarn1: "Once submitted this attempt is final.",
+    confirmWarn2: "A second attempt is not possible.",
     goBack: "Go back",
     confirm: "Yes, submit",
     doneTitle: "Your attempt has been recorded",
@@ -384,9 +387,8 @@ const T = {
     submittedAuto: "Time expired, submitted automatically",
     stamp: "Recorded at",
     results: ["Answered", "Not answered", "Attempts taken", "Time taken"],
-    lotteryWarning: "A high score does not by itself win the scholarship. Selection is made by the adjudicating committee, by lottery, from the pool formed by district-wise merit lists.",
-    resultsNote: "Results will be published on this website and selected students will be informed by email and mobile. The publication date is yet to be announced.",
-    download: "My certificates",
+    resultsNote: "Results will be published on this website and selected students will be informed by email and mobile. On 1 November 2026 the scholarship will be presented to the selected students.",
+    download: "Certificate",
     home: "Home",
     onceTitle: "Your attempt is already recorded",
     onceBody: "Each student may take the competition only once. Your attempt has been recorded, so a second attempt is not possible.",
@@ -490,8 +492,8 @@ class Component extends DCLogic {
     const paletteStyle = i => {
       if (i === s.index) return { bg: "#14203E", fg: "#FFF9EC", border: "2px solid #14203E", radius: "12px", mark: "", markFg: "#FFF9EC", state: t.states[0] };
       if (s.answers[i] !== undefined) return { bg: "#E8C173", fg: "#1E1503", border: "1.5px solid #B98F3C", radius: "12px", mark: "✓", markFg: "#1E1503", state: t.states[1] };
-      if (s.visited[i]) return { bg: "#FCFAF4", fg: "#434C60", border: "1.5px dashed #A9B0BE", radius: "12px", mark: "–", markFg: "#565F72", state: t.states[2] };
-      return { bg: "#F2ECE0", fg: "#565F72", border: "1px solid #E3D9C6", radius: "50%", mark: "", markFg: "#565F72", state: t.states[3] };
+      if (s.visited[i]) return { bg: "#FCFAF4", fg: "#161C2E", border: "1.5px dashed #A9B0BE", radius: "12px", mark: "–", markFg: "#161C2E", state: t.states[2] };
+      return { bg: "#F2ECE0", fg: "#161C2E", border: "1px solid #E3D9C6", radius: "50%", mark: "", markFg: "#161C2E", state: t.states[3] };
     };
 
     const goTo = i => this.setState(p => {
@@ -518,9 +520,9 @@ class Component extends DCLogic {
       announcement: s.announcement,
       offlineDisplay: s.offline ? "block" : "none",
       hiBg: lang === "hi" ? "#14203E" : "transparent",
-      hiFg: lang === "hi" ? "#FDF3DF" : "#434C60",
+      hiFg: lang === "hi" ? "#FDF3DF" : "#161C2E",
       enBg: lang === "en" ? "#14203E" : "transparent",
-      enFg: lang === "en" ? "#FDF3DF" : "#434C60",
+      enFg: lang === "en" ? "#FDF3DF" : "#161C2E",
 
       options: q.options.map((text, i) => {
         const on = s.answers[s.index] === i;
@@ -535,7 +537,7 @@ class Component extends DCLogic {
           fg: "#161C2E",
           border: on ? "#14203E" : "#E3D9C6",
           markBg: on ? "#14203E" : "#FFFFFF",
-          markFg: on ? "#FFF9EC" : "#565F72",
+          markFg: on ? "#FFF9EC" : "#161C2E",
           markBorder: on ? "#14203E" : "#DCD1BC"
         };
       }),
@@ -543,7 +545,7 @@ class Component extends DCLogic {
       guardDisplay: s.guard && s.answers[s.index] === undefined ? "inline-flex" : "none",
       prev: () => { if (s.index > 0) goTo(s.index - 1); },
       prevCursor: s.index === 0 ? "not-allowed" : "pointer",
-      prevFg: s.index === 0 ? "#9AA2B1" : "#434C60",
+      prevFg: s.index === 0 ? "#9AA2B1" : "#161C2E",
       next: () => {
         if (s.answers[s.index] === undefined) { this.setState({ guard: true }); return; }
         if (s.index < TOTAL - 1) goTo(s.index + 1); else this.setState({ modal: true, guard: false });
@@ -573,8 +575,8 @@ class Component extends DCLogic {
       }),
       counts: [
         { label: t.states[1], value: String(answeredCount), bg: "#E8C173", fg: "#1E1503", border: "1.5px solid #B98F3C", radius: "8px", mark: "✓" },
-        { label: t.states[2], value: String(visitedUnanswered), bg: "#FCFAF4", fg: "#565F72", border: "1.5px dashed #A9B0BE", radius: "8px", mark: "–" },
-        { label: t.states[3], value: String(notVisited < 0 ? 0 : notVisited), bg: "#F2ECE0", fg: "#565F72", border: "1px solid #E3D9C6", radius: "50%", mark: "" },
+        { label: t.states[2], value: String(visitedUnanswered), bg: "#FCFAF4", fg: "#161C2E", border: "1.5px dashed #A9B0BE", radius: "8px", mark: "–" },
+        { label: t.states[3], value: String(notVisited < 0 ? 0 : notVisited), bg: "#F2ECE0", fg: "#161C2E", border: "1px solid #E3D9C6", radius: "50%", mark: "" },
         { label: t.states[0], value: String(s.index + 1), bg: "#14203E", fg: "#FFF9EC", border: "2px solid #14203E", radius: "8px", mark: "" }
       ],
       answeredOf: answeredCount + " / " + TOTAL,
