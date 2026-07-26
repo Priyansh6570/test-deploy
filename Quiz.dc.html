@@ -122,6 +122,10 @@
               </button>
             </sc-for>
           </div>
+          <div role="status" style="display:{{ guardDisplay }};align-items:center;gap:10px;margin-top:18px;padding:12px 18px;border-radius:999px;background:#FBEEDC;border:1px solid #E4C48A;font-size:16px;line-height:1.6;color:#7A4B0C;width:fit-content">
+            <span aria-hidden="true" style="width:22px;height:22px;flex:0 0 auto;border-radius:50%;background:#E8C173;color:#3A2703;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">!</span>
+            <span>{{ t.guardMsg }}</span>
+          </div>
           <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:26px;padding-top:22px;border-top:1px solid #F0EADD">
             <button type="button" onClick="{{ prev }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:{{ prevCursor }};font-size:16.5px;line-height:1.5;color:{{ prevFg }}">{{ t.prev }}</button>
             <button type="button" onClick="{{ clearAnswer }}" style="min-height:52px;padding:14px 22px;border:1px solid #DCD1BC;border-radius:999px;background:#FCFAF4;cursor:pointer;font-size:16.5px;line-height:1.5;color:#434C60;display:{{ clearDisplay }}">{{ t.clear }}</button>
@@ -162,6 +166,10 @@
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
             <p style="margin:0;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.5;color:#14203E">{{ t.paletteTitle }}</p>
             <button type="button" onClick="{{ closeSheet }}" aria-label="{{ t.close }}" style="width:46px;height:46px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;cursor:pointer;font-size:19px;line-height:1;color:#434C60">×</button>
+          </div>
+          <div role="status" style="display:{{ guardDisplay }};align-items:center;gap:10px;margin-bottom:16px;padding:12px 16px;border-radius:14px;background:#FBEEDC;border:1px solid #E4C48A;font-size:15.5px;line-height:1.6;color:#7A4B0C">
+            <span aria-hidden="true" style="width:22px;height:22px;flex:0 0 auto;border-radius:50%;background:#E8C173;color:#3A2703;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">!</span>
+            <span>{{ t.guardMsg }}</span>
           </div>
           <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:20px">
             <sc-for list="{{ palette }}" as="p" hint-placeholder-count="30">
@@ -310,6 +318,7 @@ const T = {
     questionOf: "प्रश्न",
     of: "में से",
     prev: "पिछला",
+    guardMsg: "आगे बढ़ने से पहले इस प्रश्न का एक विकल्प चुनें।",
     nextLabel: "अगला",
     clear: "उत्तर हटाएँ",
     submit: "जमा करें",
@@ -358,6 +367,7 @@ const T = {
     questionOf: "Question",
     of: "of",
     prev: "Previous",
+    guardMsg: "Please select an option before moving to another question.",
     nextLabel: "Next",
     clear: "Clear response",
     submit: "Submit",
@@ -390,13 +400,14 @@ const DURATION = 600;
 
 class Component extends DCLogic {
   state = {
-    lang: null, phase: "instructions", index: 0, answers: {}, visited: { 0: true },
+    lang: null, phase: "instructions", index: 0, answers: {}, visited: { 0: true }, guard: false,
     left: DURATION, modal: false, sheet: false, offline: false, auto: false, announcement: "", stamp: "", order: []
   };
 
   componentDidMount() {
     try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
     try { if (Number(localStorage.getItem("skpn_attempts") || 0) > 0) this.setState({ phase: "done" }); } catch (e) {}
+    this.setState({ order: this.pickOrder() });
     this._onOnline = () => this.setState({ offline: !navigator.onLine });
     window.addEventListener("online", this._onOnline);
     window.addEventListener("offline", this._onOnline);
@@ -484,8 +495,9 @@ class Component extends DCLogic {
     };
 
     const goTo = i => this.setState(p => {
+      if (i !== p.index && p.answers[p.index] === undefined) return { guard: true };
       const visited = Object.assign({}, p.visited); visited[i] = true;
-      return { index: i, visited: visited };
+      return { index: i, visited: visited, guard: false };
     });
 
     return {
@@ -517,7 +529,7 @@ class Component extends DCLogic {
           on: on,
           select: () => this.setState(p => {
             const answers = Object.assign({}, p.answers); answers[p.index] = i;
-            return { answers: answers };
+            return { answers: answers, guard: false };
           }),
           bg: on ? "#F7F2E6" : "#FCFAF4",
           fg: "#161C2E",
@@ -528,10 +540,14 @@ class Component extends DCLogic {
         };
       }),
 
+      guardDisplay: s.guard && s.answers[s.index] === undefined ? "inline-flex" : "none",
       prev: () => { if (s.index > 0) goTo(s.index - 1); },
       prevCursor: s.index === 0 ? "not-allowed" : "pointer",
       prevFg: s.index === 0 ? "#9AA2B1" : "#434C60",
-      next: () => { if (s.index < TOTAL - 1) goTo(s.index + 1); else this.setState({ modal: true }); },
+      next: () => {
+        if (s.answers[s.index] === undefined) { this.setState({ guard: true }); return; }
+        if (s.index < TOTAL - 1) goTo(s.index + 1); else this.setState({ modal: true, guard: false });
+      },
       nextLabel: s.index === TOTAL - 1 ? t.submit : t.nextLabel,
       nextBg: s.index === TOTAL - 1 ? "#14203E" : "#14203E",
       nextFg: "#FDF3DF",
@@ -548,7 +564,11 @@ class Component extends DCLogic {
           current: i === s.index ? "true" : "false",
           aria: t.questionOf + " " + (i + 1) + ", " + st.state,
           go: () => goTo(i),
-          goClose: () => { goTo(i); this.setState({ sheet: false }); }
+          goClose: () => {
+            const st = this.state;
+            if (i !== st.index && st.answers[st.index] === undefined) { this.setState({ guard: true }); return; }
+            goTo(i); this.setState({ sheet: false });
+          }
         };
       }),
       counts: [

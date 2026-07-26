@@ -87,7 +87,7 @@
       <div data-e="form" style="padding:36px 34px 40px;background:#FFFFFF;display:flex;flex-direction:column">
         <h1 style="margin:0 0 20px;font-family:'Noto Serif Devanagari',serif;font-weight:600;font-size:clamp(25px,3.2vw,33px);line-height:1.3;color:#14203E">{{ t.title }}</h1>
 
-        <ol data-e="steps" style="margin:0 0 8px;padding:0;list-style:none;display:flex;align-items:center;gap:10px">
+        <ol data-e="steps" style="margin:0 0 8px;padding:0;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:10px;min-width:0">
           <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
             <li style="display:flex;align-items:center;gap:10px;flex:0 1 auto">
               <span style="width:32px;height:32px;flex:0 0 auto;border-radius:50%;background:{{ s.bg }};color:{{ s.fg }};border:1px solid {{ s.border }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600">{{ s.n }}</span>
@@ -132,10 +132,13 @@
               <input type="email" inputmode="email" autocomplete="email" value="{{ email }}" onInput="{{ onEmail }}" placeholder="name@gmail.com" style="min-height:54px;padding:14px 16px;border:1px solid {{ emailBorder }};border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
               <span style="font-size:15px;line-height:1.7;color:#A03A2B;display:{{ emailMsgDisplay }}">{{ emailMsg }}</span>
             </label>
-            <label style="display:flex;flex-direction:column;gap:7px">
+            <div style="min-width:0;display:flex;flex-direction:column;gap:7px">
               <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.dobLabel }}</span>
-              <input type="date" value="{{ dob }}" onInput="{{ onDob }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
-            </label>
+              <button type="button" onClick="{{ openDob }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:{{ dobInk }};cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px" style-hover="border-color:#B99A57">
+                <span>{{ dobDisplay }}</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#8A6015" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" style="display:block;flex:0 0 auto"><rect x="3.3" y="4.8" width="17.4" height="15.9" rx="3"></rect><path d="M3.3 9.6h17.4M8 3.3v3M16 3.3v3"></path></svg>
+              </button>
+            </div>
             <fieldset style="grid-column:1 / -1;margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:10px">
               <legend style="padding:0;font-size:16px;line-height:1.6;color:#2E3646">{{ t.genderLabel }}</legend>
               <div style="display:flex;flex-wrap:wrap;gap:10px">
@@ -246,6 +249,38 @@
     </div>
   </section>
 
+  <div role="dialog" aria-modal="true" aria-label="{{ t.dobModalTitle }}" onWheel="{{ blockScroll }}" onTouchMove="{{ blockScroll }}" style="display:{{ dobModalDisplay }};position:fixed;inset:0;z-index:70;background:rgba(11,18,38,.55);align-items:center;justify-content:center;padding:20px">
+    <div style="width:100%;max-width:430px;background:#FFFFFF;border-radius:22px;box-shadow:0 30px 70px rgba(11,18,38,.35);overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px 16px;border-bottom:1px solid #F0EADD">
+        <p style="margin:0;flex:1 1 auto;text-align:center;font-family:'Noto Serif Devanagari',serif;font-size:19px;line-height:1.5;letter-spacing:.02em;color:#14203E">{{ t.dobModalTitle }}</p>
+        <button type="button" onClick="{{ closeDob }}" aria-label="{{ t.dobCancel }}" style="width:42px;height:42px;flex:0 0 auto;border:0;border-radius:12px;background:#FCFAF4;cursor:pointer;font-size:20px;line-height:1;color:#434C60">×</button>
+      </div>
+      <div style="position:relative;padding:14px 12px 4px">
+        <div aria-hidden="true" style="position:absolute;left:12px;right:12px;top:146px;height:44px;border-radius:12px;background:#F5F1E7;pointer-events:none"></div>
+        <div style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))">
+          <div onWheel="{{ onYearWheel }}" onTouchStart="{{ onYearDown }}" onTouchMove="{{ onYearMove }}" style="height:308px;overflow:hidden;position:relative;touch-action:none;cursor:ns-resize">
+            <sc-for list="{{ yearItems }}" as="y" hint-placeholder-count="7">
+              <div onClick="{{ y.pick }}" style="height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:{{ y.size }};line-height:1.2;font-weight:{{ y.weight }};color:{{ y.ink }};opacity:{{ y.op }};font-variant-numeric:tabular-nums">{{ y.label }}</div>
+            </sc-for>
+          </div>
+          <div onWheel="{{ onMonthWheel }}" onTouchStart="{{ onMonthDown }}" onTouchMove="{{ onMonthMove }}" style="height:308px;overflow:hidden;position:relative;touch-action:none;cursor:ns-resize">
+            <sc-for list="{{ monthItems }}" as="m" hint-placeholder-count="7">
+              <div onClick="{{ m.pick }}" style="height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:{{ m.size }};line-height:1.2;font-weight:{{ m.weight }};color:{{ m.ink }};opacity:{{ m.op }}">{{ m.label }}</div>
+            </sc-for>
+          </div>
+          <div onWheel="{{ onDayWheel }}" onTouchStart="{{ onDayDown }}" onTouchMove="{{ onDayMove }}" style="height:308px;overflow:hidden;position:relative;touch-action:none;cursor:ns-resize">
+            <sc-for list="{{ dayItems }}" as="d" hint-placeholder-count="7">
+              <div onClick="{{ d.pick }}" style="height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:{{ d.size }};line-height:1.2;font-weight:{{ d.weight }};color:{{ d.ink }};opacity:{{ d.op }};font-variant-numeric:tabular-nums">{{ d.label }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="padding:8px 18px 20px">
+        <button type="button" onClick="{{ confirmDob }}" style="width:100%;min-height:56px;border:0;border-radius:16px;background:#14203E;color:#FDF3DF;font-size:17.5px;font-weight:600;line-height:1.5;cursor:pointer;letter-spacing:.04em">{{ t.dobConfirm }}</button>
+      </div>
+    </div>
+  </div>
+
   <dc-import name="SiteFooter" lang="{{ lang }}" hint-size="100%,320px"></dc-import>
 </div>
 
@@ -276,6 +311,40 @@ const LEVELS = {
   }
 };
 
+const MONTHS = {
+  hi: ["जन","फर","मार्च","अप्रै","मई","जून","जुल","अग","सित","अक्तू","नव","दिस"],
+  en: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+};
+const daysInMonth = (m, y) => {
+  if (!m) return 31;
+  const d = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
+  if (m === 2 && y >= 1900 && y <= 2013) return (y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0)) ? 29 : 28;
+  return d;
+};
+
+const YEARS = Array.from({ length: 2013 - 1900 + 1 }, (_, i) => 1900 + i);
+const ITEM = 44;
+const wheelStyle = d => {
+  const a = Math.abs(d);
+  if (a === 0) return { size: "26px", weight: "600", ink: "#14203E", op: "1" };
+  if (a === 1) return { size: "20px", weight: "400", ink: "#2E3646", op: ".9" };
+  if (a === 2) return { size: "18px", weight: "400", ink: "#565F72", op: ".6" };
+  return { size: "16px", weight: "400", ink: "#8B92A0", op: ".38" };
+};
+const fmtDob = (d, m, y, lang) => d + " " + MONTHS[lang][m - 1] + " " + y;
+const windowRows = (center, count, labelAt, pickAt) => {
+  const rows = [];
+  for (let d = -3; d <= 3; d++) {
+    const i = center + d;
+    const inRange = i >= 0 && i < count;
+    rows.push(Object.assign(
+      { label: inRange ? labelAt(i) : "", pick: inRange ? () => pickAt(i) : () => {} },
+      inRange ? wheelStyle(d) : { size: "16px", weight: "400", ink: "#8B92A0", op: "0" }
+    ));
+  }
+  return rows;
+};
+
 const S = {
   hi: {
     title: "प्रतियोगिता के लिए पंजीकरण",
@@ -301,6 +370,15 @@ const S = {
     mobileInvalid: "6, 7, 8 अथवा 9 से प्रारंभ होने वाला 10 अंकों का नंबर लिखें",
     mobileDuplicate: "यह नंबर पहले से पंजीकृत है। यदि यह खाता आपका है तो साइन इन करें।",
     dobLabel: "जन्म तिथि",
+    dobPlaceholder: "जन्म तिथि चुनें",
+    dobModalTitle: "जन्म तिथि चुनें",
+    dobConfirm: "सुनिश्चित करें",
+    dobCancel: "बंद करें",
+    dobMonth: "माह",
+    dobDay: "दिनांक",
+    dobYear: "वर्ष",
+    dobDayErr: "चुने गए माह में दिनांक 1 से ",
+    dobYearErr: "वर्ष 1900 से 2013 के बीच लिखें",
     genderLabel: "लिंग",
     genders: ["पुरुष", "महिला", "अन्य"],
     addressGroup: "पता",
@@ -356,6 +434,15 @@ const S = {
     mobileInvalid: "Enter a 10-digit number starting with 6, 7, 8 or 9",
     mobileDuplicate: "This number is already registered. If the account is yours, sign in instead.",
     dobLabel: "Date of birth",
+    dobPlaceholder: "Select your date of birth",
+    dobModalTitle: "Set birthday",
+    dobConfirm: "Submit",
+    dobCancel: "Close",
+    dobMonth: "Month",
+    dobDay: "Day",
+    dobYear: "Year",
+    dobDayErr: "For the chosen month, day must be 1 to ",
+    dobYearErr: "Year must be between 1900 and 2013",
     genderLabel: "Gender",
     genders: ["Male", "Female", "Other"],
     addressGroup: "Address",
@@ -392,7 +479,7 @@ const S = {
 class Component extends DCLogic {
   state = {
     lang: null, step: 0, slide: 0, email: "", emailTouched: false,
-    name: "", mobile: "", mobileTouched: false, dob: "", gender: "",
+    name: "", mobile: "", mobileTouched: false, dobOpen: false, dobY: 0, dobM: 0, dobD: 0, pickY: 2005, pickM: 6, pickD: 15, gender: "",
     address: "", city: "", pin: "", district: "", districtQuery: "",
     category: "", level: "", institution: "", divyang: false,
     rulesAccepted: false, privacyAccepted: false, guardianName: ""
@@ -421,6 +508,51 @@ class Component extends DCLogic {
     if (!/^[6-9]\d{9}$/.test(v)) return "invalid";
     if (v === "9876543210") return "duplicate";
     return "";
+  }
+
+  lockScroll(on) {
+    const b = document.body;
+    if (on) {
+      this._scrollY = window.scrollY;
+      b.style.position = "fixed";
+      b.style.top = -this._scrollY + "px";
+      b.style.left = "0";
+      b.style.right = "0";
+      b.style.overflow = "hidden";
+    } else {
+      b.style.position = "";
+      b.style.top = "";
+      b.style.left = "";
+      b.style.right = "";
+      b.style.overflow = "";
+      if (this._scrollY != null) window.scrollTo(0, this._scrollY);
+    }
+  }
+
+  wheelStep(e, stateKey, count, toValue, current) {
+    if (e.preventDefault) e.preventDefault();
+    this._acc = (this._acc || 0) + e.deltaY;
+    const steps = this._acc / 40;
+    if (Math.abs(steps) < 1) return;
+    this._acc = 0;
+    const i = Math.max(0, Math.min(count - 1, current + (steps > 0 ? 1 : -1)));
+    this.setState({ [stateKey]: toValue(i) });
+  }
+
+  dragStart(e, current) {
+    const p = e.touches ? e.touches[0] : e;
+    this._dragY = p.clientY;
+    this._dragI = current;
+  }
+
+  dragMove(e, stateKey, count, toValue) {
+    if (this._dragY == null) return;
+    if (e.preventDefault) e.preventDefault();
+    const p = e.touches ? e.touches[0] : e;
+    const delta = Math.round((this._dragY - p.clientY) / ITEM);
+    const i = Math.max(0, Math.min(count - 1, this._dragI + delta));
+    const v = toValue(i);
+    if (this.state[stateKey] !== v) this.setState({ [stateKey]: v });
   }
 
   canAdvance() {
@@ -454,6 +586,7 @@ class Component extends DCLogic {
       });
 
     const ok = this.canAdvance();
+    const dimPick = daysInMonth(s.pickM, s.pickY);
     const mobileMsg = s.mobileTouched && mp === "invalid" ? t.mobileInvalid : (s.mobileTouched && mp === "duplicate" ? t.mobileDuplicate : "");
     const si = s.slide % t.slides.length;
 
@@ -488,8 +621,25 @@ class Component extends DCLogic {
       mobileBorder: mobileMsg ? "#A03A2B" : "#DCD1BC",
       mobileMsg: mobileMsg,
       mobileMsgDisplay: mobileMsg ? "block" : "none",
-      dob: s.dob,
-      onDob: e => this.setState({ dob: e.target.value }),
+      dobDisplay: s.dobY ? fmtDob(s.dobD, s.dobM, s.dobY, lang) : t.dobPlaceholder,
+      dobInk: s.dobY ? "#161C2E" : "#8B92A0",
+      openDob: () => { this.lockScroll(true); this.setState({ dobOpen: true, pickY: s.dobY || 2005, pickM: s.dobM || 6, pickD: s.dobD || 15 }); },
+      closeDob: () => { this.lockScroll(false); this.setState({ dobOpen: false }); },
+      confirmDob: () => { this.lockScroll(false); this.setState(p => ({ dobOpen: false, dobY: p.pickY, dobM: p.pickM, dobD: Math.min(p.pickD, daysInMonth(p.pickM, p.pickY)) })); },
+      dobModalDisplay: s.dobOpen ? "flex" : "none",
+      blockScroll: e => { if (e.cancelable && e.preventDefault) e.preventDefault(); },
+      onYearWheel: e => this.wheelStep(e, "pickY", YEARS.length, i => YEARS[i], YEARS.indexOf(s.pickY)),
+      onMonthWheel: e => this.wheelStep(e, "pickM", 12, i => i + 1, s.pickM - 1),
+      onDayWheel: e => this.wheelStep(e, "pickD", dimPick, i => i + 1, Math.min(s.pickD, dimPick) - 1),
+      onYearDown: e => this.dragStart(e, YEARS.indexOf(s.pickY)),
+      onMonthDown: e => this.dragStart(e, s.pickM - 1),
+      onDayDown: e => this.dragStart(e, Math.min(s.pickD, dimPick) - 1),
+      onYearMove: e => this.dragMove(e, "pickY", YEARS.length, i => YEARS[i]),
+      onMonthMove: e => this.dragMove(e, "pickM", 12, i => i + 1),
+      onDayMove: e => this.dragMove(e, "pickD", dimPick, i => i + 1),
+      yearItems: windowRows(YEARS.indexOf(s.pickY), YEARS.length, i => String(YEARS[i]), i => this.setState({ pickY: YEARS[i] })),
+      monthItems: windowRows(s.pickM - 1, 12, i => MONTHS[lang][i], i => this.setState({ pickM: i + 1 })),
+      dayItems: windowRows(Math.min(s.pickD, dimPick) - 1, dimPick, i => String(i + 1), i => this.setState({ pickD: i + 1 })),
       genders: t.genders.map(g => ({
         label: g, on: s.gender === g,
         select: () => this.setState({ gender: g }),

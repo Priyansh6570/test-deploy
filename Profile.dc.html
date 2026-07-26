@@ -135,7 +135,7 @@ const S = {
     participation: "सहभागिता",
     stats: ["प्रयास", "प्रयास की तिथि", "लिया गया समय"],
     viewCertificate: "प्रमाण पत्र",
-    bestNote: "प्रत्येक विद्यार्थी केवल एक बार प्रतियोगिता दे सकता है। अंतिम चयन लॉटरी से होता है।",
+    bestNote: "प्रत्येक विद्यार्थी केवल एक बार प्रतियोगिता दे सकता है।",
     groups: ["व्यक्तिगत जानकारी", "साइन इन", "पता", "शिक्षा"],
     keys: {
       name: "नाम", gender: "लिंग", dob: "जन्म तिथि", mobile: "मोबाइल नंबर",
@@ -144,7 +144,7 @@ const S = {
       category: "श्रेणी", level: "पढ़ाई का स्तर", institution: "संस्था", divyang: "दिव्यांग श्रेणी"
     },
     mobileNote: "यही मोबाइल नंबर साइन इन के लिए उपयोग होता है।",
-    emailNote: "परिणाम इसी ईमेल पर भेजे जाएँगे।",
+    emailNote: "",
     mobileSignIn: "मोबाइल नंबर से",
     otpLabel: "ईमेल कोड से",
     divyangNo: "नहीं",
@@ -162,7 +162,7 @@ const S = {
     participation: "Participation",
     stats: ["Attempts taken", "Date of attempt", "Time taken"],
     viewCertificate: "Certificate",
-    bestNote: "Each student may take the competition only once. The final selection is made by lottery.",
+    bestNote: "Each student may take the competition only once.",
     groups: ["Personal details", "Sign in", "Address", "Education"],
     keys: {
       name: "Name", gender: "Gender", dob: "Date of birth", mobile: "Mobile number",
@@ -171,7 +171,7 @@ const S = {
       category: "Category", level: "Level of education", institution: "Institution", divyang: "Divyang category"
     },
     mobileNote: "This is the mobile number used to sign in.",
-    emailNote: "Results will be sent to this email.",
+    emailNote: "",
     mobileSignIn: "With a mobile number",
     otpLabel: "With an email code",
     divyangNo: "No",
@@ -222,7 +222,7 @@ class Component extends DCLogic {
           { k: k.dob, v: STUDENT.dob },
           { k: k.mobile, v: "+91 " + STUDENT.mobile }
         ] },
-        { title: t.groups[1], note: t.emailNote, noteDisplay: "block", rows: [
+        { title: t.groups[1], note: "", noteDisplay: "none", rows: [
           { k: k.email, v: STUDENT.email },
           { k: k.provider, v: t.mobileSignIn }
         ] },

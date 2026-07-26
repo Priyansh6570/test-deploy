@@ -117,6 +117,10 @@
           <span style="font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.officeLabel }}</span>
           <span style="font-size:18px;line-height:1.7;color:#2E3646">{{ t.officeValue }}</span>
         </div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#6E6247;line-height:1.8">{{ t.phoneLabel }}</span>
+          <a href="tel:+917554535064" style="font-family:'Noto Serif Devanagari',serif;font-size:clamp(19px,2.4vw,25px);line-height:1.5;color:#14203E;text-decoration:none" style-hover="color:#8A6015">{{ t.phoneValue }}</a>
+        </div>
         <a href="mailto:shrikrishnapatheynyas@gmail.com" style="position:relative;min-height:56px;padding:16px 30px;border-radius:999px;background:#14203E;color:#FDF3DF;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:17.5px;font-weight:600;line-height:1.5;text-decoration:none;align-self:flex-start" style-hover="background:#1E2C52;color:#FFF9EC">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FDF3DF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M3.5 6.5 12 13l8.5-6.5"></path></svg>
           {{ t.writeToUs }}
@@ -145,13 +149,13 @@ const LEADERS = [
     hi: ["उपाध्यक्ष", "श्री धर्मेंद्र भाव सिंह लोधी", "माननीय संस्कृति मंत्री, मध्यप्रदेश"],
     en: ["Vice-Chairperson", "Shri Dharmendra Bhav Singh Lodhi", "Hon'ble Minister of Culture, Madhya Pradesh"] },
   { img: "uploads/shiv%20shekhar%20shukla.jpg",
-    hi: ["न्यासी सचिव", "श्री शिवशेखर शुक्ला", "अपर मुख्य सचिव, संस्कृति एवं गृह विभाग"],
+    hi: ["न्यासी सचिव", "श्री शिवशेखर शुक्ला", "अपर मुख्य सचिव, संस्कृति"],
     en: ["Trustee Secretary", "Shri Shiv Shekhar Shukla", "Additional Chief Secretary, Culture and Home"] },
   { img: "uploads/np%20namdev.jpg",
     hi: ["न्यासी", "श्री एन.पी. नामदेव", "संचालक, संस्कृति संचालनालय, मध्यप्रदेश"],
     en: ["Trustee", "Shri N.P. Namdev", "Director, Directorate of Culture, Madhya Pradesh"] },
   { img: "uploads/shriram%20tiwari.png",
-    hi: ["मुख्य कार्यपालन अधिकारी", "श्री श्रीराम तिवारी", "श्रीकृष्ण पाथेय न्यास, भोपाल"],
+    hi: ["मुख्य कार्यपालक अधिकारी", "श्री श्रीराम तिवारी", "श्रीकृष्ण पाथेय न्यास, भोपाल"],
     en: ["Chief Executive Officer", "Shri Shriram Tiwari", "Shri Krishna Pathey Nyas, Bhopal"] }
 ];
 
@@ -184,7 +188,9 @@ const S = {
     contactBody: "प्रतियोगिता, पंजीकरण अथवा प्रमाण पत्र से संबंधित प्रश्न ईमेल पर भेजें।",
     emailLabel: "आधिकारिक ईमेल",
     officeLabel: "कार्यालय",
-    officeValue: "श्रीकृष्ण पाथेय न्यास, संस्कृति विभाग, भोपाल, मध्यप्रदेश",
+    officeValue: "श्रीकृष्ण पाथेय न्यास, प्रथम तल, रवीन्द्र भवन सभागार, पॉलिटेक्निक चौराहा, भोपाल, मध्यप्रदेश – 462003",
+    phoneLabel: "दूरभाष",
+    phoneValue: "0755 4535064",
     writeToUs: "ईमेल लिखें"
   },
   en: {
@@ -215,7 +221,9 @@ const S = {
     contactBody: "Write to us by email with any question about the competition, registration or certificates.",
     emailLabel: "Official email",
     officeLabel: "Office",
-    officeValue: "Shri Krishna Pathey Nyas, Department of Culture, Bhopal, Madhya Pradesh",
+    officeValue: "Shri Krishna Pathey Nyas, Pratham Tal, Ravindra Bhawan Sabhagar, Polytechnic Chauraha, Bhopal, Madhya Pradesh – 462003",
+    phoneLabel: "Phone",
+    phoneValue: "0755 4535064",
     writeToUs: "Write an email"
   }
 };
