@@ -153,10 +153,7 @@
               </div>
             </fieldset>
 
-            <div style="grid-column:1 / -1;display:flex;align-items:center;gap:14px;margin-top:6px">
-              <span style="font-family:'Noto Serif Devanagari',serif;font-size:15.5px;letter-spacing:.01em;color:#161C2E;line-height:1.8">{{ t.addressGroup }}</span>
-              <span style="flex:1 1 auto;height:1px;background:#EFE5D3"></span>
-            </div>
+            <span aria-hidden="true" style="grid-column:1 / -1;height:1px;margin-top:6px;background:#EFE5D3"></span>
 
             <label style="display:flex;flex-direction:column;gap:7px;grid-column:1 / -1">
               <span style="font-size:16px;line-height:1.6;color:#161C2E">{{ t.addressLabel }}</span>
@@ -249,7 +246,7 @@
         </sc-if>
 
         <div data-e="ctarow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid #F0EADD">
-          <button type="button" onClick="{{ prev }}" data-e="cta" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;background:#FFFFFF;cursor:pointer;font-size:17px;line-height:1.5;color:#161C2E;display:{{ prevDisplay }}">{{ t.prev }}</button>
+          <button type="button" onClick="{{ prev }}" data-e="cta" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;background:#FFFFFF;cursor:pointer;font-size:17px;line-height:1.5;color:#161C2E;align-items:center;justify-content:center;text-align:center;display:{{ prevDisplay }}">{{ t.prev }}</button>
           <button type="button" onClick="{{ next }}" data-e="cta" style="min-height:56px;padding:16px 30px;border:0;border-radius:999px;background:{{ nextBg }};color:{{ nextFg }};cursor:{{ nextCursor }};font-size:18px;font-weight:600;line-height:1.5">{{ nextLabel }}</button>
         </div>
 
@@ -428,7 +425,6 @@ const S = {
     dobYearErr: "वर्ष 1900 से 2013 के बीच लिखें",
     genderLabel: "लिंग",
     genders: ["पुरुष", "महिला", "अन्य"],
-    addressGroup: "पता",
     addressLabel: "पता",
     cityLabel: "शहर या गाँव",
     pinLabel: "पिन कोड",
@@ -437,7 +433,7 @@ const S = {
     districtModalTitle: "जिला चुनें",
     levelPlaceholder: "स्तर चुनें",
     levelModalTitle: "पढ़ाई का स्तर चुनें",
-    examLabel: "प्रतियोगी परीक्षा उत्तीर्ण",
+    examLabel: "प्रतियोगी परीक्षा, तैयारी अथवा उत्तीर्ण",
     examPlaceholder: "परीक्षा चुनें",
     examModalTitle: "प्रतियोगी परीक्षा चुनें",
     examOther: "अन्य",
@@ -507,7 +503,6 @@ const S = {
     dobYearErr: "Year must be between 1900 and 2013",
     genderLabel: "Gender",
     genders: ["Male", "Female", "Other"],
-    addressGroup: "Address",
     addressLabel: "Address",
     cityLabel: "City or village",
     pinLabel: "PIN code",
@@ -516,7 +511,7 @@ const S = {
     districtModalTitle: "Select a district",
     levelPlaceholder: "Select a level",
     levelModalTitle: "Select your level of education",
-    examLabel: "Competitive exam cleared",
+    examLabel: "Competitive exam, preparing or cleared",
     examPlaceholder: "Select an exam",
     examModalTitle: "Select a competitive exam",
     examOther: "Other",

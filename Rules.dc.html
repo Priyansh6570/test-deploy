@@ -101,8 +101,7 @@
         <div data-e="card" data-reveal style="position:relative;overflow:hidden;padding:30px 32px;background:linear-gradient(150deg,#101838 0%,#070B1E 100%);border-radius:24px;box-shadow:0 18px 44px rgba(20,32,62,.22)">
           <span aria-hidden="true" style="position:absolute;left:-60px;bottom:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(232,193,115,.18) 0%,rgba(232,193,115,0) 70%);animation:rl-glow 9s ease-in-out infinite"></span>
           <p style="position:relative;margin:0 0 10px;font-family:'Noto Serif Devanagari',serif;font-size:15.5px;letter-spacing:.01em;color:#E8C173;line-height:1.8">{{ t.endLabel }}</p>
-          <p style="position:relative;margin:0 0 10px;font-family:'Noto Serif Devanagari',serif;font-size:20px;line-height:1.7;color:#FFF9EC">मैंने सारे नियम पढ़ लिए हैं और मुझे स्वीकार हैं। मेरी दी हुई जानकारी सही है।</p>
-          <p style="position:relative;margin:0 0 22px;font-size:16px;line-height:1.8;color:#E9E4D8">I have read all the rules and accept them. The information I have provided is correct.</p>
+          <p style="position:relative;margin:0 0 22px;font-family:'Noto Serif Devanagari',serif;font-size:20px;line-height:1.7;color:#FFF9EC">{{ t.declaration }}</p>
 
           <label style="position:relative;display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:16px 18px;border:1px solid {{ checkBorder }};border-radius:14px;background:{{ checkBg }};transition:border-color .16s ease,background .16s ease">
             <input type="checkbox" checked="{{ accepted }}" onChange="{{ toggleAccept }}" style="margin-top:3px;width:22px;height:22px;flex:0 0 auto;accent-color:#E8C173;cursor:pointer" />
@@ -112,7 +111,6 @@
           <div data-e="ctarow" style="position:relative;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px">
             <a href="Pratiyogita.dc.html" data-e="cta" style="padding:15px 26px;min-height:54px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,249,236,.36);border-radius:999px;font-size:17px;line-height:1.5;color:#F6F2E9" style-hover="background:rgba(255,255,255,.1)">{{ t.back }}</a>
             <a href="{{ continueHref }}" aria-disabled="{{ blocked }}" data-e="cta" style="padding:16px 32px;min-height:56px;display:inline-flex;align-items:center;justify-content:center;background:{{ continueBg }};color:{{ continueFg }};border-radius:999px;font-size:18px;font-weight:600;line-height:1.5;pointer-events:{{ continueEvents }};box-shadow:{{ continueShadow }}">{{ t.accept }}</a>
-            <span style="font-size:15.5px;line-height:1.7;color:#DBD5C7;display:{{ hintDisplay }}">{{ t.acceptHint }}</span>
           </div>
         </div>
         </sc-if>
@@ -132,9 +130,9 @@ const S = {
     chips: ["निःशुल्क", "30 प्रश्न", "10 मिनट", "दो वर्ग"],
     tocLabel: "विषय सूची",
     endLabel: "घोषणा",
+    declaration: "मैंने सारे नियम पढ़ लिए हैं और मुझे स्वीकार हैं। मेरी दी हुई जानकारी सही है।",
     checkboxLabel: "मैंने सभी नियम पढ़ और समझ लिए हैं तथा मैं इनसे सहमत हूँ।",
     accept: "स्वीकार करें और आगे बढ़ें",
-    acceptHint: "आगे बढ़ने के लिए घोषणा स्वीकार करें।",
     back: "वापस जाएँ",
     sections: [
       { id: "eligibility", n: "1", title: "प्रतियोगिता का स्वरूप एवं पात्रता", points: [
@@ -181,9 +179,9 @@ const S = {
     chips: ["Free entry", "30 questions", "10 minutes", "Two categories"],
     tocLabel: "Contents",
     endLabel: "Declaration",
+    declaration: "I have read all the rules and accept them. The information I have provided is correct.",
     checkboxLabel: "I have read and understood all the rules and I agree to them.",
     accept: "Accept and continue",
-    acceptHint: "Accept the declaration to continue.",
     back: "Go back",
     sections: [
       { id: "eligibility", n: "1", title: "Form of the competition and eligibility", points: [
@@ -298,7 +296,6 @@ class Component extends DCLogic {
       continueFg: ok ? "#1E1503" : "#DBD5C7",
       continueEvents: ok ? "auto" : "none",
       continueShadow: ok ? "0 12px 30px rgba(232,193,115,.28)" : "none",
-      hintDisplay: ok ? "none" : "inline",
       checkBorder: ok ? "#E8C173" : "rgba(255,249,236,.28)",
       checkBg: ok ? "rgba(232,193,115,.12)" : "rgba(255,255,255,.04)",
       toggleAccept: () => this.setState(s => ({ accepted: !s.accepted })),
