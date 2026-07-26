@@ -69,6 +69,58 @@
   setTimeout(hide, 4200);
   window.addEventListener("pageshow", function (e) { if (e.persisted) hide(); });
 
+  // Scroll reveal, shared by every page. Elements marked [data-reveal] fade+rise once.
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var vh = function () { return window.innerHeight || document.documentElement.clientHeight || 800; };
+    var pending = [];
+    function show(el) { el.style.opacity = "1"; el.style.transform = "none"; }
+    function visible(el) {
+      var r = el.getBoundingClientRect();
+      return r.top < vh() * 0.94 && r.bottom > -40;
+    }
+    function scan() {
+      var list = document.querySelectorAll("[data-reveal]:not([data-rv])");
+      for (var i = 0; i < list.length; i++) {
+        var el = list[i];
+        el.setAttribute("data-rv", "1");
+        if (visible(el)) { show(el); continue; }
+        el.style.opacity = "0";
+        el.style.transform = "translateY(22px)";
+        el.style.transition = "opacity .72s cubic-bezier(.22,.61,.36,1), transform .72s cubic-bezier(.22,.61,.36,1)";
+        pending.push(el);
+      }
+    }
+    var queued = false;
+    function sweep() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () {
+        queued = false;
+        if (!pending.length) return;
+        var next = [];
+        for (var i = 0; i < pending.length; i++) {
+          // Anything at or above the fold is shown; instant jumps must not strand it hidden.
+          if (pending[i].getBoundingClientRect().top < vh() * 0.94) show(pending[i]);
+          else next.push(pending[i]);
+        }
+        pending = next;
+      });
+    }
+    function boot() {
+      scan();
+      sweep();
+      window.addEventListener("scroll", sweep, { passive: true, capture: true });
+      window.addEventListener("resize", sweep, { passive: true });
+      var n = 0;
+      var iv = setInterval(function () {
+        scan(); sweep();
+        if (++n > 40) clearInterval(iv);
+      }, 250);
+    }
+    if (document.body) boot(); else document.addEventListener("DOMContentLoaded", boot);
+  })();
+
   // SPA-feel navigation: hold the shell over the swap instead of flashing white.
   document.addEventListener("click", function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;

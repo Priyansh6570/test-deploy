@@ -126,7 +126,6 @@
             <label style="display:flex;flex-direction:column;gap:7px;grid-column:1 / -1">
               <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.nameLabel }}</span>
               <input type="text" maxlength="100" value="{{ name }}" onInput="{{ onName }}" style="min-height:54px;padding:14px 16px;border:1px solid #DCD1BC;border-radius:14px;background:#FCFAF4;font-size:17px;line-height:1.6;color:#161C2E" />
-              <span style="font-size:15px;line-height:1.7;color:#565F72">{{ t.nameHelp }}</span>
             </label>
             <label style="display:flex;flex-direction:column;gap:7px">
               <span style="font-size:16px;line-height:1.6;color:#2E3646">{{ t.emailLabel }}</span>
@@ -289,15 +288,14 @@ const S = {
       { value: "30", label: "प्रश्न" },
       { value: "10", label: "मिनट" }
     ],
-    stepLabels: ["मोबाइल नंबर", "विद्यार्थी विवरण", "शिक्षा", "घोषणा"],
+    stepLabels: ["मोबाइल नंबर", "आवेदक विवरण", "शिक्षा", "घोषणा"],
     stepOf: "चरण",
     of: "में से",
-    stepTitles: ["अपना मोबाइल नंबर दर्ज करें", "विद्यार्थी विवरण", "शिक्षा", "घोषणा एवं सहमति"],
+    stepTitles: ["अपना मोबाइल नंबर दर्ज करें", "आवेदक विवरण", "शिक्षा", "घोषणा एवं सहमति"],
     emailLabel: "ईमेल पता",
     emailInvalid: "पूरा ईमेल पता लिखें, जैसे name@gmail.com",
     emailTypo: "क्या आपका आशय gmail.com से है?",
     nameLabel: "पूरा नाम",
-    nameHelp: "जैसा आपकी अंकसूची में है",
     mobileLabel: "मोबाइल नंबर",
     mobileHelp: "यही नंबर आपकी पहचान है और साइन इन के लिए उपयोग होगा।",
     mobileInvalid: "6, 7, 8 अथवा 9 से प्रारंभ होने वाला 10 अंकों का नंबर लिखें",
@@ -313,7 +311,7 @@ const S = {
     districtPlaceholder: "जिला खोजें",
     stateLabel: "राज्य",
     stateValue: "मध्यप्रदेश",
-    categoryLabel: "किस श्रेणी में आवेदन, एक विकल्प चुनें",
+    categoryLabel: "किस वर्ग में आवेदन, एक विकल्प चुनें",
     categories: [
       { key: "vidyalaya", name: "विद्यालय स्तर", who: "कक्षा 9 से 12 तक" },
       { key: "mahavidyalaya", name: "महाविद्यालय स्तर", who: "महाविद्यालय, विश्वविद्यालय, पॉलिटेक्निक अथवा आईटीआई" }
@@ -345,15 +343,14 @@ const S = {
       { value: "30", label: "Questions" },
       { value: "10", label: "Minutes" }
     ],
-    stepLabels: ["Mobile number", "Student details", "Education", "Declaration"],
+    stepLabels: ["Mobile number", "Applicant details", "Education", "Declaration"],
     stepOf: "Step",
     of: "of",
-    stepTitles: ["Enter your mobile number", "Student details", "Education", "Declaration and consent"],
+    stepTitles: ["Enter your mobile number", "Applicant details", "Education", "Declaration and consent"],
     emailLabel: "Email address",
     emailInvalid: "Enter a complete email address, for example name@gmail.com",
     emailTypo: "Did you mean gmail.com?",
     nameLabel: "Full name",
-    nameHelp: "As printed on your marksheet",
     mobileLabel: "Mobile number",
     mobileHelp: "This number is your identity and will be used to sign in.",
     mobileInvalid: "Enter a 10-digit number starting with 6, 7, 8 or 9",
