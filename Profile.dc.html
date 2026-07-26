@@ -103,7 +103,7 @@
     </div>
 
     <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px">
-      <a href="Home v5.dc.html" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:16.5px;line-height:1.5;color:#161C2E" style-hover="background:#F1E9DA">{{ t.signOut }}</a>
+      <button type="button" onClick="{{ signOut }}" style="min-height:54px;padding:15px 26px;border:1px solid #DCD1BC;border-radius:999px;background:#FFFFFF;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:16.5px;line-height:1.5;color:#161C2E;font-family:inherit" style-hover="background:#F1E9DA">{{ t.signOut }}</button>
     </div>
   </section>
 
@@ -148,7 +148,7 @@ const S = {
       name: "नाम", gender: "लिंग", dob: "जन्म तिथि", mobile: "मोबाइल नंबर",
       email: "ईमेल", provider: "साइन इन का तरीका",
       address: "पता", city: "शहर या गाँव", district: "जिला", state: "राज्य", pin: "पिन कोड",
-      category: "श्रेणी", level: "पढ़ाई का स्तर", institution: "संस्था", divyang: "दिव्यांग श्रेणी"
+      category: "श्रेणी", level: "पढ़ाई का स्तर", institution: "संस्था", exam: "प्रतियोगी परीक्षा", divyang: "दिव्यांग श्रेणी"
     },
     mobileNote: "यही मोबाइल नंबर साइन इन के लिए उपयोग होता है।",
     emailNote: "",
@@ -176,7 +176,7 @@ const S = {
       name: "Name", gender: "Gender", dob: "Date of birth", mobile: "Mobile number",
       email: "Email", provider: "Sign-in method",
       address: "Address", city: "City or village", district: "District", state: "State", pin: "PIN code",
-      category: "Category", level: "Level of education", institution: "Institution", divyang: "Divyang category"
+      category: "Category", level: "Level of education", institution: "Institution", exam: "Competitive exam", divyang: "Divyang category"
     },
     mobileNote: "This is the mobile number used to sign in.",
     emailNote: "",
@@ -195,10 +195,23 @@ const S = {
 };
 
 class Component extends DCLogic {
-  state = { lang: null };
+  state = { lang: null, profile: null, attempt: null };
 
   componentDidMount() {
     try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+    try {
+      const raw = localStorage.getItem("skpn_profile");
+      if (raw) this.setState({ profile: JSON.parse(raw) });
+      const at = localStorage.getItem("skpn_attempt");
+      if (at) this.setState({ attempt: JSON.parse(at) });
+    } catch (e) {}
+  }
+
+  signOut() {
+    try {
+      ["skpn_profile", "skpn_attempt", "skpn_attempts", "skpn_signed_in"].forEach(k => localStorage.removeItem(k));
+    } catch (e) {}
+    window.location.href = "Home v5.dc.html";
   }
 
   get lang() { return this.state.lang || this.props.language || "hi"; }
@@ -210,46 +223,84 @@ class Component extends DCLogic {
 
   renderVals() {
     const lang = this.lang, t = S[lang], k = t.keys, hi = lang === "hi";
-    const name = hi ? STUDENT.fullName : STUDENT.fullNameEn;
+    const pr = this.state.profile;
+    const at = this.state.attempt;
+    const P = pr ? {
+      name: pr.name || "—",
+      email: pr.email || "—",
+      mobile: pr.mobile || "—",
+      gender: pr.gender || "—",
+      dob: pr.dob || "—",
+      address: pr.address || "—",
+      city: pr.city || "—",
+      districtLabel: (hi ? pr.districtHi : pr.districtEn) || pr.district || "—",
+      pin: pr.pin || "—",
+      category: pr.category || "vidyalaya",
+      level: pr.level || "—",
+      institution: pr.institution || "—",
+      exam: pr.exam || (hi ? "नहीं" : "No"),
+      divyang: !!pr.divyang
+    } : {
+      name: hi ? STUDENT.fullName : STUDENT.fullNameEn,
+      email: STUDENT.email,
+      mobile: "+91 " + STUDENT.mobile,
+      gender: STUDENT.gender[lang],
+      dob: STUDENT.dob,
+      address: STUDENT.address[lang],
+      city: STUDENT.city[lang],
+      districtLabel: hi ? STUDENT.districtHi : STUDENT.district,
+      pin: STUDENT.pin,
+      category: STUDENT.category,
+      level: STUDENT.level[lang],
+      institution: STUDENT.institution[lang],
+      exam: hi ? "नहीं" : "No",
+      divyang: STUDENT.divyang
+    };
+    const attDate = at ? (hi ? at.dateHi : at.dateEn) : (hi ? "24 जुलाई 2026" : "24 July 2026");
+    const attClock = at ? at.clock : "10:42";
+    const attTaken = at ? at.taken : "09:12";
+    const name = P.name;
     return {
       lang: lang,
       t: t,
-      student: { fullName: name, district: hi ? STUDENT.districtHi : STUDENT.district },
+      student: { fullName: name, district: P.districtLabel },
       initials: name.trim().charAt(0),
-      categoryLabel: t.categories[STUDENT.category],
+      categoryLabel: t.categories[P.category],
       stats: [
-        { label: t.stats[0], value: hi ? "24 जुलाई 2026" : "24 July 2026" },
-        { label: t.stats[1], value: "09:12" }
+        { label: t.stats[0], value: attDate },
+        { label: t.stats[1], value: attTaken }
       ],
-      attempts: ATTEMPTS.map(a => ({ date: hi ? a.date : a.dateEn, time: (hi ? "समय " : "time ") + (hi ? a.time : a.timeEn), status: hi ? "पूर्ण" : "Completed" })),
+      attempts: [{ date: attDate + ", " + attClock, time: (hi ? "समय " : "time ") + attTaken, status: hi ? "पूर्ण" : "Completed" }],
       groups: [
         { title: t.groups[0], note: t.mobileNote, noteDisplay: "block", rows: [
-          { k: k.name, v: name },
-          { k: k.gender, v: STUDENT.gender[lang] },
-          { k: k.dob, v: STUDENT.dob },
-          { k: k.mobile, v: "+91 " + STUDENT.mobile }
+          { k: k.name, v: P.name },
+          { k: k.gender, v: P.gender },
+          { k: k.dob, v: P.dob },
+          { k: k.mobile, v: P.mobile.indexOf("+91") === 0 ? P.mobile : "+91 " + P.mobile }
         ] },
         { title: t.groups[1], note: "", noteDisplay: "none", rows: [
-          { k: k.email, v: STUDENT.email },
+          { k: k.email, v: P.email },
           { k: k.provider, v: t.mobileSignIn }
         ] },
         { title: t.groups[2], note: "", noteDisplay: "none", rows: [
-          { k: k.address, v: STUDENT.address[lang] },
-          { k: k.city, v: STUDENT.city[lang] },
-          { k: k.district, v: hi ? STUDENT.districtHi : STUDENT.district },
+          { k: k.address, v: P.address },
+          { k: k.city, v: P.city },
+          { k: k.district, v: P.districtLabel },
           { k: k.state, v: t.stateValue },
-          { k: k.pin, v: STUDENT.pin }
+          { k: k.pin, v: P.pin }
         ] },
-        { title: t.groups[3], note: STUDENT.divyang ? t.divyangNote : "", noteDisplay: STUDENT.divyang ? "block" : "none", rows: [
-          { k: k.category, v: t.categories[STUDENT.category] },
-          { k: k.level, v: STUDENT.level[lang] },
-          { k: k.institution, v: STUDENT.institution[lang] },
-          { k: k.divyang, v: STUDENT.divyang ? t.divyangYes : t.divyangNo }
+        { title: t.groups[3], note: P.divyang ? t.divyangNote : "", noteDisplay: P.divyang ? "block" : "none", rows: [
+          { k: k.category, v: t.categories[P.category] },
+          { k: k.level, v: P.level },
+          { k: k.institution, v: P.institution },
+          { k: k.exam, v: P.exam },
+          { k: k.divyang, v: P.divyang ? t.divyangYes : t.divyangNo }
         ] }
       ],
       hiOn: hi, enOn: !hi,
       hiBg: hi ? "#14203E" : "#FCFAF4", hiFg: hi ? "#FDF3DF" : "#161C2E", hiBorder: hi ? "#14203E" : "#DCD1BC",
       enBg: hi ? "#FCFAF4" : "#14203E", enFg: hi ? "#161C2E" : "#FDF3DF", enBorder: hi ? "#DCD1BC" : "#14203E",
+      signOut: () => this.signOut(),
       setHi: () => this.setLang("hi"),
       setEn: () => this.setLang("en"),
       toggleLang: () => this.setLang(hi ? "en" : "hi")

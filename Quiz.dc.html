@@ -428,6 +428,16 @@ class Component extends DCLogic {
     try {
       localStorage.setItem("skpn_signed_in", "1");
       localStorage.setItem("skpn_attempts", String(Number(localStorage.getItem("skpn_attempts") || 0) + 1));
+      const d = new Date();
+      const answered = Object.keys(this.state.answers).length;
+      localStorage.setItem("skpn_attempt", JSON.stringify({
+        at: d.toISOString(),
+        dateHi: d.getDate() + " " + ["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितम्बर","अक्टूबर","नवंबर","दिसंबर"][d.getMonth()] + " " + d.getFullYear(),
+        dateEn: d.getDate() + " " + ["January","February","March","April","May","June","July","August","September","October","November","December"][d.getMonth()] + " " + d.getFullYear(),
+        clock: String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"),
+        taken: this.mmss(DURATION - this.state.left),
+        answered: answered
+      }));
     } catch (e) {}
   }
 

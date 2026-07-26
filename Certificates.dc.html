@@ -71,10 +71,14 @@ const S = {
 };
 
 class Component extends DCLogic {
-  state = { lang: null };
+  state = { lang: null, profile: null };
 
   componentDidMount() {
     try { const saved = localStorage.getItem("skpn_lang"); if (saved === "hi" || saved === "en") this.setState({ lang: saved }); } catch (e) {}
+    try {
+      const raw = localStorage.getItem("skpn_profile");
+      if (raw) this.setState({ profile: JSON.parse(raw) });
+    } catch (e) {}
   }
 
   get lang() { return this.state.lang || this.props.language || "hi"; }
@@ -84,7 +88,7 @@ class Component extends DCLogic {
     return {
       lang: lang,
       t: S[lang],
-      studentName: lang === "hi" ? "अनन्या वर्मा" : "Ananya Verma",
+      studentName: (this.state.profile && this.state.profile.name) || (lang === "hi" ? "अनन्या वर्मा" : "Ananya Verma"),
       fileName: "shri-krishna-pathey-nyas-certificate.jpeg",
       toggleLang: () => {
         const next = lang === "hi" ? "en" : "hi";

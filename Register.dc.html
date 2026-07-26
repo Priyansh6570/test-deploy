@@ -806,7 +806,17 @@ class Component extends DCLogic {
       next: () => {
         if (!this.canAdvance()) return;
         if (step === 3) {
-          try { localStorage.setItem("skpn_signed_in", "1"); } catch (e) {}
+          try {
+            localStorage.setItem("skpn_signed_in", "1");
+            localStorage.setItem("skpn_profile", JSON.stringify({
+              lang: lang, name: s.name.trim(), email: s.email.trim(), mobile: s.mobile,
+              dob: s.dobY ? fmtDob(s.dobD, s.dobM, s.dobY, lang) : "", gender: s.gender,
+              address: s.address.trim(), city: s.city.trim(), pin: s.pin, district: s.district,
+              districtEn: districtRow ? districtRow[0] : s.district, districtHi: districtRow ? districtRow[1] : s.district,
+              category: s.category, level: s.level, institution: s.institution.trim(),
+              exam: s.exam, divyang: s.divyang, guardianName: s.guardianName.trim()
+            }));
+          } catch (e) {}
           this.setState({ submitting: true, submitted: false });
           setTimeout(() => this.setState({ submitted: true }), 1800);
           setTimeout(() => { window.location.href = "Rules.dc.html"; }, 3000);
